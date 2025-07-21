@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Calendar, ArrowRight, Eye } from 'lucide-react';
+import { ArrowRight, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 // Utility function to format numbers consistently across server and client
@@ -11,6 +11,7 @@ const formatViewCount = (count: number): string => {
   return new Intl.NumberFormat('en-US').format(count);
 };
 
+// Interface for news items (used in data structure)
 interface NewsItem {
   id: number;
   title: string;

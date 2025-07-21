@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, Menu, X, Facebook, Youtube, Globe } from 'lucide-react';
+import { ChevronDown, Menu, X, Facebook, Youtube } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Header = () => {
