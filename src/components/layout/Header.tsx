@@ -111,7 +111,7 @@ const Header = () => {
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-4">
               <div className="w-20 h-20 bg-blue-900 rounded-lg flex items-center justify-center">
-                <span className="text-yellow-400 font-bold text-2xl">VCIC</span>
+                <span className="text-yellow-400 font-bold text-2xl">CIC</span>
               </div>
               <div>
                 <h1 className="text-xl font-bold text-blue-900 leading-tight">

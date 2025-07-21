@@ -54,10 +54,10 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-12 h-12 bg-blue-900 rounded-lg flex items-center justify-center">
-                <span className="text-yellow-400 font-bold">VCIC</span>
+                <span className="text-yellow-400 font-bold">CIC</span>
               </div>
               <div>
-                <h3 className="font-bold text-lg">VCIC</h3>
+                <h3 className="font-bold text-lg">CIC</h3>
                 <p className="text-sm text-gray-400">Excellence in IT Education</p>
               </div>
             </div>
@@ -84,32 +84,32 @@ const Footer = () => {
 
               <div className="flex items-center space-x-3">
                 <Mail size={16} className="text-yellow-400 flex-shrink-0" />
-                <span className="text-gray-300">info@vcic.edu.vn</span>
+                <span className="text-gray-300">info@cic.edu.vn</span>
               </div>
             </div>
 
             {/* Social Media */}
             <div className="flex space-x-4 pt-4">
               <Link
-                href="https://facebook.com/vcic.edu.vn"
+                href="https://facebook.com/cic.edu.vn"
                 className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
               >
                 <Facebook size={18} />
               </Link>
               <Link
-                href="https://youtube.com/vcic"
+                href="https://youtube.com/cic"
                 className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
               >
                 <Youtube size={18} />
               </Link>
               <Link
-                href="https://twitter.com/vcic"
+                href="https://twitter.com/cic"
                 className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
               >
                 <Twitter size={18} />
               </Link>
               <Link
-                href="https://instagram.com/vcic"
+                href="https://instagram.com/cic"
                 className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
               >
                 <Instagram size={18} />
