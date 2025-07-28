@@ -82,7 +82,7 @@ const Header = () => {
   return (
     <header className="bg-gray-900 shadow-lg relative z-50">
       {/* Top Bar */}
-      <div className="bg-blue-900 text-white py-2">
+      <div className="text-white py-2" style={{ backgroundColor: '#2563eb' }}>
         <div className="container mx-auto px-4 flex justify-between items-center text-sm">
           <div className="flex items-center space-x-4">
             <span className="text-yellow-400 font-semibold">Hotline: 0964 322 215</span>
@@ -110,7 +110,7 @@ const Header = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-4">
-              <div className="w-20 h-20 bg-blue-900 rounded-lg flex items-center justify-center">
+              <div className="w-20 h-20 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#2563eb' }}>
                 <span className="text-yellow-400 font-bold text-2xl">CIC</span>
               </div>
               <div>
@@ -183,7 +183,7 @@ const Header = () => {
       </div>
 
       {/* Secondary Navigation Bar */}
-      <div className="bg-blue-900 text-white">
+      <div className="text-white" style={{ backgroundColor: '#2563eb' }}>
         <div className="container mx-auto px-4 py-2">
           <div className="flex items-center justify-center space-x-8 text-sm">
             <Link href="/dang-ky-truc-tuyen" className="hover:text-yellow-400 transition-colors font-medium">

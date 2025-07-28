@@ -53,7 +53,7 @@ const Footer = () => {
           {/* University Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 bg-blue-900 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#2563eb' }}>
                 <span className="text-yellow-400 font-bold">CIC</span>
               </div>
               <div>
@@ -92,25 +92,29 @@ const Footer = () => {
             <div className="flex space-x-4 pt-4">
               <Link
                 href="https://facebook.com/cic.edu.vn"
-                className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                style={{ backgroundColor: '#2563eb' }}
               >
                 <Facebook size={18} />
               </Link>
               <Link
                 href="https://youtube.com/cic"
-                className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                style={{ backgroundColor: '#2563eb' }}
               >
                 <Youtube size={18} />
               </Link>
               <Link
                 href="https://twitter.com/cic"
-                className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                style={{ backgroundColor: '#2563eb' }}
               >
                 <Twitter size={18} />
               </Link>
               <Link
                 href="https://instagram.com/cic"
-                className="w-10 h-10 bg-blue-900 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-500 transition-colors"
+                style={{ backgroundColor: '#2563eb' }}
               >
                 <Instagram size={18} />
               </Link>
@@ -196,7 +200,8 @@ const Footer = () => {
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className="absolute bottom-6 right-6 w-12 h-12 bg-blue-900 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg"
+        className="absolute bottom-6 right-6 w-12 h-12 hover:bg-yellow-500 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg"
+        style={{ backgroundColor: '#2563eb' }}
         aria-label="Scroll to top"
       >
         <ArrowUp size={20} />

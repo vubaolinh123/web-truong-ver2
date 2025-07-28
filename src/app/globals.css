@@ -3,15 +3,15 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary-blue: #0ea5e9;
+  --primary-blue: #38bdf8;
   --primary-yellow: #fbbf24;
-  --secondary-blue: #0284c7;
+  --secondary-blue: #0ea5e9;
   --secondary-yellow: #f59e0b;
-  --accent-blue: #0369a1;
+  --accent-blue: #0284c7;
   --accent-yellow: #d97706;
   --light-blue: #e0f2fe;
   --light-yellow: #fef3c7;
-  --dark-blue: #0c4a6e;
+  --dark-blue: #1e40af;
   --dark-yellow: #92400e;
 }
 
