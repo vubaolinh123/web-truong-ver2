@@ -5,13 +5,11 @@ import AdmissionTrainingSection from '@/components/sections/AdmissionTrainingSec
 import StatsSection from '@/components/sections/StatsSection';
 import FacultiesSection from '@/components/sections/FacultiesSection';
 import AchievementsSection from '@/components/sections/AchievementsSection';
-import NavigationSection from '@/components/sections/NavigationSection';
 
 export default function Home() {
   return (
     <Layout>
       <Banner />
-      <NavigationSection />
       <NewsSection />
       <AdmissionTrainingSection />
       <FacultiesSection />
