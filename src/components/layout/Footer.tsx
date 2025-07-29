@@ -2,12 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Facebook, 
-  Youtube, 
+import Image from 'next/image';
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Facebook,
+  Youtube,
   Twitter,
   Instagram,
   ArrowUp
@@ -53,11 +54,17 @@ const Footer = () => {
           {/* University Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#2563eb' }}>
-                <span className="text-yellow-400 font-bold">CIC</span>
+              <div className="flex-shrink-0">
+                <Image
+                  src="/images/logo.png"
+                  alt="Logo Trường Cao đẳng Thông tin và Truyền thông"
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 object-contain"
+                />
               </div>
               <div>
-                <h3 className="font-bold text-lg">CIC</h3>
+                <h3 className="font-bold text-lg text-white">CIC</h3>
                 <p className="text-sm text-gray-400">Excellence in IT Education</p>
               </div>
             </div>

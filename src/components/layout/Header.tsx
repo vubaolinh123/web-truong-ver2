@@ -1,83 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { ChevronDown, Menu, X, Facebook, Youtube } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { Facebook, Youtube } from 'lucide-react';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-
-  const navigationItems = [
-    {
-      title: 'GIỚI THIỆU',
-      href: '/gioi-thieu',
-      dropdown: [
-        { title: 'Lịch sử nhà trường', href: '/lich-su-nha-truong' },
-        { title: 'Sứ mạng', href: '/su-mang' },
-        { title: 'Chức năng nhiệm vụ', href: '/chuc-nang-nhiem-vu' },
-        { title: 'Cơ sở vật chất', href: '/co-so-vat-chat' },
-        { title: 'Liên hệ', href: '/lien-he' },
-      ]
-    },
-    {
-      title: 'TUYỂN SINH',
-      href: '/tuyen-sinh',
-      dropdown: [
-        { title: 'Thông tin tuyển sinh', href: '/thong-tin-tuyen-sinh' },
-        { title: 'Các ngành, nghề đào tạo', href: '/cac-nganh-nghe-dao-tao' },
-        { title: 'Đăng ký trực tuyến', href: '/dang-ky-truc-tuyen' },
-        { title: 'Kết quả', href: '/ket-qua' },
-      ]
-    },
-    {
-      title: 'ĐÀO TẠO',
-      href: '/dao-tao',
-      dropdown: [
-        { title: 'Giới thiệu', href: '/dao-tao-gioi-thieu' },
-        { title: 'Kế hoạch đào tạo', href: '/ke-hoach-dao-tao' },
-        { title: 'Chương trình đào tạo', href: '/chuong-trinh-dao-tao' },
-        { title: 'Quy chế, văn bản đào tạo', href: '/quy-che-van-ban-dao-tao' },
-        { title: 'Lịch thi', href: '/lich-thi' },
-        { title: 'Thời khóa biểu', href: '/thoi-khoa-bieu' },
-        { title: 'Liên kết đào tạo', href: '/lien-ket-dao-tao' },
-      ]
-    },
-    {
-      title: 'TỔ CHỨC',
-      href: '/to-chuc',
-      dropdown: [
-        { title: 'Ban giám hiệu', href: '/ban-giam-hieu' },
-        { title: 'Phòng đào tạo', href: '/phong-dao-tao' },
-        { title: 'Phòng tổ chức hành chính', href: '/phong-to-chuc-hanh-chinh' },
-        { title: 'Phòng kế hoạch tài chính', href: '/phong-ke-hoach-tai-chinh' },
-        { title: 'Trung tâm tuyển sinh', href: '/trung-tam-tuyen-sinh' },
-        { title: 'Khoa Công nghệ In', href: '/khoa-cong-nghe-in' },
-        { title: 'Khoa Công nghệ Thông tin', href: '/khoa-cong-nghe-thong-tin' },
-        { title: 'Khoa Công nghệ Bao bì', href: '/khoa-cong-nghe-bao-bi' },
-        { title: 'Khoa Đại cương', href: '/khoa-dai-cuong' },
-      ]
-    },
-    {
-      title: 'HỢP TÁC',
-      href: '/hop-tac',
-      dropdown: [
-        { title: 'Hợp tác doanh nghiệp', href: '/hop-tac-doanh-nghiep' },
-        { title: 'Du học', href: '/du-hoc' },
-        { title: 'Giới thiệu việc làm', href: '/gioi-thieu-viec-lam' },
-        { title: 'Hợp tác quốc tế', href: '/hop-tac-quoc-te' },
-      ]
-    },
-    {
-      title: 'HỌC TRỰC TUYẾN',
-      href: '/hoc-truc-tuyen',
-    },
-    {
-      title: 'VĂN BẰNG',
-      href: '/van-bang',
-    }
-  ];
 
   return (
     <header className="bg-gray-900 shadow-lg relative z-50">
@@ -106,81 +34,32 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/" className="flex items-center space-x-4">
-              <div className="w-20 h-20 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#2563eb' }}>
-                <span className="text-yellow-400 font-bold text-2xl">CIC</span>
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex items-center justify-center">
+            {/* Logo and School Name */}
+            <Link href="/" className="flex items-center space-x-8">
+              <div className="flex-shrink-0">
+                <Image
+                  src="/images/logo.png"
+                  alt="Logo Trường Cao đẳng Thông tin và Truyền thông"
+                  width={120}
+                  height={120}
+                  className="w-30 h-30 object-contain"
+                />
               </div>
-              <div>
-                <h1 className="text-xl font-bold text-blue-900 leading-tight">
+              <div className="text-center">
+                <p className="text-lg text-gray-600 font-medium mb-2">Bộ khoa học và công nghệ</p>
+                <h1 className="text-4xl font-bold text-blue-900 leading-tight mb-2">
                   CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
                 </h1>
-                <p className="text-sm text-gray-600 mt-1">College of Information and Communication Technology</p>
-                <p className="text-xs text-blue-700 font-medium">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
+                <p className="text-lg text-gray-600">College of Information and Communication Technology</p>
               </div>
             </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            <Link
-              href="/"
-              className="px-4 py-2 text-blue-900 hover:bg-blue-50 font-semibold transition-colors rounded"
-            >
-              TRANG CHỦ
-            </Link>
-            {navigationItems.map((item) => (
-              <div
-                key={item.title}
-                className="relative"
-                onMouseEnter={() => setActiveDropdown(item.title)}
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <Link
-                  href={item.href}
-                  className="flex items-center space-x-1 px-4 py-2 text-blue-900 hover:bg-blue-50 font-semibold transition-colors rounded"
-                >
-                  <span>{item.title}</span>
-                  {item.dropdown && <ChevronDown size={16} />}
-                </Link>
-
-                {/* Dropdown Menu */}
-                <AnimatePresence>
-                  {item.dropdown && activeDropdown === item.title && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 mt-1 w-72 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50"
-                    >
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.title}
-                          href={subItem.href}
-                          className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors border-b border-gray-100 last:border-b-0"
-                        >
-                          {subItem.title}
-                        </Link>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
-          </nav>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2 text-blue-900 hover:bg-blue-50 transition-colors rounded"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+          </div>
         </div>
       </div>
+
+
 
       {/* Secondary Navigation Bar */}
       <div className="text-white" style={{ backgroundColor: '#2563eb' }}>
@@ -199,53 +78,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white border-t border-gray-200"
-          >
-            <nav className="container mx-auto px-4 py-4 space-y-2">
-              <Link
-                href="/"
-                className="block text-blue-900 hover:bg-blue-50 font-semibold transition-colors py-3 px-4 rounded"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                TRANG CHỦ
-              </Link>
-              {navigationItems.map((item) => (
-                <div key={item.title}>
-                  <Link
-                    href={item.href}
-                    className="block text-blue-900 hover:bg-blue-50 font-semibold transition-colors py-3 px-4 rounded"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.title}
-                  </Link>
-                  {item.dropdown && (
-                    <div className="ml-4 space-y-1 mt-2">
-                      {item.dropdown.map((subItem) => (
-                        <Link
-                          key={subItem.title}
-                          href={subItem.href}
-                          className="block text-sm text-gray-600 hover:text-blue-900 hover:bg-blue-50 transition-colors py-2 px-4 rounded"
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {subItem.title}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
     </header>
   );
 };

@@ -105,7 +105,7 @@ const FacultiesSection = () => {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
           >
-            Các khoa đào tạo
+            Các ngành nghề đào tạo
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -114,8 +114,8 @@ const FacultiesSection = () => {
             viewport={{ once: true }}
             className="text-gray-600 max-w-2xl mx-auto"
           >
-            Khám phá các khoa đào tạo với chương trình học hiện đại, đội ngũ giảng viên giàu kinh nghiệm 
-            và cơ sở vật chất tiên tiến
+            Khám phá các ngành nghề đào tạo với chương trình học hiện đại, đội ngũ giảng viên giàu kinh nghiệm
+            và cơ sở vật chất tiên tiến phục vụ nhu cầu thị trường lao động
           </motion.p>
         </div>
 
@@ -200,10 +200,10 @@ const FacultiesSection = () => {
           className="text-center mt-12"
         >
           <Link
-            href="/cac-khoa"
+            href="/cac-nganh-nghe-dao-tao"
             className="inline-flex items-center space-x-2 bg-primary-blue text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-yellow transition-colors duration-300 transform hover:scale-105"
           >
-            <span>Xem tất cả các khoa</span>
+            <span>Xem tất cả ngành nghề đào tạo</span>
             <ArrowRight size={20} />
           </Link>
         </motion.div>
