@@ -148,7 +148,7 @@ const NewsSection = () => {
                 <div className="relative h-64 overflow-hidden">
                   <Image
                     src={newsItem.image}
-                    alt={newsItem.title}
+                    alt={`Hình ảnh tin tức: ${newsItem.title} - ${newsItem.category}`}
                     width={400}
                     height={256}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -206,7 +206,7 @@ const NewsSection = () => {
               <div className="relative h-40 overflow-hidden">
                 <Image
                   src={newsItem.image}
-                  alt={newsItem.title}
+                  alt={`Hình ảnh sự kiện: ${newsItem.title} - ${newsItem.category}`}
                   width={300}
                   height={160}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

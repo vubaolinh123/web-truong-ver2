@@ -91,6 +91,8 @@ const Banner = () => {
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
             style={{ backgroundImage: `url(${slides[currentSlide].image})` }}
+            role="img"
+            aria-label={`Hình ảnh minh họa: ${slides[currentSlide].title}`}
           />
 
           {/* Overlay */}
@@ -99,14 +101,14 @@ const Banner = () => {
           {/* Content */}
           <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
             <div className="max-w-4xl text-white">
-              <motion.h1
+              <motion.h2
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight"
               >
                 {slides[currentSlide].title}
-              </motion.h1>
+              </motion.h2>
 
               <motion.p
                 initial={{ y: 30, opacity: 0 }}

@@ -87,7 +87,7 @@ const AdmissionTrainingSection = () => {
                 <div className="relative h-64 overflow-hidden">
                   <Image
                     src={item.image}
-                    alt={item.title}
+                    alt={`Hình ảnh tuyển sinh và đào tạo: ${item.title} - ${item.category}`}
                     width={400}
                     height={256}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
