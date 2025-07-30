@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Eye, Calendar } from 'lucide-react';
+import { ArrowRight, Eye, Calendar, Play, MapPin, Phone, Mail, Users, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 // Utility function to format numbers consistently across server and client
@@ -130,8 +130,192 @@ const AdmissionTrainingSection = () => {
           </div>
         </div>
 
+        {/* Admission Information Section: 2-Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-gradient-to-br from-blue-50/30 to-gray-50/50 p-8 rounded-2xl border border-gray-100 shadow-sm mt-16">
+          {/* Left Column: Admission Information */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="bg-white rounded-xl shadow-lg p-8 border border-gray-200/50 hover:shadow-xl transition-all duration-300"
+          >
+            <div className="flex items-center mb-6">
+              <div className="bg-blue-100 p-3 rounded-lg mr-4">
+                <GraduationCap className="text-blue-900" size={32} />
+              </div>
+              <h3 className="text-2xl font-bold text-blue-900">THÔNG TIN TUYỂN SINH</h3>
+            </div>
+
+            <div className="space-y-6">
+              {/* Quick Stats */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-blue-50 p-4 rounded-lg text-center border border-blue-100 shadow-sm hover:shadow-md transition-all duration-300">
+                  <div className="text-2xl font-bold text-blue-900">2025</div>
+                  <div className="text-sm text-gray-600">Năm tuyển sinh</div>
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg text-center border border-yellow-100 shadow-sm hover:shadow-md transition-all duration-300">
+                  <div className="text-2xl font-bold text-yellow-600">15+</div>
+                  <div className="text-sm text-gray-600">Ngành đào tạo</div>
+                </div>
+              </div>
+
+              {/* Admission Info */}
+              <div className="space-y-4">
+                <div className="flex items-start space-x-3">
+                  <Calendar className="text-blue-900 mt-1" size={20} />
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Thời gian đăng ký</h4>
+                    <p className="text-gray-600 text-sm">Từ 01/03/2025 đến 30/08/2025</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Users className="text-blue-900 mt-1" size={20} />
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Đối tượng tuyển sinh</h4>
+                    <p className="text-gray-600 text-sm">Tốt nghiệp THPT, THCS, tương đương</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <MapPin className="text-blue-900 mt-1" size={20} />
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Địa điểm học tập</h4>
+                    <p className="text-gray-600 text-sm">Cơ sở chính: Hà Nội & TP.HCM</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Info */}
+              <div className="bg-gradient-to-r from-blue-50 to-yellow-50 p-4 rounded-lg border border-blue-100/50 shadow-sm">
+                <h4 className="font-semibold text-gray-800 mb-3">Liên hệ tư vấn</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center space-x-2">
+                    <Phone size={16} className="text-blue-900" />
+                    <span className="text-sm text-gray-700">Hotline: 0964 322 215</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Mail size={16} className="text-blue-900" />
+                    <span className="text-sm text-gray-700">Email: tuyensinh@vcic.edu.vn</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  href="/dang-ky-truc-tuyen"
+                  className="flex-1 bg-blue-900 text-white py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-800 transition-colors duration-300"
+                >
+                  ĐĂNG KÝ NGAY
+                </Link>
+                <Link
+                  href="/tuyen-sinh"
+                  className="flex-1 border-2 border-blue-900 text-blue-900 py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-900 hover:text-white transition-all duration-300"
+                >
+                  TÌM HIỂU THÊM
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Multimedia */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            {/* Video Section */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200/50 hover:shadow-xl transition-all duration-300">
+              <div className="relative h-64 bg-gradient-to-br from-blue-900 to-blue-700">
+                <Image
+                  src="/images/banner-education.svg"
+                  alt="Video giới thiệu trường - Trường Cao đẳng Thông tin và Truyền thông"
+                  width={600}
+                  height={300}
+                  className="w-full h-full object-cover opacity-30"
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <button className="bg-white/20 backdrop-blur-sm border-2 border-white/50 text-white p-4 rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110">
+                    <Play size={32} />
+                  </button>
+                </div>
+                <div className="absolute bottom-4 left-4 right-4">
+                  <h4 className="text-white font-semibold text-lg">Video giới thiệu trường</h4>
+                  <p className="text-white/80 text-sm">Khám phá cơ sở vật chất và môi trường học tập</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Image Gallery */}
+            <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
+              <h4 className="text-xl font-bold text-blue-900 mb-4">HÌNH ẢNH TRƯỜNG</h4>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
+                  <Image
+                    src="/images/faculty-it.svg"
+                    alt="Cơ sở vật chất - Trường Cao đẳng Thông tin và Truyền thông"
+                    width={200}
+                    height={150}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-sm font-semibold">Cơ sở vật chất</span>
+                  </div>
+                </div>
+                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
+                  <Image
+                    src="/images/quality-education.svg"
+                    alt="Hoạt động sinh viên - Trường Cao đẳng Thông tin và Truyền thông"
+                    width={200}
+                    height={150}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-sm font-semibold">Hoạt động sinh viên</span>
+                  </div>
+                </div>
+                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
+                  <Image
+                    src="/images/banner-library.svg"
+                    alt="Thư viện - Trường Cao đẳng Thông tin và Truyền thông"
+                    width={200}
+                    height={150}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-sm font-semibold">Thư viện</span>
+                  </div>
+                </div>
+                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
+                  <Image
+                    src="/images/banner-training.svg"
+                    alt="Phòng thực hành - Trường Cao đẳng Thông tin và Truyền thông"
+                    width={200}
+                    height={150}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <span className="text-white text-sm font-semibold">Phòng thực hành</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 text-center">
+                <Link
+                  href="/hinh-anh"
+                  className="text-blue-900 hover:text-blue-700 font-semibold text-sm flex items-center justify-center space-x-1"
+                >
+                  <span>Xem tất cả hình ảnh</span>
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
         {/* View More Button */}
-        <div className="text-center">
+        <div className="text-center mt-12">
           <Link
             href="/tuyen-sinh-dao-tao"
             className="inline-flex items-center space-x-2 bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
