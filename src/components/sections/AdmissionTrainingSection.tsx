@@ -63,12 +63,9 @@ const AdmissionTrainingSection = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">
-            Thông tin tuyển sinh và đào tạo
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 uppercase">
+            THÔNG TIN TUYỂN SINH VÀ ĐÀO TẠO
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Thông tin chi tiết về tuyển sinh, chương trình đào tạo và các cơ hội học tập tại trường
-          </p>
         </div>
 
         {/* Main Content Grid */}
@@ -113,12 +110,9 @@ const AdmissionTrainingSection = () => {
                   </div>
                   
                   <Link href={`/tuyen-sinh-dao-tao/${item.id}`} className="block group">
-                    <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-900 transition-colors duration-200 mb-4 leading-tight line-clamp-3">
+                    <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-900 transition-colors duration-200 mb-6 leading-tight line-clamp-3">
                       {item.title}
                     </h3>
-                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-6">
-                      {item.excerpt}
-                    </p>
                     <div className="flex items-center text-blue-900 font-semibold text-sm group-hover:text-blue-700 transition-colors">
                       <span>Đọc thêm</span>
                       <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -128,6 +122,17 @@ const AdmissionTrainingSection = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+
+        {/* View More Button */}
+        <div className="text-center mt-12 mb-16">
+          <Link
+            href="/tuyen-sinh-dao-tao"
+            className="inline-flex items-center space-x-2 bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
+          >
+            <span>Xem thêm</span>
+            <ArrowRight size={18} />
+          </Link>
         </div>
 
         {/* Admission Information Section: 2-Column Layout */}
@@ -314,16 +319,7 @@ const AdmissionTrainingSection = () => {
           </motion.div>
         </div>
 
-        {/* View More Button */}
-        <div className="text-center mt-12">
-          <Link
-            href="/tuyen-sinh-dao-tao"
-            className="inline-flex items-center space-x-2 bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
-          >
-            <span>Xem thêm</span>
-            <ArrowRight size={18} />
-          </Link>
-        </div>
+
       </div>
     </section>
   );

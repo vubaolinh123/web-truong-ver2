@@ -53,19 +53,10 @@ const AchievementsSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-gray-800 mb-4"
+            className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 uppercase"
           >
-            Thành tựu nổi bật
+            THÀNH TỰU NỔI BẬT
           </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="text-gray-600 max-w-2xl mx-auto"
-          >
-            Những thành tựu đáng tự hào trong hành trình phát triển và khẳng định vị thế của trường
-          </motion.p>
         </div>
 
         {/* Achievements Grid */}

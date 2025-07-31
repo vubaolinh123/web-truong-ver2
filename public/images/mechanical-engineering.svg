@@ -1,0 +1,77 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mechanicalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#mechanicalGrad)" opacity="0.1"/>
+  
+  <!-- Gear 1 -->
+  <g transform="translate(120,100)">
+    <circle cx="0" cy="0" r="40" fill="#f97316" opacity="0.8"/>
+    <circle cx="0" cy="0" r="25" fill="none" stroke="#ea580c" stroke-width="3"/>
+    <!-- Gear teeth -->
+    <g stroke="#ea580c" stroke-width="2" fill="#f97316">
+      <rect x="-3" y="-45" width="6" height="10"/>
+      <rect x="-3" y="35" width="6" height="10"/>
+      <rect x="-45" y="-3" width="10" height="6"/>
+      <rect x="35" y="-3" width="10" height="6"/>
+      <rect x="-32" y="-32" width="8" height="8" transform="rotate(45)"/>
+      <rect x="24" y="-32" width="8" height="8" transform="rotate(45)"/>
+      <rect x="-32" y="24" width="8" height="8" transform="rotate(45)"/>
+      <rect x="24" y="24" width="8" height="8" transform="rotate(45)"/>
+    </g>
+    <circle cx="0" cy="0" r="8" fill="#ea580c"/>
+  </g>
+  
+  <!-- Gear 2 -->
+  <g transform="translate(220,140)">
+    <circle cx="0" cy="0" r="30" fill="#f97316" opacity="0.7"/>
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#ea580c" stroke-width="2"/>
+    <!-- Gear teeth -->
+    <g stroke="#ea580c" stroke-width="2" fill="#f97316">
+      <rect x="-2" y="-35" width="4" height="8"/>
+      <rect x="-2" y="27" width="4" height="8"/>
+      <rect x="-35" y="-2" width="8" height="4"/>
+      <rect x="27" y="-2" width="8" height="4"/>
+      <rect x="-25" y="-25" width="6" height="6" transform="rotate(45)"/>
+      <rect x="19" y="-25" width="6" height="6" transform="rotate(45)"/>
+      <rect x="-25" y="19" width="6" height="6" transform="rotate(45)"/>
+      <rect x="19" y="19" width="6" height="6" transform="rotate(45)"/>
+    </g>
+    <circle cx="0" cy="0" r="6" fill="#ea580c"/>
+  </g>
+  
+  <!-- Wrench -->
+  <g transform="translate(300,80) rotate(30)">
+    <rect x="-40" y="-4" width="80" height="8" fill="#6b7280" rx="4"/>
+    <circle cx="-35" cy="0" r="12" fill="none" stroke="#6b7280" stroke-width="3"/>
+    <circle cx="35" cy="0" r="8" fill="none" stroke="#6b7280" stroke-width="3"/>
+  </g>
+  
+  <!-- Bolt -->
+  <g transform="translate(80,200)">
+    <rect x="-15" y="-8" width="30" height="16" fill="#6b7280"/>
+    <rect x="-12" y="8" width="24" height="40" fill="#9ca3af"/>
+    <circle cx="0" cy="0" r="3" fill="#374151"/>
+  </g>
+  
+  <!-- Piston -->
+  <g transform="translate(280,200)">
+    <rect x="-8" y="-30" width="16" height="60" fill="#9ca3af"/>
+    <circle cx="0" cy="-25" r="12" fill="#6b7280"/>
+    <rect x="-20" y="25" width="40" height="15" fill="#6b7280" rx="7"/>
+  </g>
+  
+  <!-- Technical drawing lines -->
+  <g stroke="#f97316" stroke-width="1" opacity="0.3" fill="none">
+    <line x1="50" y1="50" x2="350" y2="50"/>
+    <line x1="50" y1="100" x2="350" y2="100"/>
+    <line x1="50" y1="150" x2="350" y2="150"/>
+    <line x1="50" y1="200" x2="350" y2="200"/>
+    <line x1="50" y1="250" x2="350" y2="250"/>
+  </g>
+</svg>

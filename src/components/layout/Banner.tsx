@@ -105,7 +105,7 @@ const Banner = () => {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
-                className="text-xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight"
+                className="text-xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight uppercase"
               >
                 {slides[currentSlide].title}
               </motion.h2>

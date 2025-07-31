@@ -1,0 +1,106 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="techGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891b2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lightbulbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fbbf24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="url(#techGrad)" opacity="0.1"/>
+  
+  <!-- Light Bulb (Innovation Symbol) -->
+  <g transform="translate(120,100)">
+    <circle cx="0" cy="0" r="35" fill="url(#lightbulbGrad)" opacity="0.8"/>
+    <rect x="-15" y="25" width="30" height="20" fill="#6b7280" rx="3"/>
+    <rect x="-12" y="35" width="24" height="8" fill="#4b5563" rx="2"/>
+    <!-- Light rays -->
+    <g stroke="#fbbf24" stroke-width="3" opacity="0.6">
+      <line x1="-50" y1="-25" x2="-40" y2="-20"/>
+      <line x1="40" y1="-20" x2="50" y2="-25"/>
+      <line x1="-50" y1="25" x2="-40" y2="20"/>
+      <line x1="40" y1="20" x2="50" y2="25"/>
+      <line x1="-55" y1="0" x2="-45" y2="0"/>
+      <line x1="45" y1="0" x2="55" y2="0"/>
+      <line x1="0" y1="-55" x2="0" y2="-45"/>
+    </g>
+    <!-- Filament -->
+    <path d="M-15,-10 Q0,-20 15,-10 Q0,0 -15,-10" fill="none" stroke="#f59e0b" stroke-width="2"/>
+  </g>
+  
+  <!-- Gear/Technology Symbol -->
+  <g transform="translate(280,120)">
+    <circle cx="0" cy="0" r="30" fill="#06b6d4" opacity="0.7"/>
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#0891b2" stroke-width="2"/>
+    <!-- Gear teeth -->
+    <g stroke="#0891b2" stroke-width="2" fill="#06b6d4">
+      <rect x="-2" y="-35" width="4" height="8"/>
+      <rect x="-2" y="27" width="4" height="8"/>
+      <rect x="-35" y="-2" width="8" height="4"/>
+      <rect x="27" y="-2" width="8" height="4"/>
+      <rect x="-25" y="-25" width="6" height="6" transform="rotate(45)"/>
+      <rect x="19" y="-25" width="6" height="6" transform="rotate(45)"/>
+      <rect x="-25" y="19" width="6" height="6" transform="rotate(45)"/>
+      <rect x="19" y="19" width="6" height="6" transform="rotate(45)"/>
+    </g>
+    <circle cx="0" cy="0" r="6" fill="#0891b2"/>
+  </g>
+  
+  <!-- Circuit Board Pattern -->
+  <g transform="translate(50,200)" stroke="#06b6d4" stroke-width="2" fill="none" opacity="0.6">
+    <rect x="0" y="0" width="80" height="60" rx="4"/>
+    <circle cx="15" cy="15" r="4" fill="#06b6d4"/>
+    <circle cx="65" cy="15" r="4" fill="#06b6d4"/>
+    <circle cx="15" cy="45" r="4" fill="#06b6d4"/>
+    <circle cx="65" cy="45" r="4" fill="#06b6d4"/>
+    <line x1="15" y1="15" x2="65" y2="15"/>
+    <line x1="15" y1="45" x2="65" y2="45"/>
+    <line x1="15" y1="15" x2="15" y2="45"/>
+    <line x1="65" y1="15" x2="65" y2="45"/>
+    <line x1="40" y1="15" x2="40" y2="45"/>
+  </g>
+  
+  <!-- Rocket (Innovation/Progress) -->
+  <g transform="translate(320,200)">
+    <ellipse cx="0" cy="-20" rx="8" ry="25" fill="#f59e0b"/>
+    <polygon points="-8,5 8,5 0,-5" fill="#ef4444"/>
+    <rect x="-12" y="5" width="24" height="15" fill="#6b7280" rx="2"/>
+    <circle cx="-6" cy="12" r="2" fill="#22c55e"/>
+    <circle cx="6" cy="12" r="2" fill="#ef4444"/>
+    <!-- Exhaust -->
+    <polygon points="-4,20 4,20 2,35 -2,35" fill="#f97316" opacity="0.7"/>
+    <polygon points="-2,35 2,35 1,45 -1,45" fill="#fbbf24" opacity="0.5"/>
+  </g>
+  
+  <!-- DNA Helix (Innovation) -->
+  <g transform="translate(200,200)" stroke="#06b6d4" stroke-width="2" fill="none" opacity="0.5">
+    <path d="M-20,0 Q-10,-15 0,0 Q10,15 20,0"/>
+    <path d="M-20,0 Q-10,15 0,0 Q10,-15 20,0"/>
+    <circle cx="-15" cy="-7" r="2" fill="#06b6d4"/>
+    <circle cx="-5" cy="7" r="2" fill="#06b6d4"/>
+    <circle cx="5" cy="-7" r="2" fill="#06b6d4"/>
+    <circle cx="15" cy="7" r="2" fill="#06b6d4"/>
+  </g>
+  
+  <!-- Network Nodes -->
+  <g opacity="0.4">
+    <circle cx="80" cy="80" r="4" fill="#06b6d4"/>
+    <circle cx="150" cy="60" r="4" fill="#06b6d4"/>
+    <circle cx="220" cy="90" r="4" fill="#06b6d4"/>
+    <circle cx="300" cy="70" r="4" fill="#06b6d4"/>
+    <line x1="80" y1="80" x2="150" y2="60" stroke="#06b6d4" stroke-width="1"/>
+    <line x1="150" y1="60" x2="220" y2="90" stroke="#06b6d4" stroke-width="1"/>
+    <line x1="220" y1="90" x2="300" y2="70" stroke="#06b6d4" stroke-width="1"/>
+    <line x1="80" y1="80" x2="220" y2="90" stroke="#06b6d4" stroke-width="1"/>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <g stroke="#06b6d4" stroke-width="1" opacity="0.2" fill="none">
+    <circle cx="350" cy="50" r="15"/>
+    <rect x="20" y="20" width="20" height="20" transform="rotate(45 30 30)"/>
+  </g>
+</svg>
