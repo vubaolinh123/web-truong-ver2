@@ -8,7 +8,7 @@ import FacultiesSection from '@/components/sections/FacultiesSection';
 import AchievementsSection from '@/components/sections/AchievementsSection';
 
 export const metadata: Metadata = {
-  title: 'Trang chủ - Trường Cao đẳng Thông tin và Truyền thông',
+  title: 'Trường Cao đẳng Thông tin và Truyền thông',
   description: 'Trường Cao đẳng Thông tin và Truyền thông - Đào tạo chuyên sâu Công nghệ Thông tin, Lập trình máy tính, An toàn thông tin. Tuyển sinh 2025 với học bổng hấp dẫn, đảm bảo việc làm sau tốt nghiệp.',
   keywords: [
     'trang chủ cao đẳng thông tin',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     'việc làm ngành IT'
   ],
   openGraph: {
-    title: 'Trang chủ - Trường Cao đẳng Thông tin và Truyền thông',
+    title: 'Trường Cao đẳng Thông tin và Truyền thông',
     description: 'Khám phá các chương trình đào tạo Công nghệ Thông tin chất lượng cao tại Trường Cao đẳng Thông tin và Truyền thông. Tuyển sinh 2025 đang diễn ra.',
     url: 'https://web-truong-ver2.vercel.app/',
     images: [
