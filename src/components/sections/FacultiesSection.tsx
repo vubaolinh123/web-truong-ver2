@@ -103,7 +103,7 @@ const FacultiesSection = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 uppercase"
+            className="text-2xl md:text-3xl font-bold text-gray-800 mb-4 uppercase"
           >
             CÁC NGÀNH NGHỀ ĐÀO TẠO
           </motion.h2>

@@ -66,7 +66,7 @@ const StatsSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold text-white mb-4 uppercase"
+            className="text-2xl md:text-3xl font-bold text-white mb-4 uppercase"
           >
             SỐ LIỆU TIÊU BIỂU
           </motion.h2>

@@ -34,25 +34,25 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
             {/* Logo and School Name */}
             <Link href="/" className="flex flex-col items-center text-center">
-              <div className="flex-shrink-0">
+              <div className="flex-shrink-0 mb-2">
                 <Image
                   src="/images/logo.png"
                   alt="Logo Trường Cao đẳng Thông tin và Truyền thông"
-                  width={140}
-                  height={140}
-                  className="w-35 h-35 object-contain"
+                  width={100}
+                  height={100}
+                  className="w-25 h-25 object-contain"
                 />
               </div>
               <div className="text-center">
-                <p className="text-4xl font-bold text-blue-900 leading-tight mb-2 uppercase">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
-                <h1 className="text-4xl font-bold text-blue-900 leading-tight mb-2 uppercase">
+                <p className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
+                <h1 className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">
                   CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
                 </h1>
-                <p className="text-lg text-gray-600 uppercase">COLLEGE OF INFORMATION AND COMMUNICATION TECHNOLOGY</p>
+                <p className="text-sm text-gray-600 uppercase">COLLEGE OF INFORMATION AND COMMUNICATION TECHNOLOGY</p>
               </div>
             </Link>
           </div>

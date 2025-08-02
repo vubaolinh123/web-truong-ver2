@@ -98,7 +98,7 @@ const NewsSection = () => {
       <div className="w-[95%] mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4 uppercase">
+          <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-4 uppercase">
             TIN TỨC
           </h2>
         </div>
