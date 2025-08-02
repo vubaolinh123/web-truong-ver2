@@ -36,19 +36,19 @@ const Header = () => {
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
-            {/* Logo and School Name */}
-            <Link href="/" className="flex flex-col items-center text-center">
-              <div className="flex-shrink-0 mb-2">
+            {/* Logo and School Name - Horizontal Layout */}
+            <Link href="/" className="flex items-center space-x-6">
+              <div className="flex-shrink-0">
                 <Image
                   src="/images/logo.png"
                   alt="Logo Trường Cao đẳng Thông tin và Truyền thông"
-                  width={100}
-                  height={100}
-                  className="w-25 h-25 object-contain"
+                  width={130}
+                  height={130}
+                  className="w-32 h-32 object-contain"
                 />
               </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
+              <div className="text-left">
+                <p className="text-2xl text-blue-900 leading-tight mb-1 uppercase">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
                 <h1 className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">
                   CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
                 </h1>

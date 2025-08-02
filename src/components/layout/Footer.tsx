@@ -53,13 +53,23 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* University Info */}
           <div className="space-y-4">
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-bold text-yellow-300 leading-tight mb-2 uppercase">
-                CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
-              </h3>
-              <p className="text-sm text-yellow-200 uppercase">
-                COLLEGE OF INFORMATION AND COMMUNICATION TECHNOLOGY
-              </p>
+            <div className="flex items-center justify-center mb-6">
+              <div className="flex items-center space-x-4">
+                <div className="flex-shrink-0">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Logo Trường Cao đẳng Thông tin và Truyền thông"
+                    width={80}
+                    height={80}
+                    className="w-20 h-20 object-contain"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-yellow-300 leading-tight uppercase">
+                    CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
+                  </h3>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-3 text-sm">
