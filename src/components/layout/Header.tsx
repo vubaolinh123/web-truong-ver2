@@ -56,7 +56,7 @@ const Header = () => {
                 <h1 className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">
                   TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
                 </h1>
-                <p className="text-sm text-gray-600 uppercase">TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG</p>
+                <p className="text-sm text-gray-600 uppercase">COLLEGE OF INFORMATION AND COMMUNICATIONS</p>
               </Link>
             </div>
 
