@@ -101,7 +101,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       <aside className={`
         fixed top-16 left-0 z-30 h-[calc(100vh-4rem)] bg-blue-600 border-r border-blue-500 transition-all duration-300
         ${isOpen ? 'w-64' : 'w-16'}
-        lg:relative lg:top-0 lg:h-[calc(100vh-4rem)]
+        lg:fixed lg:top-16 lg:left-0 lg:h-[calc(100vh-4rem)]
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Close Button (Mobile) */}
@@ -115,7 +115,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Navigation Menu */}
-        <nav className="px-3 py-4 space-y-2 overflow-y-auto h-full">
+        <nav className="px-3 py-4 space-y-2 overflow-y-auto h-[calc(100vh-8rem)] scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-700">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.href);
