@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   MapPin,
   Phone,
@@ -55,7 +54,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-center mb-6">
               <div className="flex items-center space-x-4">
-                <div className="flex-shrink-0">
+                {/* <div className="flex-shrink-0">
                   <Image
                     src="/images/logo.png"
                     alt="Logo Trường Cao đẳng Thông tin và Truyền thông"
@@ -63,10 +62,10 @@ const Footer = () => {
                     height={80}
                     className="w-20 h-20 object-contain"
                   />
-                </div>
+                </div> */}
                 <div>
                   <h3 className="text-xl font-bold text-yellow-300 leading-tight uppercase">
-                    CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
+                    TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
                   </h3>
                 </div>
               </div>

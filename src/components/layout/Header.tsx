@@ -13,7 +13,7 @@ const Header = () => {
       <div className="text-white py-2" style={{ backgroundColor: '#2563eb' }}>
         <div className="container mx-auto px-4 flex justify-between items-center text-sm">
           <div className="flex items-center space-x-4">
-            <span className="text-yellow-400 font-semibold">Hotline: 0964 322 215</span>
+            <span className="text-white font-semibold">Hotline: 0964 322 215</span>
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/dang-ky-truc-tuyen" className="bg-yellow-500 text-gray-900 px-3 py-1 rounded hover:bg-yellow-400 transition-colors font-semibold">
@@ -22,10 +22,10 @@ const Header = () => {
             <Link href="/hoc-truc-tuyen" className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-500 transition-colors">
               HỌC TRỰC TUYẾN
             </Link>
-            <Link href="https://youtube.com" className="hover:text-yellow-400 transition-colors">
+            <Link href="https://youtube.com" className="hover:text-white transition-colors">
               <Youtube size={16} />
             </Link>
-            <Link href="https://facebook.com" className="hover:text-yellow-400 transition-colors">
+            <Link href="https://facebook.com" className="hover:text-white transition-colors">
               <Facebook size={16} />
             </Link>
           </div>
@@ -54,9 +54,9 @@ const Header = () => {
               <Link href="/" className="text-center">
                 <p className="text-2xl text-blue-900 leading-tight mb-1 uppercase">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
                 <h1 className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">
-                  CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
+                  TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
                 </h1>
-                <p className="text-sm text-gray-600 uppercase">COLLEGE OF INFORMATION AND COMMUNICATION TECHNOLOGY</p>
+                <p className="text-sm text-gray-600 uppercase">COLLEGE OF INFORMATION AND COMMUNICATIONS</p>
               </Link>
             </div>
 
@@ -76,14 +76,14 @@ const Header = () => {
             <nav className="flex items-center justify-center space-x-1 py-4">
               <Link
                 href="/"
-                className="px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                className="px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
               >
                 TRANG CHỦ
               </Link>
               <div className="relative group">
                 <Link
                   href="/gioi-thieu"
-                  className="flex items-center space-x-1 px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>GIỚI THIỆU</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,7 +111,7 @@ const Header = () => {
               <div className="relative group">
                 <Link
                   href="/tuyen-sinh"
-                  className="flex items-center space-x-1 px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>TUYỂN SINH</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,7 +136,7 @@ const Header = () => {
               <div className="relative group">
                 <Link
                   href="/dao-tao"
-                  className="flex items-center space-x-1 px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>ĐÀO TẠO</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,7 +161,7 @@ const Header = () => {
               <div className="relative group">
                 <Link
                   href="/sinh-vien"
-                  className="flex items-center space-x-1 px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>SINH VIÊN</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -186,7 +186,7 @@ const Header = () => {
               <div className="relative group">
                 <Link
                   href="/to-chuc"
-                  className="flex items-center space-x-1 px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>TỔ CHỨC</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -211,7 +211,7 @@ const Header = () => {
               <div className="relative group">
                 <Link
                   href="/hop-tac"
-                  className="flex items-center space-x-1 px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>HỢP TÁC</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -236,7 +236,7 @@ const Header = () => {
               <div className="relative group">
                 <Link
                   href="/tin-tuc"
-                  className="flex items-center space-x-1 px-4 py-3 text-yellow-400 hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>TIN TỨC</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
