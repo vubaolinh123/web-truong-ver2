@@ -14,6 +14,7 @@ import {
   Calendar,
   MessageSquare,
   Image as ImageIcon,
+  FolderOpen,
   X
 } from 'lucide-react';
 
@@ -49,6 +50,18 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       href: '/admin/programs',
       icon: BookOpen,
       description: 'Chương Trình Học Tập'
+    },
+    {
+      title: 'Categories',
+      href: '/admin/categories',
+      icon: FolderOpen,
+      description: 'Quản Lý Danh Mục'
+    },
+    {
+      title: 'Bài Viết',
+      href: '/admin/articles',
+      icon: FileText,
+      description: 'Quản Lý Bài Viết'
     },
     {
       title: 'Tin Tức & Sự Kiện',

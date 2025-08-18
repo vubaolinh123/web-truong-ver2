@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Lock, User, AlertCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthError } from '@/lib/api/auth';
 
 interface LoginFormData {
   username: string;
@@ -20,6 +22,8 @@ interface FormErrors {
 
 const AdminLoginPage = () => {
   const router = useRouter();
+  const { login, isAuthenticated, isLoading: authLoading, error: authError, clearError, user } = useAuth();
+
   const [formData, setFormData] = useState<LoginFormData>({
     username: '',
     password: '',
@@ -28,6 +32,41 @@ const AdminLoginPage = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    console.log('🔄 Login page auth check:', {
+      isAuthenticated,
+      authLoading,
+      user: user?.username
+    });
+
+    if (isAuthenticated && !authLoading) {
+      console.log('✅ Already authenticated, redirecting...');
+      // Get intended route from session storage or default to admin
+      const intendedRoute = sessionStorage.getItem('intendedRoute') || '/admin';
+      sessionStorage.removeItem('intendedRoute');
+      console.log('🎯 Redirecting to:', intendedRoute);
+      router.replace(intendedRoute);
+    }
+  }, [isAuthenticated, authLoading, router, user]);
+
+  // Clear auth errors when component mounts or form changes
+  useEffect(() => {
+    if (authError) {
+      clearError();
+    }
+  }, [formData.username, formData.password]);
+
+  // Update form errors when auth error changes
+  useEffect(() => {
+    if (authError) {
+      setErrors(prev => ({
+        ...prev,
+        general: authError
+      }));
+    }
+  }, [authError]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -66,7 +105,7 @@ const AdminLoginPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -75,26 +114,24 @@ const AdminLoginPage = () => {
     setErrors({});
 
     try {
-      // Mock login logic - replace with actual authentication
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Mock validation - replace with actual API call
-      if (formData.username === 'admin' && formData.password === 'admin123') {
-        // Successful login
-        localStorage.setItem('adminToken', 'mock-token');
-        if (formData.rememberMe) {
-          localStorage.setItem('rememberAdmin', 'true');
-        }
-        router.push('/admin');
+      // Use real authentication
+      await login({
+        identifier: formData.username,
+        password: formData.password,
+        rememberMe: formData.rememberMe
+      });
+
+      // Success - redirect will be handled by useEffect
+    } catch (error) {
+      if (error instanceof AuthError) {
+        setErrors({
+          general: error.message
+        });
       } else {
         setErrors({
-          general: 'Tên đăng nhập hoặc mật khẩu không chính xác'
+          general: 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
         });
       }
-    } catch (error) {
-      setErrors({
-        general: 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
-      });
     } finally {
       setIsLoading(false);
     }
@@ -237,14 +274,14 @@ const AdminLoginPage = () => {
             {/* Login Button */}
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || authLoading}
               className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white transition-all duration-200 ${
-                isLoading
+                isLoading || authLoading
                   ? 'bg-gray-400 cursor-not-allowed'
                   : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform hover:scale-105'
               }`}
             >
-              {isLoading ? (
+              {isLoading || authLoading ? (
                 <div className="flex items-center space-x-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   <span>Đang đăng nhập...</span>
@@ -260,7 +297,7 @@ const AdminLoginPage = () => {
             <p className="text-sm text-yellow-800 font-medium mb-1">Demo:</p>
             <p className="text-xs text-yellow-700">
               Tên đăng nhập: <span className="font-mono">admin</span><br />
-              Mật khẩu: <span className="font-mono">admin123</span>
+              Mật khẩu: <span className="font-mono">Admin123!</span>
             </p>
           </div>
         </div>
