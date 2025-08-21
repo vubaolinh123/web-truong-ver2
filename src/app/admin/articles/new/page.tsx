@@ -56,6 +56,13 @@ const NewArticlePage: React.FC = () => {
         featuredImage: featuredImageUrl || null
       };
 
+      // Debug: Log the form data to verify categories are included
+      console.log('📝 Creating article with data:', {
+        title: articleData.title,
+        categoryIds: articleData.categoryIds,
+        categoryCount: articleData.categoryIds.length
+      });
+
       // Submit to API using articles API
       const response = await articlesApi.createArticle(articleData);
 

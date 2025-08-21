@@ -118,6 +118,20 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
 
     if (!formData.categoryIds || formData.categoryIds.length === 0) {
       newErrors.categoryIds = 'Vui lòng chọn ít nhất một danh mục';
+
+      // Debug: Log category validation failure
+      console.log('❌ Category validation failed:', {
+        categoryIds: formData.categoryIds,
+        categoryIdsType: typeof formData.categoryIds,
+        categoryIdsLength: formData.categoryIds?.length,
+        isArray: Array.isArray(formData.categoryIds)
+      });
+    } else {
+      // Debug: Log successful category validation
+      console.log('✅ Category validation passed:', {
+        categoryIds: formData.categoryIds,
+        categoryCount: formData.categoryIds.length
+      });
     }
 
     setErrors(newErrors);
@@ -145,7 +159,20 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
     setFormData(prev => {
       // Only update if value actually changed
       if (prev[field] !== value) {
-        return { ...prev, [field]: value };
+        const newData = { ...prev, [field]: value };
+
+        // Debug: Log category changes specifically
+        if (field === 'categoryIds') {
+          console.log('🔄 Form data categoryIds updated:', {
+            field,
+            previousValue: prev[field],
+            newValue: value,
+            valueType: typeof value,
+            isArray: Array.isArray(value)
+          });
+        }
+
+        return newData;
       }
       return prev;
     });

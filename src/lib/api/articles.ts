@@ -152,9 +152,23 @@ export const articlesApi = {
    * Create new article
    */
   createArticle: async (data: ArticleFormData): Promise<ArticleResponse> => {
+    // Map frontend field names to backend expected field names
+    const apiData = {
+      ...data,
+      categories: data.categoryIds, // Backend expects 'categories' field
+      categoryIds: undefined // Remove the frontend field
+    };
+
+    // Debug: Log the API data being sent
+    console.log('🚀 Sending article data to API:', {
+      title: apiData.title,
+      categories: apiData.categories,
+      categoryCount: apiData.categories?.length || 0
+    });
+
     return makeRequest('/articles', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(apiData),
     });
   },
 
@@ -162,9 +176,16 @@ export const articlesApi = {
    * Update existing article
    */
   updateArticle: async (id: string, data: Partial<ArticleFormData>): Promise<ArticleResponse> => {
+    // Map frontend field names to backend expected field names
+    const apiData = {
+      ...data,
+      categories: data.categoryIds, // Backend expects 'categories' field
+      categoryIds: undefined // Remove the frontend field
+    };
+
     return makeRequest(`/articles/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: JSON.stringify(apiData),
     });
   },
 

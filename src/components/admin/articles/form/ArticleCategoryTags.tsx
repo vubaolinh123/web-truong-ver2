@@ -79,13 +79,25 @@ const ArticleCategoryTags: React.FC<ArticleCategoryTagsProps> = ({
   };
 
   const handleCategorySelect = (selectedCategoryId: string) => {
+    let newCategoryIds: string[];
+
     if (categoryIds.includes(selectedCategoryId)) {
       // Remove category if already selected
-      onCategoryChange(categoryIds.filter(id => id !== selectedCategoryId));
+      newCategoryIds = categoryIds.filter(id => id !== selectedCategoryId);
     } else {
       // Add category if not selected
-      onCategoryChange([...categoryIds, selectedCategoryId]);
+      newCategoryIds = [...categoryIds, selectedCategoryId];
     }
+
+    // Debug: Log category selection changes
+    console.log('📂 Category selection changed:', {
+      selectedCategoryId,
+      previousCategories: categoryIds,
+      newCategories: newCategoryIds,
+      action: categoryIds.includes(selectedCategoryId) ? 'removed' : 'added'
+    });
+
+    onCategoryChange(newCategoryIds);
   };
 
   const handleAddTag = () => {
