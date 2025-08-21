@@ -13,13 +13,13 @@ import {
 } from 'lucide-react';
 
 const Dashboard: React.FC = () => {
-  // Mock data for statistics
+  // TODO: Replace with real API data
   const stats = [
     {
       title: 'Tổng Số Sinh Viên',
-      value: '15,247',
-      change: '+12%',
-      changeType: 'increase',
+      value: '0',
+      change: null,
+      changeType: 'neutral',
       icon: Users,
       color: 'bg-blue-500',
       lightColor: 'bg-blue-50',
@@ -27,9 +27,9 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Giảng Viên',
-      value: '342',
-      change: '+5%',
-      changeType: 'increase',
+      value: '0',
+      change: null,
+      changeType: 'neutral',
       icon: GraduationCap,
       color: 'bg-green-500',
       lightColor: 'bg-green-50',
@@ -37,9 +37,9 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Chương Trình Học',
-      value: '28',
-      change: '+2',
-      changeType: 'increase',
+      value: '0',
+      change: null,
+      changeType: 'neutral',
       icon: BookOpen,
       color: 'bg-purple-500',
       lightColor: 'bg-purple-50',
@@ -47,9 +47,9 @@ const Dashboard: React.FC = () => {
     },
     {
       title: 'Bài Viết Tin Tức',
-      value: '156',
-      change: '+8%',
-      changeType: 'increase',
+      value: '0',
+      change: null,
+      changeType: 'neutral',
       icon: FileText,
       color: 'bg-yellow-500',
       lightColor: 'bg-yellow-50',
@@ -57,69 +57,30 @@ const Dashboard: React.FC = () => {
     }
   ];
 
-  const recentActivities = [
-    {
-      id: 1,
-      title: 'Hoàn thành tuyển sinh sinh viên mới',
-      description: '45 sinh viên mới đăng ký chương trình Khoa học Máy tính',
-      time: '2 giờ trước',
-      type: 'enrollment',
-      icon: Users
-    },
-    {
-      id: 2,
-      title: 'Lên lịch họp giảng viên',
-      description: 'Cuộc họp giảng viên hàng tháng được lên lịch vào thứ Hai tới',
-      time: '4 giờ trước',
-      type: 'meeting',
-      icon: Calendar
-    },
-    {
-      id: 3,
-      title: 'Công bố thành tích mới',
-      description: 'Đội lập trình giành chiến thắng cuộc thi quốc gia',
-      time: '6 giờ trước',
-      type: 'achievement',
-      icon: Award
-    },
-    {
-      id: 4,
-      title: 'Cập nhật cơ sở hạ tầng',
-      description: 'Lắp đặt thiết bị phòng máy tính mới',
-      time: '1 ngày trước',
-      type: 'infrastructure',
-      icon: Building
-    }
-  ];
+  // TODO: Replace with real activity data from API
+  const recentActivities: any[] = [];
 
   const quickActions = [
     {
-      title: 'Thêm Sinh Viên Mới',
-      description: 'Đăng ký sinh viên mới',
-      href: '/admin/students/new',
+      title: 'Tạo Bài Viết Mới',
+      description: 'Đăng bài viết mới',
+      href: '/admin/articles/new',
       color: 'bg-blue-600 hover:bg-blue-700',
-      icon: Users
-    },
-    {
-      title: 'Tạo Bài Viết Tin Tức',
-      description: 'Đăng tin tức mới nhất',
-      href: '/admin/news/new',
-      color: 'bg-green-600 hover:bg-green-700',
       icon: FileText
     },
     {
-      title: 'Lên Lịch Sự Kiện',
-      description: 'Thêm sự kiện mới',
-      href: '/admin/events/new',
-      color: 'bg-purple-600 hover:bg-purple-700',
-      icon: Calendar
+      title: 'Quản Lý Danh Mục',
+      description: 'Thêm và chỉnh sửa danh mục',
+      href: '/admin/categories',
+      color: 'bg-green-600 hover:bg-green-700',
+      icon: BookOpen
     },
     {
-      title: 'Xem Phân Tích',
-      description: 'Kiểm tra báo cáo chi tiết',
-      href: '/admin/analytics',
-      color: 'bg-yellow-600 hover:bg-yellow-700',
-      icon: TrendingUp
+      title: 'Quản Lý Bài Viết',
+      description: 'Xem tất cả bài viết',
+      href: '/admin/articles',
+      color: 'bg-purple-600 hover:bg-purple-700',
+      icon: FileText
     }
   ];
 

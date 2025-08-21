@@ -1,6 +1,6 @@
 /**
  * Authentication Hook
- * Re-export useAuth from context for easier imports
+ * Re-export Redux-based useAuth for easier imports
  */
 
-export { useAuth } from '@/contexts/AuthContext';
+export { useAuth } from '@/lib/hooks';

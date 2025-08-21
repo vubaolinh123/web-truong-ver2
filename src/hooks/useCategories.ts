@@ -1,74 +1,88 @@
 /**
- * Custom Hooks for Categories Management
- * Quản lý state và logic cho categories
+ * Categories Hooks - Real API implementation
  */
 
-'use client';
+import { useState, useEffect, useCallback } from 'react';
+import {
+  Category,
+  CategoryStatistics,
+  CreateCategoryData,
+  categoriesApi,
+  ApiError
+} from '@/lib/api/categories';
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { categoriesApi, Category, CategoryStatistics, ApiError } from '@/lib/api/categories';
-
-// Hook for categories list with pagination
-export const useCategories = (initialParams: {
-  page?: number;
-  limit?: number;
-  status?: string;
-  sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
-} = {}) => {
+export const useCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState({
-    currentPage: 1,
-    totalPages: 1,
-    totalCategories: 0,
+    page: 1,
     limit: 10,
+    total: 0,
+    totalPages: 0,
     hasNextPage: false,
-    hasPrevPage: false,
+    hasPrevPage: false
   });
-
   const [params, setParams] = useState({
     page: 1,
     limit: 10,
-    ...initialParams,
+    status: 'all',
+    sortBy: 'name',
+    sortOrder: 'asc' as 'asc' | 'desc'
   });
 
-  const fetchCategories = useCallback(async () => {
+  const loadCategories = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      
-      const response = await categoriesApi.getCategories(params);
-      
+
+      const apiParams = {
+        page: params.page,
+        limit: params.limit,
+        ...(params.status !== 'all' && { status: params.status }),
+        sortBy: params.sortBy,
+        sortOrder: params.sortOrder
+      };
+
+      const response = await categoriesApi.getCategories(apiParams);
+
       if (response.status === 'success') {
         setCategories(response.data.categories);
-        setPagination(response.data.pagination);
+        setPagination({
+          page: response.data.pagination.currentPage,
+          limit: response.data.pagination.limit,
+          total: response.data.pagination.totalCategories,
+          totalPages: response.data.pagination.totalPages,
+          hasNextPage: response.data.pagination.hasNextPage,
+          hasPrevPage: response.data.pagination.hasPrevPage
+        });
       } else {
-        setError(response.message || 'Lỗi khi tải danh sách categories');
+        throw new Error(response.message || 'Không thể tải danh sách danh mục');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ApiError 
-        ? err.message 
-        : 'Lỗi kết nối khi tải categories';
-      setError(errorMessage);
-      console.error('Error fetching categories:', err);
+    } catch (err: unknown) {
+      console.error('Error loading categories:', err);
+      if (err instanceof ApiError) {
+        setError(`Lỗi API: ${err.message}`);
+      } else {
+        setError('Không thể tải danh sách danh mục. Vui lòng thử lại.');
+      }
+      setCategories([]);
     } finally {
       setLoading(false);
     }
   }, [params]);
-
-  useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
 
   const updateParams = useCallback((newParams: Partial<typeof params>) => {
     setParams(prev => ({ ...prev, ...newParams }));
   }, []);
 
   const refresh = useCallback(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    loadCategories();
+  }, [loadCategories]);
+
+  useEffect(() => {
+    loadCategories();
+  }, [loadCategories]);
 
   return {
     categories,
@@ -77,242 +91,121 @@ export const useCategories = (initialParams: {
     pagination,
     params,
     updateParams,
-    refresh,
+    refresh
   };
 };
 
-// Hook for single category
-export const useCategory = (id: string | null) => {
-  const [category, setCategory] = useState<Category | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchCategory = useCallback(async () => {
-    if (!id) return;
-
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const response = await categoriesApi.getCategory(id);
-      
-      if (response.status === 'success') {
-        setCategory(response.data.category);
-      } else {
-        setError(response.message || 'Lỗi khi tải thông tin category');
-      }
-    } catch (err) {
-      const errorMessage = err instanceof ApiError 
-        ? err.message 
-        : 'Lỗi kết nối khi tải category';
-      setError(errorMessage);
-      console.error('Error fetching category:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, [id]);
-
-  useEffect(() => {
-    if (id) {
-      fetchCategory();
-    } else {
-      setCategory(null);
-      setError(null);
-    }
-  }, [fetchCategory, id]);
-
-  const refresh = useCallback(() => {
-    fetchCategory();
-  }, [fetchCategory]);
-
-  return {
-    category,
-    loading,
-    error,
-    refresh,
-  };
-};
-
-// Hook for category statistics
 export const useCategoryStatistics = () => {
   const [statistics, setStatistics] = useState<CategoryStatistics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchStatistics = useCallback(async () => {
+  const loadStatistics = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await categoriesApi.getStatistics();
-      
+
       if (response.status === 'success') {
-        // Validate and normalize statistics data
+        // Ensure all required fields exist with fallbacks
         const stats = response.data.statistics;
-        const normalizedStats: CategoryStatistics = {
+        setStatistics({
           total: stats.total || 0,
           active: stats.active || 0,
           inactive: stats.inactive || 0,
           totalArticles: stats.totalArticles || 0,
           averageArticlesPerCategory: stats.averageArticlesPerCategory || 0,
-          categoriesWithMostArticles: Array.isArray(stats.categoriesWithMostArticles)
-            ? stats.categoriesWithMostArticles
-            : []
-        };
-
-        setStatistics(normalizedStats);
+          categoriesWithMostArticles: stats.categoriesWithMostArticles || []
+        });
       } else {
-        setError(response.message || 'Lỗi khi tải thống kê');
+        throw new Error(response.message || 'Không thể tải thống kê danh mục');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ApiError 
-        ? err.message 
-        : 'Lỗi kết nối khi tải thống kê';
-      setError(errorMessage);
-      console.error('Error fetching statistics:', err);
+    } catch (err: unknown) {
+      console.error('Error loading statistics:', err);
+      if (err instanceof ApiError) {
+        setError(`Lỗi API: ${err.message}`);
+      } else {
+        setError('Không thể tải thống kê danh mục. Vui lòng thử lại.');
+      }
+      // Set fallback statistics to prevent crashes
+      setStatistics({
+        total: 0,
+        active: 0,
+        inactive: 0,
+        totalArticles: 0,
+        averageArticlesPerCategory: 0,
+        categoriesWithMostArticles: []
+      });
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    fetchStatistics();
-  }, [fetchStatistics]);
-
   const refresh = useCallback(() => {
-    fetchStatistics();
-  }, [fetchStatistics]);
+    loadStatistics();
+  }, [loadStatistics]);
+
+  useEffect(() => {
+    loadStatistics();
+  }, [loadStatistics]);
 
   return {
     statistics,
     loading,
     error,
-    refresh,
+    refresh
   };
 };
 
-// Hook for category search
-export const useCategorySearch = () => {
-  const [results, setResults] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [keyword, setKeyword] = useState('');
-
-  const search = useCallback(async (searchKeyword: string, options: {
-    status?: string;
-    limit?: number;
-    sortBy?: string;
-    sortOrder?: 'asc' | 'desc';
-  } = {}) => {
-    if (!searchKeyword.trim()) {
-      setResults([]);
-      setKeyword('');
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-      setKeyword(searchKeyword);
-      
-      const response = await categoriesApi.searchCategories({
-        keyword: searchKeyword,
-        ...options,
-      });
-      
-      if (response.status === 'success') {
-        setResults(response.data.categories);
-      } else {
-        setError(response.message || 'Lỗi khi tìm kiếm');
-        setResults([]);
-      }
-    } catch (err) {
-      const errorMessage = err instanceof ApiError 
-        ? err.message 
-        : 'Lỗi kết nối khi tìm kiếm';
-      setError(errorMessage);
-      setResults([]);
-      console.error('Error searching categories:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const clearSearch = useCallback(() => {
-    setResults([]);
-    setKeyword('');
-    setError(null);
-  }, []);
-
-  return {
-    results,
-    loading,
-    error,
-    keyword,
-    search,
-    clearSearch,
-  };
-};
-
-// Hook for category mutations (create, update, delete)
 export const useCategoryMutations = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createCategory = useCallback(async (data: {
-    name: string;
-    description?: string;
-    status?: 'active' | 'inactive';
-    color?: string;
-    icon?: string;
-    sortOrder?: number;
-  }) => {
+  const createCategory = useCallback(async (data: CreateCategoryData) => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await categoriesApi.createCategory(data);
-      
+
       if (response.status === 'success') {
         return response.data.category;
       } else {
-        throw new Error(response.message || 'Lỗi khi tạo category');
+        throw new Error(response.message || 'Không thể tạo danh mục');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ApiError 
-        ? err.message 
-        : 'Lỗi kết nối khi tạo category';
-      setError(errorMessage);
+    } catch (err: unknown) {
+      console.error('Error creating category:', err);
+      if (err instanceof ApiError) {
+        setError(`Lỗi API: ${err.message}`);
+      } else {
+        setError('Không thể tạo danh mục. Vui lòng thử lại.');
+      }
       throw err;
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const updateCategory = useCallback(async (id: string, data: {
-    name?: string;
-    description?: string;
-    status?: 'active' | 'inactive';
-    color?: string;
-    icon?: string;
-    sortOrder?: number;
-  }) => {
+  const updateCategory = useCallback(async (id: string, data: Partial<CreateCategoryData>) => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await categoriesApi.updateCategory(id, data);
-      
+
       if (response.status === 'success') {
         return response.data.category;
       } else {
-        throw new Error(response.message || 'Lỗi khi cập nhật category');
+        throw new Error(response.message || 'Không thể cập nhật danh mục');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ApiError 
-        ? err.message 
-        : 'Lỗi kết nối khi cập nhật category';
-      setError(errorMessage);
+    } catch (err: unknown) {
+      console.error('Error updating category:', err);
+      if (err instanceof ApiError) {
+        setError(`Lỗi API: ${err.message}`);
+      } else {
+        setError('Không thể cập nhật danh mục. Vui lòng thử lại.');
+      }
       throw err;
     } finally {
       setLoading(false);
@@ -323,19 +216,21 @@ export const useCategoryMutations = () => {
     try {
       setLoading(true);
       setError(null);
-      
+
       const response = await categoriesApi.deleteCategory(id);
-      
+
       if (response.status === 'success') {
         return true;
       } else {
-        throw new Error(response.message || 'Lỗi khi xóa category');
+        throw new Error(response.message || 'Không thể xóa danh mục');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ApiError 
-        ? err.message 
-        : 'Lỗi kết nối khi xóa category';
-      setError(errorMessage);
+    } catch (err: unknown) {
+      console.error('Error deleting category:', err);
+      if (err instanceof ApiError) {
+        setError(`Lỗi API: ${err.message}`);
+      } else {
+        setError('Không thể xóa danh mục. Vui lòng thử lại.');
+      }
       throw err;
     } finally {
       setLoading(false);
@@ -352,31 +247,65 @@ export const useCategoryMutations = () => {
     createCategory,
     updateCategory,
     deleteCategory,
-    clearError,
+    clearError
   };
 };
 
-// Memoized hook for category options (for select dropdowns)
-export const useCategoryOptions = (activeOnly: boolean = true) => {
-  const { categories, loading, error } = useCategories({
-    status: activeOnly ? 'active' : undefined,
-    limit: 100, // Get all categories for options
-    sortBy: 'name',
-    sortOrder: 'asc',
-  });
+export const useCategorySearch = () => {
+  const [results, setResults] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [keyword, setKeyword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-  const options = useMemo(() => {
-    return categories.map(category => ({
-      value: category.id,
-      label: category.name,
-      color: category.color,
-      articleCount: category.articleCount,
-    }));
-  }, [categories]);
+  const search = useCallback(async (searchKeyword: string) => {
+    if (!searchKeyword.trim()) {
+      setResults([]);
+      setKeyword('');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      setKeyword(searchKeyword);
+
+      const response = await categoriesApi.searchCategories({
+        keyword: searchKeyword,
+        limit: 50,
+        sortBy: 'name',
+        sortOrder: 'asc'
+      });
+
+      if (response.status === 'success') {
+        setResults(response.data.categories);
+      } else {
+        throw new Error(response.message || 'Không thể tìm kiếm danh mục');
+      }
+    } catch (err: unknown) {
+      console.error('Error searching categories:', err);
+      if (err instanceof ApiError) {
+        setError(`Lỗi API: ${err.message}`);
+      } else {
+        setError('Không thể tìm kiếm danh mục. Vui lòng thử lại.');
+      }
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const clearSearch = useCallback(() => {
+    setKeyword('');
+    setResults([]);
+    setError(null);
+  }, []);
 
   return {
-    options,
+    results,
     loading,
+    keyword,
     error,
+    search,
+    clearSearch
   };
 };

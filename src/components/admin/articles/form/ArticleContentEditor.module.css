@@ -1,0 +1,252 @@
+/**
+ * Article Content Editor Styles
+ * Fixes for TinyMCE editor layout and fullscreen mode issues
+ */
+
+/* Editor container styles */
+.editorContainer {
+  position: relative;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.editorContainer.fullscreen {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 50;
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Editor content area */
+.editorContent {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+}
+
+.editorContent.normal {
+  /* Let TinyMCE handle its own height */
+}
+
+.editorContent.fullscreen {
+  /* Let TinyMCE handle fullscreen mode */
+}
+
+/* TinyMCE specific fixes - minimal interference */
+.editorContainer :global(.tox-tinymce) {
+  border: none !important;
+}
+
+/* Prevent overflow into sidebar */
+.editorContainer :global(.tox-fullscreen) {
+  z-index: 9999 !important;
+}
+
+/* Ensure proper container constraints */
+.editorWrapper {
+  width: 100%;
+  position: relative;
+}
+
+/* Admin layout specific fixes */
+@media (min-width: 1024px) {
+  .editorWrapper {
+    max-width: calc(100vw - 16rem); /* Account for sidebar width when open */
+  }
+  
+  .editorWrapper.sidebarClosed {
+    max-width: calc(100vw - 4rem); /* Account for collapsed sidebar */
+  }
+}
+
+/* Header styles */
+.editorHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.editorTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editorControls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Mode toggle buttons */
+.modeToggle {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+.modeButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.modeButton.active {
+  background: white;
+  color: #3b82f6;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.modeButton:not(.active) {
+  color: #6b7280;
+}
+
+.modeButton:hover:not(.active) {
+  color: #374151;
+  background: #e5e7eb;
+}
+
+/* Fullscreen toggle button */
+.fullscreenButton {
+  padding: 0.5rem;
+  color: #6b7280;
+  border: none;
+  background: transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fullscreenButton:hover {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+/* HTML textarea mode */
+.htmlTextarea {
+  width: 100%;
+  min-height: 600px;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background: #f8fafc;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.htmlTextarea:focus {
+  background: white;
+  box-shadow: inset 0 0 0 2px #3b82f6;
+}
+
+.htmlTextarea.error {
+  background: #fef2f2;
+}
+
+/* Error message */
+.errorMessage {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+/* Footer with word count */
+.editorFooter {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .editorHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .editorControls {
+    justify-content: space-between;
+  }
+  
+  .modeToggle {
+    flex: 1;
+  }
+  
+  .modeButton {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .htmlTextarea {
+    min-height: 400px;
+    font-size: 0.8125rem;
+  }
+
+  .editorContent {
+    min-height: 400px;
+  }
+}
+
+/* Animation for smooth transitions */
+.editorContainer {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editorContent {
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading state */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -6,6 +6,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import {
   Edit,
   Trash2,
@@ -24,7 +25,6 @@ import ArticleImage from '@/components/common/ArticleImage';
 
 interface ArticleCardProps {
   article: Article;
-  onEdit: (article: Article) => void;
   onDelete: (article: Article) => void;
   onView: (article: Article) => void;
   loading?: boolean;
@@ -34,7 +34,6 @@ interface ArticleCardProps {
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
   article,
-  onEdit,
   onDelete,
   onView,
   loading = false,
@@ -212,19 +211,19 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
               <Eye size={14} />
               <span>Xem</span>
             </button>
-            <button
-              onClick={() => onEdit(article)}
+            <Link
+              href={`/admin/articles/edit/${article.id}`}
               className="flex items-center space-x-1 px-3 py-1.5 text-sm text-yellow-600 hover:text-yellow-800 hover:bg-yellow-50 rounded transition-colors"
               title="Chỉnh sửa"
             >
               <Edit size={14} />
               <span>Sửa</span>
-            </button>
+            </Link>
           </div>
 
           <div className="flex items-center space-x-2">
             <a
-              href={`/articles/${article.slug}`}
+              href={`/tin-tuc/${article.slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-1.5 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"

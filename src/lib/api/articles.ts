@@ -16,21 +16,15 @@ import {
   BulkOperationResponse,
   DEFAULT_ARTICLE_PARAMS
 } from '@/types/articles';
+import {
+  ArticleApiError,
+  handleApiError,
+  handleNetworkError,
+  isApiError,
+  type ApiResponse
+} from '@/lib/utils/errorHandler';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
-
-// Custom error class for articles
-export class ArticleApiError extends Error {
-  constructor(
-    message: string,
-    public status: number = 0,
-    public code: string = 'ARTICLE_ERROR',
-    public details?: any
-  ) {
-    super(message);
-    this.name = 'ArticleApiError';
-  }
-}
 
 // Helper function to get auth token
 const getAuthToken = (): string | null => {
@@ -42,9 +36,9 @@ const getAuthToken = (): string | null => {
 const makeRequest = async (
   endpoint: string,
   options: RequestInit = {}
-): Promise<any> => {
+): Promise<ApiResponse> => {
   const token = getAuthToken();
-  
+
   const config: RequestInit = {
     ...options,
     headers: {
@@ -56,26 +50,38 @@ const makeRequest = async (
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      // Server trả về lỗi với cấu trúc API chuẩn
       throw new ArticleApiError(
-        errorData.message || `HTTP ${response.status}: ${response.statusText}`,
+        data.message || `HTTP ${response.status}: ${response.statusText}`,
         response.status,
-        errorData.code || 'HTTP_ERROR',
-        errorData
+        data.code || 'HTTP_ERROR',
+        data
       );
     }
 
-    return await response.json();
+    // Kiểm tra nếu API trả về status: 'error' trong response body
+    if (isApiError(data)) {
+      throw new ArticleApiError(
+        data.message || 'Article operation failed',
+        response.status,
+        'API_ERROR',
+        data
+      );
+    }
+
+    return data;
   } catch (error) {
     if (error instanceof ArticleApiError) {
       throw error;
     }
-    
+
     // Network or other errors
+    const networkErrorMessage = handleNetworkError(error);
     throw new ArticleApiError(
-      error instanceof Error ? error.message : 'Network error occurred',
+      networkErrorMessage,
       0,
       'NETWORK_ERROR'
     );
@@ -85,11 +91,11 @@ const makeRequest = async (
 // Articles API functions
 export const articlesApi = {
   /**
-   * Get articles with pagination and filters
+   * Get articles with pagination and filters (public access)
    */
   getArticles: async (params: Partial<ArticleSearchParams> = {}): Promise<ArticlesResponse> => {
     const searchParams = { ...DEFAULT_ARTICLE_PARAMS, ...params };
-    
+
     const queryParams = new URLSearchParams();
     Object.entries(searchParams).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -101,14 +107,45 @@ export const articlesApi = {
       }
     });
 
-    return makeRequest(`/articles?${queryParams.toString()}`);
+    return makeRequest(`/articles/public?${queryParams.toString()}`);
   },
 
   /**
-   * Get single article by ID
+   * Get single article by ID (public access)
    */
   getArticle: async (id: string): Promise<ArticleResponse> => {
-    return makeRequest(`/articles/${id}`);
+    return makeRequest(`/articles/public/${id}`);
+  },
+
+  /**
+   * Get single article by slug (public access)
+   */
+  getArticleBySlug: async (slug: string): Promise<ArticleResponse> => {
+    return makeRequest(`/articles/public/slug/${slug}`);
+  },
+
+  /**
+   * Get related articles by category ID (public access)
+   */
+  getRelatedArticlesByCategory: async (params: {
+    categoryId: string;
+    limit?: number;
+    excludeId?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+  }): Promise<ArticlesResponse> => {
+    const { categoryId, limit = 6, excludeId, sortBy = 'publishedAt', sortOrder = 'desc' } = params;
+
+    const queryParams = new URLSearchParams();
+    queryParams.append('limit', limit.toString());
+    queryParams.append('sortBy', sortBy);
+    queryParams.append('sortOrder', sortOrder);
+
+    if (excludeId) {
+      queryParams.append('excludeId', excludeId);
+    }
+
+    return makeRequest(`/articles/public/related/${categoryId}?${queryParams.toString()}`);
   },
 
   /**
@@ -148,15 +185,15 @@ export const articlesApi = {
   },
 
   /**
-   * Search articles
+   * Search articles (public access)
    */
   searchArticles: async (
     query: string,
     filters: Partial<ArticleSearchParams> = {}
   ): Promise<ArticleSearchResponse> => {
     const searchParams = new URLSearchParams();
-    searchParams.append('q', query);
-    
+    searchParams.append('keyword', query);
+
     Object.entries(filters).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
         if (Array.isArray(value)) {
@@ -167,7 +204,7 @@ export const articlesApi = {
       }
     });
 
-    return makeRequest(`/articles/search?${searchParams.toString()}`);
+    return makeRequest(`/articles/public/search?${searchParams.toString()}`);
   },
 
   /**
@@ -209,11 +246,11 @@ export const articlesApi = {
   },
 
   /**
-   * Get articles by category
+   * Get articles by category (public access)
    */
   getArticlesByCategory: async (categoryId: string, params: Partial<ArticleSearchParams> = {}): Promise<ArticlesResponse> => {
-    const searchParams = { ...DEFAULT_ARTICLE_PARAMS, ...params, categoryId };
-    
+    const searchParams = { ...DEFAULT_ARTICLE_PARAMS, ...params };
+
     const queryParams = new URLSearchParams();
     Object.entries(searchParams).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -225,15 +262,15 @@ export const articlesApi = {
       }
     });
 
-    return makeRequest(`/articles/category/${categoryId}?${queryParams.toString()}`);
+    return makeRequest(`/articles/public?categoryId=${categoryId}&${queryParams.toString()}`);
   },
 
   /**
-   * Get articles by author
+   * Get articles by author (public access)
    */
   getArticlesByAuthor: async (authorId: string, params: Partial<ArticleSearchParams> = {}): Promise<ArticlesResponse> => {
-    const searchParams = { ...DEFAULT_ARTICLE_PARAMS, ...params, authorId };
-    
+    const searchParams = { ...DEFAULT_ARTICLE_PARAMS, ...params };
+
     const queryParams = new URLSearchParams();
     Object.entries(searchParams).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -245,7 +282,7 @@ export const articlesApi = {
       }
     });
 
-    return makeRequest(`/articles/author/${authorId}?${queryParams.toString()}`);
+    return makeRequest(`/articles/public?authorId=${authorId}&${queryParams.toString()}`);
   },
 
   /**
@@ -285,18 +322,21 @@ export const articlesApi = {
   },
 
   /**
-   * Get popular articles
+   * Get popular articles (public access)
    */
   getPopularArticles: async (limit: number = 10): Promise<ArticlesResponse> => {
-    return makeRequest(`/articles/popular?limit=${limit}`);
+    return makeRequest(`/articles/public/popular?limit=${limit}`);
   },
 
   /**
-   * Get recent articles
+   * Get recent articles (public access)
    */
   getRecentArticles: async (limit: number = 10): Promise<ArticlesResponse> => {
-    return makeRequest(`/articles/recent?limit=${limit}`);
+    return makeRequest(`/articles/public?limit=${limit}&sortBy=publishedAt&sortOrder=desc`);
   }
 };
+
+// Export the error class for use in other files
+export { ArticleApiError };
 
 export default articlesApi;

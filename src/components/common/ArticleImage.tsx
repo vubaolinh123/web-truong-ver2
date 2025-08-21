@@ -11,7 +11,7 @@ import { Eye, ImageIcon } from 'lucide-react';
 import { FeaturedImage } from '@/types/articles';
 
 interface ArticleImageProps {
-  featuredImage?: FeaturedImage;
+  featuredImage?: string | FeaturedImage;
   title: string;
   width?: number;
   height?: number;
@@ -35,16 +35,30 @@ const ArticleImage: React.FC<ArticleImageProps> = ({
   priority = false,
   sizes
 }) => {
+  // Helper function to get image URL
+  const getImageUrl = (img?: string | FeaturedImage): string | null => {
+    if (!img) return null;
+    if (typeof img === 'string') return img.trim() !== '' ? img : null;
+    return img.url && img.url.trim() !== '' ? img.url : null;
+  };
+
+  // Helper function to get image alt text
+  const getImageAlt = (img?: string | FeaturedImage): string => {
+    if (!img || typeof img === 'string') return title || 'Article image';
+    return img.alt || title || 'Article image';
+  };
+
   // Check if we have a valid image URL
-  const hasValidImage = featuredImage?.url && featuredImage.url.trim() !== '';
+  const imageUrl = getImageUrl(featuredImage);
+  const hasValidImage = !!imageUrl;
 
   // Fallback icon component
   const FallbackIcon = fallbackIcon === 'image' ? ImageIcon : Eye;
 
   if (hasValidImage) {
     const imageProps: any = {
-      src: featuredImage.url,
-      alt: featuredImage.alt || title || 'Article image',
+      src: imageUrl,
+      alt: getImageAlt(featuredImage),
       className: `object-cover ${className}`,
       priority
     };

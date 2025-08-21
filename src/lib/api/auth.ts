@@ -3,35 +3,29 @@
  * Quản lý tất cả API calls liên quan đến authentication
  */
 
-import { 
-  LoginCredentials, 
-  LoginResponse, 
-  RefreshTokenResponse, 
+import {
+  LoginCredentials,
+  LoginResponse,
+  RefreshTokenResponse,
   User,
   AuthTokens,
-  AUTH_STORAGE_KEYS 
+  AUTH_STORAGE_KEYS
 } from '@/types/auth';
+import {
+  AuthError,
+  handleApiError,
+  handleNetworkError,
+  isApiError,
+  type ApiResponse
+} from '@/lib/utils/errorHandler';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
-
-// Custom error class for authentication
-export class AuthError extends Error {
-  constructor(
-    message: string,
-    public code: string,
-    public status: number = 0,
-    public details?: any
-  ) {
-    super(message);
-    this.name = 'AuthError';
-  }
-}
 
 // Helper function to make API requests
 const makeRequest = async (
   endpoint: string,
   options: RequestInit = {}
-): Promise<any> => {
+): Promise<ApiResponse> => {
   const config: RequestInit = {
     ...options,
     headers: {
@@ -42,26 +36,38 @@ const makeRequest = async (
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      // Server trả về lỗi với cấu trúc API chuẩn
       throw new AuthError(
-        errorData.message || `HTTP ${response.status}: ${response.statusText}`,
-        errorData.code || 'NETWORK_ERROR',
+        data.message || `HTTP ${response.status}: ${response.statusText}`,
+        data.code || 'HTTP_ERROR',
         response.status,
-        errorData
+        data
       );
     }
 
-    return await response.json();
+    // Kiểm tra nếu API trả về status: 'error' trong response body
+    if (isApiError(data)) {
+      throw new AuthError(
+        data.message || 'Authentication failed',
+        'API_ERROR',
+        response.status,
+        data
+      );
+    }
+
+    return data;
   } catch (error) {
     if (error instanceof AuthError) {
       throw error;
     }
-    
+
     // Network or other errors
+    const networkErrorMessage = handleNetworkError(error);
     throw new AuthError(
-      error instanceof Error ? error.message : 'Network error occurred',
+      networkErrorMessage,
       'NETWORK_ERROR',
       0
     );
@@ -205,10 +211,8 @@ export const authApi = {
       return response;
     } catch (error) {
       console.log('❌ Login API error:', error);
-      if (error instanceof AuthError) {
-        throw error;
-      }
-      throw new AuthError('Login failed', 'LOGIN_ERROR');
+      // Error đã được xử lý trong makeRequest, chỉ cần throw lại
+      throw error;
     }
   },
 
@@ -374,5 +378,8 @@ export const authApi = {
     }
   },
 };
+
+// Export the error class for use in other files
+export { AuthError };
 
 export default authApi;

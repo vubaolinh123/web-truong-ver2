@@ -5,8 +5,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff, Lock, User, AlertCircle } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { AuthError } from '@/lib/api/auth';
+import { useAuth } from '@/hooks/useAuth';
+import { handleApiError } from '@/lib/utils/errorHandler';
 
 interface LoginFormData {
   username: string;
@@ -123,15 +123,10 @@ const AdminLoginPage = () => {
 
       // Success - redirect will be handled by useEffect
     } catch (error) {
-      if (error instanceof AuthError) {
-        setErrors({
-          general: error.message
-        });
-      } else {
-        setErrors({
-          general: 'Đã xảy ra lỗi. Vui lòng thử lại sau.'
-        });
-      }
+      const errorMessage = handleApiError(error, 'Đã xảy ra lỗi. Vui lòng thử lại sau.', false);
+      setErrors({
+        general: errorMessage
+      });
     } finally {
       setIsLoading(false);
     }

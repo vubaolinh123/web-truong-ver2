@@ -12,10 +12,8 @@ export interface Category {
   slug: string;
   description?: string;
   status: 'active' | 'inactive';
-  color?: string;
-  icon?: string;
-  articleCount: number;
   sortOrder: number;
+  articleCount: number;
   createdAt: string;
   updatedAt: string;
   createdBy?: {
@@ -34,10 +32,9 @@ export interface Category {
 
 export interface CreateCategoryData {
   name: string;
+  slug?: string;
   description?: string;
   status?: 'active' | 'inactive';
-  color?: string;
-  icon?: string;
   sortOrder?: number;
 }
 
@@ -100,17 +97,14 @@ export interface SearchCategoriesResponse {
   };
 }
 
-// API Error Class
-export class ApiError extends Error {
-  constructor(
-    message: string,
-    public status: number,
-    public response?: any
-  ) {
-    super(message);
-    this.name = 'ApiError';
-  }
-}
+// Import error handling utilities
+import {
+  ApiError,
+  handleApiError,
+  handleNetworkError,
+  isApiError,
+  type ApiResponse
+} from '@/lib/utils/errorHandler';
 
 // Helper function to get auth token
 const getAuthToken = (): string | null => {
@@ -122,9 +116,9 @@ const getAuthToken = (): string | null => {
 const makeRequest = async (
   endpoint: string,
   options: RequestInit = {}
-): Promise<any> => {
+): Promise<ApiResponse> => {
   const token = getAuthToken();
-  
+
   const config: RequestInit = {
     ...options,
     headers: {
@@ -136,26 +130,40 @@ const makeRequest = async (
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      // Server trả về lỗi với cấu trúc API chuẩn
       throw new ApiError(
-        errorData.message || `HTTP ${response.status}: ${response.statusText}`,
+        data.message || `HTTP ${response.status}: ${response.statusText}`,
         response.status,
-        errorData
+        data.code || 'HTTP_ERROR',
+        data
       );
     }
 
-    return await response.json();
+    // Kiểm tra nếu API trả về status: 'error' trong response body
+    if (isApiError(data)) {
+      throw new ApiError(
+        data.message || 'Category operation failed',
+        response.status,
+        'API_ERROR',
+        data
+      );
+    }
+
+    return data;
   } catch (error) {
     if (error instanceof ApiError) {
       throw error;
     }
-    
+
     // Network or other errors
+    const networkErrorMessage = handleNetworkError(error);
     throw new ApiError(
-      error instanceof Error ? error.message : 'Network error occurred',
-      0
+      networkErrorMessage,
+      0,
+      'NETWORK_ERROR'
     );
   }
 };
@@ -264,7 +272,34 @@ export const categoriesApi = {
   getOrderedCategories: async (): Promise<SearchCategoriesResponse> => {
     return makeRequest('/categories/admin/ordered');
   },
+
+  /**
+   * Lấy categories công khai (không cần auth)
+   */
+  getPublicCategories: async (params: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+  } = {}): Promise<SearchCategoriesResponse> => {
+    const searchParams = new URLSearchParams();
+
+    if (params.page) searchParams.append('page', params.page.toString());
+    if (params.limit) searchParams.append('limit', params.limit.toString());
+    if (params.status) searchParams.append('status', params.status);
+    if (params.sortBy) searchParams.append('sortBy', params.sortBy);
+    if (params.sortOrder) searchParams.append('sortOrder', params.sortOrder);
+
+    const queryString = searchParams.toString();
+    const endpoint = queryString ? `/categories/public?${queryString}` : '/categories/public';
+
+    return makeRequest(endpoint);
+  },
 };
+
+// Export the error class for use in other files
+export { ApiError };
 
 // Export default
 export default categoriesApi;

@@ -37,10 +37,15 @@ const ArticleHero: React.FC<ArticleHeroProps> = ({ article }) => {
     <section className="relative h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
-        {article.featuredImage?.url ? (
+        {(typeof article.featuredImage === 'string' && article.featuredImage) ||
+         (typeof article.featuredImage === 'object' && article.featuredImage?.url) ? (
           <Image
-            src={article.featuredImage.url}
-            alt={article.featuredImage.alt || article.title}
+            src={typeof article.featuredImage === 'string'
+              ? article.featuredImage
+              : article.featuredImage.url!}
+            alt={typeof article.featuredImage === 'string'
+              ? article.title
+              : article.featuredImage.alt || article.title}
             fill
             className="object-cover"
             priority

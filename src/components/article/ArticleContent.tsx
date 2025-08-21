@@ -302,7 +302,7 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article }) => {
           background-color: #f3f4f6;
           padding: 0.25rem 0.5rem;
           border-radius: 0.375rem;
-          font-family: 'Courier New', monospace;
+          font-family: var(--font-fira-code), 'Fira Code', 'Courier New', monospace;
           font-size: 0.875rem;
           color: #dc2626;
           border: 1px solid #e5e7eb;

@@ -1,0 +1,385 @@
+/**
+ * Article Sidebar Responsive Styles
+ * Modern light theme design with responsive breakpoints
+ */
+
+/* Loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Base sidebar styles */
+.sidebar {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  transition: box-shadow 0.3s ease;
+}
+
+.sidebar:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Header section */
+.header {
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.headerIcon {
+  background: linear-gradient(135deg, #87CEEB, #5a9fd4);
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.headerDescription {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Content section */
+.content {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+/* Loading state */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f4f6;
+  border-top: 3px solid #87CEEB;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.loadingText {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Error state */
+.error {
+  padding: 2rem 1rem;
+  text-align: center;
+  background: #fef2f2;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+}
+
+.errorText {
+  font-size: 0.875rem;
+  color: #dc2626;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Empty state */
+.empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.emptyText {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Articles list */
+.articlesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Article card - Vertical layout */
+.articleCard {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.articleCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #f1f5f9;
+  border-color: #87CEEB;
+}
+
+/* Vertical layout: image on top, content below */
+.articleContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Article image - Full width on top */
+.articleImage {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.articleImageImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Article text content - Below image */
+.articleTextContent {
+  padding: 0;
+}
+
+.articleTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.3;
+  margin: 0 0 0.5rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.articleExcerpt {
+  font-size: 0.75rem;
+  color: #6b7280;
+  line-height: 1.3;
+  margin: 0 0 0.5rem 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.articleMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.6875rem;
+  color: #9ca3af;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Responsive Design */
+
+/* Desktop (1200px+): Full sidebar layout */
+@media (min-width: 1200px) {
+  .sidebar {
+    min-width: 350px;
+    max-width: 400px;
+  }
+
+  .articleImage {
+    height: 140px;
+  }
+
+  .articleTitle {
+    font-size: 0.9375rem;
+  }
+
+  .articleExcerpt {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Tablet (768px-1199px): Medium sidebar layout */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .sidebar {
+    min-width: 320px;
+    max-width: 350px;
+  }
+
+  .header {
+    padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+  }
+
+  .content {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+  }
+
+  .articleCard {
+    padding: 0.875rem;
+  }
+
+  .articleImage {
+    height: 120px;
+  }
+
+  .articleTitle {
+    font-size: 0.875rem;
+  }
+
+  .articleExcerpt {
+    font-size: 0.75rem;
+  }
+
+  .articleMeta {
+    font-size: 0.6875rem;
+  }
+}
+
+/* Mobile (below 768px): Full-width layout */
+@media (max-width: 767px) {
+  .sidebar {
+    position: static;
+    border-radius: 12px;
+    margin: 0;
+    min-width: auto;
+    max-width: 100%;
+    max-height: none;
+  }
+  
+  .header {
+    padding: 1rem 1rem 0.75rem 1rem;
+  }
+  
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .headerTitle {
+    font-size: 1rem;
+  }
+  
+  .content {
+    padding: 0.75rem 1rem;
+  }
+  
+  .articlesList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+  
+  .articleCard {
+    padding: 0.875rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .articleImage {
+    height: 100px;
+  }
+
+  .articleTitle {
+    font-size: 0.875rem;
+    -webkit-line-clamp: 2;
+  }
+
+  .articleExcerpt {
+    font-size: 0.75rem;
+  }
+  
+  .loading {
+    padding: 1.5rem 1rem;
+  }
+  
+  .error, .empty {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* Extra small mobile (below 480px) */
+@media (max-width: 479px) {
+  .sidebar {
+    border-radius: 8px;
+  }
+  
+  .header {
+    padding: 0.875rem 0.875rem 0.625rem 0.875rem;
+  }
+  
+  .content {
+    padding: 0.625rem 0.875rem;
+  }
+  
+  .articlesList {
+    grid-template-columns: 1fr;
+    gap: 0.625rem;
+  }
+  
+  .articleCard {
+    padding: 0.75rem;
+  }
+  
+  .articleContent {
+    gap: 0.625rem;
+  }
+  
+  .articleImage {
+    height: 80px;
+  }
+  
+  .articleTitle {
+    font-size: 0.8125rem;
+  }
+  
+  .articleExcerpt {
+    font-size: 0.6875rem;
+  }
+  
+  .articleMeta {
+    font-size: 0.625rem;
+    gap: 0.5rem;
+  }
+}

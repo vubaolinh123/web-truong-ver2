@@ -8,7 +8,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { AlertTriangle, ArrowLeft, Home, LogOut } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const UnauthorizedPage: React.FC = () => {
   const router = useRouter();
@@ -112,8 +112,8 @@ const UnauthorizedPage: React.FC = () => {
         <div className="mt-8 text-sm text-gray-500">
           <p>Cần hỗ trợ?</p>
           <p>
-            Liên hệ: <a href="mailto:admin@university.edu.vn" className="text-blue-600 hover:underline">
-              admin@university.edu.vn
+            Liên hệ: <a href="mailto:admin@vcic.edu.vn" className="text-blue-600 hover:underline">
+              admin@vcic.edu.vn
             </a>
           </p>
         </div>

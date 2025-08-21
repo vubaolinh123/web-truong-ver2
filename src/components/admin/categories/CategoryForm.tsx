@@ -7,7 +7,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Category } from '@/lib/api/categories';
-import { X, Save, Loader2, Palette, Hash, Type, AlignLeft, ToggleLeft, ToggleRight } from 'lucide-react';
+import { X, Save, Loader2, Hash, Type, AlignLeft, ToggleLeft, ToggleRight, ArrowUpDown } from 'lucide-react';
+import { generateSlug, isValidSlug } from '@/utils/slugify';
 
 interface CategoryFormProps {
   category?: Category | null;
@@ -19,10 +20,9 @@ interface CategoryFormProps {
 
 export interface CategoryFormData {
   name: string;
+  slug: string;
   description: string;
   status: 'active' | 'inactive';
-  color: string;
-  icon: string;
   sortOrder: number;
 }
 
@@ -35,10 +35,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 }) => {
   const [formData, setFormData] = useState<CategoryFormData>({
     name: '',
+    slug: '',
     description: '',
     status: 'active',
-    color: '#3B82F6',
-    icon: '',
     sortOrder: 0,
   });
 
@@ -49,10 +48,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     if (category) {
       setFormData({
         name: category.name || '',
+        slug: category.slug || '',
         description: category.description || '',
         status: category.status || 'active',
-        color: category.color || '#3B82F6',
-        icon: category.icon || '',
         sortOrder: category.sortOrder || 0,
       });
     }
@@ -67,6 +65,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       newErrors.name = 'Tên category phải có ít nhất 2 ký tự';
     } else if (formData.name.length > 100) {
       newErrors.name = 'Tên category không được vượt quá 100 ký tự';
+    }
+
+    if (!formData.slug.trim()) {
+      newErrors.slug = 'Slug là bắt buộc';
+    } else if (!isValidSlug(formData.slug)) {
+      newErrors.slug = 'Slug không hợp lệ. Chỉ được chứa chữ cái thường, số và dấu gạch ngang';
     }
 
     if (formData.description && formData.description.length > 500) {
@@ -96,8 +100,17 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   };
 
   const handleInputChange = (field: keyof CategoryFormData, value: string | number) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    
+    setFormData(prev => {
+      const newData = { ...prev, [field]: value };
+
+      // Auto-generate slug when name changes
+      if (field === 'name' && typeof value === 'string') {
+        newData.slug = generateSlug(value);
+      }
+
+      return newData;
+    });
+
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => {
@@ -108,14 +121,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     }
   };
 
-  const predefinedColors = [
-    '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6',
-    '#EC4899', '#06B6D4', '#84CC16', '#F97316', '#6366F1'
-  ];
+
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 modal-overlay flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-out">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
@@ -151,6 +161,25 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             {errors.name && (
               <p className="mt-1 text-sm text-red-600">{errors.name}</p>
             )}
+          </div>
+
+          {/* Slug Field */}
+          <div>
+            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
+              <Hash size={16} />
+              <span>Slug (tự động tạo)</span>
+            </label>
+            <input
+              type="text"
+              value={formData.slug}
+              readOnly
+              disabled
+              className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-50 text-gray-600 cursor-not-allowed"
+              placeholder="slug-se-duoc-tao-tu-dong..."
+            />
+            <p className="mt-1 text-xs text-gray-500">
+              Slug được tạo tự động từ tên category và sử dụng cho URL
+            </p>
           </div>
 
           {/* Description */}
@@ -209,71 +238,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             </div>
           </div>
 
-          {/* Color */}
-          <div>
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <Palette size={16} />
-              <span>Màu sắc</span>
-            </label>
-            <div className="flex items-center space-x-3">
-              <input
-                type="color"
-                value={formData.color}
-                onChange={(e) => handleInputChange('color', e.target.value)}
-                className="w-12 h-10 border border-gray-300 rounded cursor-pointer"
-                disabled={loading}
-              />
-              <input
-                type="text"
-                value={formData.color}
-                onChange={(e) => handleInputChange('color', e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="#3B82F6"
-                disabled={loading}
-              />
-            </div>
-            
-            {/* Predefined Colors */}
-            <div className="mt-2 flex flex-wrap gap-2">
-              {predefinedColors.map((color) => (
-                <button
-                  key={color}
-                  type="button"
-                  onClick={() => handleInputChange('color', color)}
-                  className={`w-8 h-8 rounded border-2 transition-all ${
-                    formData.color === color ? 'border-gray-800 scale-110' : 'border-gray-300'
-                  }`}
-                  style={{ backgroundColor: color }}
-                  disabled={loading}
-                  title={color}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Icon */}
-          <div>
-            <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <Hash size={16} />
-              <span>Icon (tùy chọn)</span>
-            </label>
-            <input
-              type="text"
-              value={formData.icon}
-              onChange={(e) => handleInputChange('icon', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Nhập tên icon hoặc emoji..."
-              disabled={loading}
-            />
-            <p className="mt-1 text-xs text-gray-500">
-              Ví dụ: 📚, book, graduation-cap
-            </p>
-          </div>
-
           {/* Sort Order */}
           <div>
             <label className="flex items-center space-x-2 text-sm font-medium text-gray-700 mb-2">
-              <Hash size={16} />
+              <ArrowUpDown size={16} />
               <span>Thứ tự hiển thị</span>
             </label>
             <input

@@ -7,7 +7,7 @@
 
 import React, { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { Loader2, Shield, AlertTriangle } from 'lucide-react';
 
 interface PrivateRouteProps {

@@ -1,0 +1,371 @@
+/**
+ * Article Detail Page Styles
+ * Modern, responsive layout with light ocean blue and yellow accents
+ */
+
+/* Loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pageContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.contentWrapper {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  align-items: start;
+  padding: 0 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.mainContent {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.mainContent:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Sidebar styles moved to new-sidebar.module.css */
+
+.breadcrumbContainer {
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.breadcrumbItem {
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.breadcrumbItem:hover {
+  color: #87CEEB;
+}
+
+.breadcrumbCurrent {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.breadcrumbSeparator {
+  color: #d1d5db;
+  font-size: 0.75rem;
+}
+
+.articleHeader {
+  padding: 3rem 3rem 2rem 3rem;
+  background: linear-gradient(135deg, #87CEEB 0%, #5a9fd4 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.articleHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+}
+
+.articleTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.articleMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  font-size: 0.875rem;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.categoryBadge {
+  background: rgba(255, 215, 0, 0.2);
+  color: #FFD700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.articleBody {
+  padding: 3rem;
+}
+
+/* Social share styles removed - functionality integrated into new sidebar */
+
+.shareButton.facebook {
+  background: #1877f2;
+  color: white;
+}
+
+.shareButton.twitter {
+  background: #1da1f2;
+  color: white;
+}
+
+.shareButton.linkedin {
+  background: #0077b5;
+  color: white;
+}
+
+/* Author card styles removed - functionality integrated into new sidebar */
+
+/* Related articles styles removed - functionality integrated into new sidebar */
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid #87CEEB;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+.errorTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ef4444;
+  margin-bottom: 1rem;
+}
+
+.errorMessage {
+  margin-bottom: 2rem;
+}
+
+.errorButton {
+  background: #87CEEB;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.errorButton:hover {
+  background: #5a9fd4;
+}
+
+/* Responsive Design - Synchronized with sidebar breakpoints */
+
+/* Desktop (1200px+): Wide sidebar layout */
+@media (min-width: 1200px) {
+  .contentWrapper {
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+  }
+
+  .pageContainer {
+    padding: 2rem 0;
+  }
+
+  .mainContent {
+    padding: 2rem;
+  }
+
+  .articleBody {
+    padding: 3rem;
+  }
+}
+
+/* Tablet (768px-1199px): Medium sidebar layout */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .contentWrapper {
+    grid-template-columns: 1fr 350px;
+    gap: 1.5rem;
+    padding: 0 0.75rem;
+  }
+
+  .pageContainer {
+    padding: 1.5rem 0;
+  }
+
+  .mainContent {
+    padding: 1.5rem;
+  }
+
+  .articleBody {
+    padding: 2rem;
+  }
+
+  .articleHeader {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* Mobile (below 768px): Full-width layout */
+@media (max-width: 767px) {
+  .contentWrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
+
+  .pageContainer {
+    padding: 1rem 0;
+  }
+
+  .mainContent {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+
+  .articleBody {
+    padding: 1.5rem;
+  }
+
+  .articleHeader {
+    padding: 1.5rem 1rem;
+  }
+
+  .articleTitle {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .articleMeta {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .metaItem {
+    font-size: 0.8125rem;
+  }
+
+  .featuredImageContainer {
+    margin: 1rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
+
+/* Extra small mobile (below 480px) */
+@media (max-width: 479px) {
+  .contentWrapper {
+    padding: 0 0.25rem;
+    gap: 1rem;
+  }
+
+  .pageContainer {
+    padding: 0.5rem 0;
+  }
+
+  .mainContent {
+    padding: 0.75rem;
+  }
+
+  .articleBody {
+    padding: 1rem;
+  }
+
+  .articleHeader {
+    padding: 1rem 0.75rem;
+  }
+
+  .articleTitle {
+    font-size: 1.25rem;
+  }
+
+  .articleMeta {
+    gap: 0.5rem;
+  }
+
+  .metaItem {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .pageContainer {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+  
+  .contentWrapper {
+    padding: 0 0.5rem;
+    gap: 1.5rem;
+  }
+  
+  .articleHeader {
+    padding: 2rem 1.5rem 1.5rem 1.5rem;
+  }
+  
+  .articleTitle {
+    font-size: 2rem;
+  }
+  
+  .articleBody {
+    padding: 2rem 1.5rem;
+  }
+  
+  .articleMeta {
+    gap: 1rem;
+  }
+  
+  .shareButtons {
+    justify-content: center;
+  }
+}

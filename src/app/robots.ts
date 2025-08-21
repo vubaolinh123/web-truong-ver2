@@ -24,7 +24,7 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://cic.edu.vn/sitemap.xml',
-    host: 'https://cic.edu.vn',
+    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn'}/sitemap.xml`,
+    host: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn',
   }
 }

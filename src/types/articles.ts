@@ -13,8 +13,6 @@ export interface Category {
   id: string;
   name: string;
   slug: string;
-  color?: string;
-  icon?: string;
 }
 
 export interface Author {
@@ -31,10 +29,11 @@ export interface Article {
   slug: string;
   content: string;
   excerpt: string;
-  featuredImage?: FeaturedImage;
+  featuredImage?: string | FeaturedImage;
   status: 'draft' | 'published' | 'archived';
-  categoryId: string;
+  categoryId?: string;
   category?: Category;
+  categories?: Category[];
   authorId: string;
   author?: Author;
   tags: string[];
@@ -53,16 +52,15 @@ export interface Article {
 
 export interface ArticleFormData {
   title: string;
+  slug: string;
   content: string;
   excerpt: string;
-  featuredImage?: FeaturedImage;
+  categoryIds: string[];
   status: 'draft' | 'published' | 'archived';
-  categoryId: string;
+  featuredImage: File | string | null;
   tags: string[];
-  metaTitle?: string;
-  metaDescription?: string;
   featured: boolean;
-  publishedAt?: string;
+  publishedAt: string;
 }
 
 export interface ArticleFilters {

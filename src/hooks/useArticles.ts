@@ -46,9 +46,9 @@ export const useArticles = (initialParams: Partial<ArticleSearchParams> = {}) =>
       } else {
         setError(response.message || 'Lỗi khi tải danh sách bài viết');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi tải danh sách bài viết';
       setError(errorMessage);
       console.error('Error fetching articles:', err);
@@ -76,6 +76,52 @@ export const useArticles = (initialParams: Partial<ArticleSearchParams> = {}) =>
     pagination,
     params,
     updateParams,
+    refresh,
+  };
+};
+
+// Hook for single article by ID
+export const useArticle = (id: string) => {
+  const [data, setData] = useState<Article | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchArticle = useCallback(async () => {
+    if (!id) return;
+
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await articlesApi.getArticle(id);
+
+      if (response.status === 'success') {
+        setData(response.data.article);
+      } else {
+        setError(response.message || 'Lỗi khi tải bài viết');
+      }
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
+        : 'Lỗi kết nối khi tải bài viết';
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchArticle();
+  }, [fetchArticle]);
+
+  const refresh = useCallback(() => {
+    fetchArticle();
+  }, [fetchArticle]);
+
+  return {
+    data,
+    isLoading,
+    error,
     refresh,
   };
 };
@@ -117,9 +163,9 @@ export const useArticleStatistics = () => {
       } else {
         setError(response.message || 'Lỗi khi tải thống kê bài viết');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi tải thống kê bài viết';
       setError(errorMessage);
       console.error('Error fetching article statistics:', err);
@@ -161,9 +207,9 @@ export const useArticleMutations = () => {
       } else {
         throw new ArticleApiError(response.message || 'Lỗi khi tạo bài viết');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi tạo bài viết';
       setError(errorMessage);
       throw err;
@@ -184,9 +230,9 @@ export const useArticleMutations = () => {
       } else {
         throw new ArticleApiError(response.message || 'Lỗi khi cập nhật bài viết');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi cập nhật bài viết';
       setError(errorMessage);
       throw err;
@@ -205,9 +251,9 @@ export const useArticleMutations = () => {
       if (response.status !== 'success') {
         throw new ArticleApiError(response.message || 'Lỗi khi xóa bài viết');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi xóa bài viết';
       setError(errorMessage);
       throw err;
@@ -228,9 +274,9 @@ export const useArticleMutations = () => {
       } else {
         throw new ArticleApiError(response.message || 'Lỗi khi thực hiện thao tác hàng loạt');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi thực hiện thao tác hàng loạt';
       setError(errorMessage);
       throw err;
@@ -251,9 +297,9 @@ export const useArticleMutations = () => {
       } else {
         throw new ArticleApiError(response.message || 'Lỗi khi xuất bản bài viết');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi xuất bản bài viết';
       setError(errorMessage);
       throw err;
@@ -304,9 +350,9 @@ export const useArticleSearch = () => {
       } else {
         setError(response.message || 'Lỗi khi tìm kiếm bài viết');
       }
-    } catch (err) {
-      const errorMessage = err instanceof ArticleApiError 
-        ? err.message 
+    } catch (err: unknown) {
+      const errorMessage = err instanceof ArticleApiError
+        ? err.message
         : 'Lỗi kết nối khi tìm kiếm bài viết';
       setError(errorMessage);
       console.error('Error searching articles:', err);

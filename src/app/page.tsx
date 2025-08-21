@@ -44,9 +44,9 @@ const structuredData = {
   "@type": "EducationalOrganization",
   "name": "Trường Cao đẳng Thông tin và Truyền thông",
   "alternateName": "College of Information and Communication Technology",
-  "url": "https://web-truong-ver2.vercel.app/",
-  "logo": "https://web-truong-ver2.vercel.app/images/logo.png",
-  "image": "https://web-truong-ver2.vercel.app/images/logo.png",
+  "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.vcic.edu.vn",
+  "logo": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.vcic.edu.vn"}/images/logo.png`,
+  "image": `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.vcic.edu.vn"}/images/logo.png`,
   "description": "Trường Cao đẳng Thông tin và Truyền thông - Đào tạo chuyên sâu các ngành Công nghệ Thông tin, Lập trình máy tính, An toàn thông tin với chất lượng cao.",
   "address": {
     "@type": "PostalAddress",

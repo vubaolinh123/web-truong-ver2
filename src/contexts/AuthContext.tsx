@@ -1,6 +1,17 @@
 /**
- * Authentication Context
- * Quản lý authentication state toàn ứng dụng
+ * Authentication Context - DEPRECATED
+ *
+ * ⚠️ WARNING: This file is deprecated and should not be used in new code.
+ *
+ * The authentication system has been migrated to Redux Toolkit with Redux Persist.
+ * Please use the Redux-based authentication hooks instead:
+ *
+ * - Import: import { useAuthRedux as useAuth } from '@/hooks/redux/useAuthRedux'
+ * - Or use: import { useAuth } from '@/hooks/useAuth' (which now exports Redux version)
+ *
+ * This file is kept for backward compatibility but will be removed in a future version.
+ *
+ * @deprecated Use Redux-based authentication instead
  */
 
 'use client';
@@ -204,7 +215,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       } else {
         throw new AuthError(response.message, 'LOGIN_ERROR');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.log('❌ Login error:', error);
       const errorMessage = error instanceof AuthError
         ? error.message
