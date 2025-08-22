@@ -28,76 +28,28 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
 
   const menuItems = [
     {
-      title: 'Bảng Điều Khiển',
+      title: 'Bảng điều khiển',
       href: '/admin',
       icon: LayoutDashboard,
-      description: 'Tổng Quan & Phân Tích'
+      description: 'Tổng quan hệ thống'
     },
     {
-      title: 'Sinh Viên',
-      href: '/admin/students',
-      icon: Users,
-      description: 'Quản Lý Sinh Viên'
-    },
-    {
-      title: 'Giảng Viên',
-      href: '/admin/faculty',
-      icon: GraduationCap,
-      description: 'Giảng Viên & Nhân Viên'
-    },
-    {
-      title: 'Chương Trình',
-      href: '/admin/programs',
-      icon: BookOpen,
-      description: 'Chương Trình Học Tập'
-    },
-    {
-      title: 'Categories',
-      href: '/admin/categories',
-      icon: FolderOpen,
-      description: 'Quản Lý Danh Mục'
-    },
-    {
-      title: 'Bài Viết',
+      title: 'Bài viết',
       href: '/admin/articles',
       icon: FileText,
-      description: 'Quản Lý Bài Viết'
+      description: 'Quản lý bài viết & tin tức'
     },
     {
-      title: 'Tin Tức & Sự Kiện',
-      href: '/admin/news',
-      icon: FileText,
-      description: 'Quản Lý Nội Dung'
+      title: 'Danh mục',
+      href: '/admin/categories',
+      icon: FolderOpen,
+      description: 'Sắp xếp nội dung'
     },
     {
-      title: 'Tuyển Sinh',
-      href: '/admin/admissions',
-      icon: Calendar,
-      description: 'Quy Trình Tuyển Sinh'
-    },
-    {
-      title: 'Phân Tích',
-      href: '/admin/analytics',
-      icon: BarChart3,
-      description: 'Báo Cáo & Thống Kê'
-    },
-    {
-      title: 'Phương Tiện',
+      title: 'Quản lý Hình ảnh',
       href: '/admin/media',
       icon: ImageIcon,
-      description: 'Quản Lý Hình Ảnh & File'
-    },
-    {
-      title: 'Tin Nhắn',
-      href: '/admin/messages',
-      icon: MessageSquare,
-      description: 'Liên Lạc'
-    },
-    {
-      title: 'Cài Đặt',
-      href: '/admin/settings',
-      icon: Settings,
-      description: 'Cấu Hình Hệ Thống'
+      description: 'Tải lên & duyệt file'
     }
   ];
 

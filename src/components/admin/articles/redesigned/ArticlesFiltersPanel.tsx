@@ -19,6 +19,8 @@ import {
   Sparkles as SparklesIcon
 } from 'lucide-react';
 import { ArticleSearchParams, ARTICLE_STATUS_OPTIONS, ARTICLE_SORT_OPTIONS } from '@/types/articles';
+import { categoriesApi } from '@/lib/api/categories';
+import { usersApi } from '@/lib/api/users';
 
 import './animations.css';
 
@@ -69,8 +71,6 @@ const ArticlesFiltersPanel: React.FC<ArticlesFiltersPanelProps> = ({
   onSortChange,
   loading = false,
   totalCount,
-  categories = [],
-  authors = [],
   className = ""
 }) => {
   const [searchKeyword, setSearchKeyword] = useState('');
@@ -78,6 +78,30 @@ const ArticlesFiltersPanel: React.FC<ArticlesFiltersPanelProps> = ({
   const [activeFilters, setActiveFilters] = useState<Record<string, any>>({});
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [categories, setCategories] = useState<Array<{ id: string; name: string }>>([]);
+  const [authors, setAuthors] = useState<Array<{ id: string; name: string }>>([]);
+
+  useEffect(() => {
+    const fetchFilterData = async () => {
+      try {
+        const [categoriesRes, authorsRes] = await Promise.all([
+          categoriesApi.getCategories({ limit: 1000 }), // Fetch all categories
+          usersApi.getUsers({ role: 'author', limit: 1000 }) // Fetch all authors
+        ]);
+        if (categoriesRes.status === 'success') {
+          setCategories(categoriesRes.data.categories.map(c => ({ id: c.id, name: c.name })));
+        }
+        if (authorsRes.status === 'success') {
+          setAuthors(authorsRes.data.users.map(u => ({ id: u.id, name: `${u.firstName} ${u.lastName}` })));
+        }
+      } catch (error) {
+        console.error('Failed to fetch filter data:', error);
+        // Optionally, show a toast notification here
+      }
+    };
+
+    fetchFilterData();
+  }, []);
 
   // Debounced search
   const debouncedSearch = useCallback(
@@ -124,9 +148,9 @@ const ArticlesFiltersPanel: React.FC<ArticlesFiltersPanelProps> = ({
 
   return (
     <div className={`${className}`}>
-      <div className="bg-gradient-to-r from-white via-blue-50 to-white backdrop-blur-sm border border-blue-200 rounded-xl p-4 shadow-lg">
+      <div className="bg-gradient-to-r from-white via-blue-50 to-white backdrop-blur-sm border border-blue-200 rounded-xl p-2 sm:p-4 shadow-lg">
         {/* Main search bar */}
-        <div className="flex items-center space-x-3 mb-3">
+        <div className="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-3 mb-3">
           <div className="relative flex-1">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search size={20} className="text-blue-500" />
@@ -227,11 +251,11 @@ const ArticlesFiltersPanel: React.FC<ArticlesFiltersPanelProps> = ({
                   <span>Trạng thái</span>
                 </label>
                 <select
-                  value={activeFilters.status || ''}
+                  value={activeFilters.status || 'all'}
                   onChange={(e) => handleFilterChange('status', e.target.value)}
                   className="w-full px-3 py-2 bg-slate-800/50 border border-cyan-400/30 rounded-lg text-cyan-100 focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
                 >
-                  <option value="">Tất cả trạng thái</option>
+                  <option value="all">Tất cả trạng thái</option>
                   {ARTICLE_STATUS_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}

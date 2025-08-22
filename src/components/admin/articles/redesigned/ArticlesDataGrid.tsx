@@ -204,9 +204,9 @@ const TableRow: React.FC<TableRowProps> = ({
       {/* Category */}
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center space-x-2">
-          <FolderOpen size={16} className="text-green-500" />
+          <FolderOpen size={16} className="text-gray-500" />
           <span className="text-sm text-gray-700">
-            {getCategoryName(article.category)}
+            {getCategoryName(article.categories?.[0])}
           </span>
         </div>
       </td>
@@ -249,15 +249,6 @@ const TableRow: React.FC<TableRowProps> = ({
           >
             <Eye size={16} />
           </button>
-
-          <button
-            onClick={() => window.open(`/articles/${article.slug}`, '_blank')}
-            className="p-2 text-green-600 hover:text-green-700 hover:bg-green-100 rounded-lg transition-all duration-200 hover:scale-110"
-            title="Xem trên trang web"
-          >
-            <ExternalLink size={16} />
-          </button>
-
           <button
             onClick={() => window.open(`/admin/articles/${article.id}/edit`, '_blank')}
             className="p-2 text-yellow-600 hover:text-yellow-700 hover:bg-yellow-100 rounded-lg transition-all duration-200 hover:scale-110"

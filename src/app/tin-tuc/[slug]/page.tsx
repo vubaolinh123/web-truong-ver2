@@ -41,7 +41,8 @@ async function getArticleBySlug(slug: string): Promise<ArticleContent | null> {
     return null;
   } catch (error) {
     console.error('Error fetching article:', error);
-    return null;
+    // Re-throw the error to be caught by the Next.js error boundary
+    throw new Error('Không thể tải bài viết. Vui lòng thử lại sau.');
   }
 }
 

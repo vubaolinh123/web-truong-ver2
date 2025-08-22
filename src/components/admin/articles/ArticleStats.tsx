@@ -246,6 +246,7 @@ const ArticleStats: React.FC<ArticleStatsProps> = ({
                       <p className="font-medium text-gray-900">
                         {category.name || 'Không có tên'}
                       </p>
+                      {/* This is where the icon was, removing it */}
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">

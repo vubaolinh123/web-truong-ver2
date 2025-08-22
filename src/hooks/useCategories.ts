@@ -7,9 +7,9 @@ import {
   Category,
   CategoryStatistics,
   CreateCategoryData,
-  categoriesApi,
-  ApiError
+  categoriesApi
 } from '@/lib/api/categories';
+import { ApiError, handleApiError } from '@/lib/utils/errorHandler';
 
 export const useCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -175,12 +175,8 @@ export const useCategoryMutations = () => {
         throw new Error(response.message || 'Không thể tạo danh mục');
       }
     } catch (err: unknown) {
-      console.error('Error creating category:', err);
-      if (err instanceof ApiError) {
-        setError(`Lỗi API: ${err.message}`);
-      } else {
-        setError('Không thể tạo danh mục. Vui lòng thử lại.');
-      }
+      const errorMessage = handleApiError(err, 'Không thể tạo danh mục.');
+      setError(errorMessage);
       throw err;
     } finally {
       setLoading(false);
@@ -200,12 +196,8 @@ export const useCategoryMutations = () => {
         throw new Error(response.message || 'Không thể cập nhật danh mục');
       }
     } catch (err: unknown) {
-      console.error('Error updating category:', err);
-      if (err instanceof ApiError) {
-        setError(`Lỗi API: ${err.message}`);
-      } else {
-        setError('Không thể cập nhật danh mục. Vui lòng thử lại.');
-      }
+      const errorMessage = handleApiError(err, 'Không thể cập nhật danh mục.');
+      setError(errorMessage);
       throw err;
     } finally {
       setLoading(false);
@@ -225,12 +217,9 @@ export const useCategoryMutations = () => {
         throw new Error(response.message || 'Không thể xóa danh mục');
       }
     } catch (err: unknown) {
-      console.error('Error deleting category:', err);
-      if (err instanceof ApiError) {
-        setError(`Lỗi API: ${err.message}`);
-      } else {
-        setError('Không thể xóa danh mục. Vui lòng thử lại.');
-      }
+      // The handleApiError function will show the toast
+      const errorMessage = handleApiError(err, 'Không thể xóa danh mục.');
+      setError(errorMessage);
       throw err;
     } finally {
       setLoading(false);

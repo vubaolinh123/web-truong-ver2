@@ -89,7 +89,7 @@ export const fetchArticles = createAsyncThunk(
   'articles/fetchArticles',
   async (params: ArticleSearchParams, { rejectWithValue }) => {
     try {
-      const response = await articlesApi.getArticles(params);
+      const response = await articlesApi.getAdminArticles(params);
       
       if (response.status === 'success') {
         return {
@@ -186,10 +186,11 @@ export const fetchArticleStatistics = createAsyncThunk(
 
 export const searchArticles = createAsyncThunk(
   'articles/searchArticles',
-  async (keyword: string, { rejectWithValue }) => {
+  async (params: { keyword: string; filters?: Partial<ArticleSearchParams> }, { rejectWithValue }) => {
     try {
-      const response = await articlesApi.searchArticles(keyword);
-      
+      const { keyword, filters = {} } = params;
+      const response = await articlesApi.searchAdminArticles(keyword, filters);
+
       if (response.status === 'success') {
         return response.data.articles;
       } else {

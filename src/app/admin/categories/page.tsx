@@ -108,8 +108,9 @@ const CategoriesPage: React.FC = () => {
       setShowCreateModal(false);
       refreshCategories();
       refreshStats();
-    } catch (error) {
-      showNotification('error', 'Có lỗi xảy ra khi tạo danh mục');
+    } catch (error: any) {
+      // Use the component's own notification system, but with the specific error message.
+      showNotification('error', error.message || 'Có lỗi xảy ra khi tạo danh mục');
     }
   }, [createCategory, refreshCategories, refreshStats, showNotification]);
 
@@ -122,8 +123,9 @@ const CategoriesPage: React.FC = () => {
       setShowEditModal(null);
       refreshCategories();
       refreshStats();
-    } catch (error) {
-      showNotification('error', 'Có lỗi xảy ra khi cập nhật danh mục');
+    } catch (error: any) {
+      // Use the component's own notification system, but with the specific error message.
+      showNotification('error', error.message || 'Có lỗi xảy ra khi cập nhật danh mục');
     }
   }, [showEditModal, updateCategory, refreshCategories, refreshStats, showNotification]);
 
@@ -134,8 +136,9 @@ const CategoriesPage: React.FC = () => {
       setShowDeleteConfirm(null);
       refreshCategories();
       refreshStats();
-    } catch (error) {
-      showNotification('error', 'Có lỗi xảy ra khi xóa danh mục');
+    } catch (error: any) {
+      // Use the component's own notification system, but with the specific error message.
+      showNotification('error', error.message || 'Có lỗi xảy ra khi xóa danh mục');
     }
   }, [deleteCategory, refreshCategories, refreshStats, showNotification]);
 

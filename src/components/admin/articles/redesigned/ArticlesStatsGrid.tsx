@@ -98,7 +98,7 @@ const StatCard: React.FC<StatCardProps> = ({
     }
   };
 
-  const classes = colorClasses[color];
+  const classes = colorClasses[color] || colorClasses.primary;
 
   useEffect(() => {
     const timer = setTimeout(() => {

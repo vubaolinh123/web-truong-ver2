@@ -3,7 +3,7 @@
  * Replacement for the original useArticles hooks using Redux state management
  */
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import {
   fetchArticles,
@@ -45,10 +45,13 @@ export const useArticlesRedux = (initialParams: Partial<ArticleSearchParams> = {
   const pagination = useAppSelector(selectArticlesPagination);
   const params = useAppSelector(selectArticlesParams);
 
-  // Initialize params if provided
+  const isInitialMount = useRef(true);
+
+  // Initialize params from URL on first load
   useEffect(() => {
-    if (Object.keys(initialParams).length > 0) {
+    if (isInitialMount.current && Object.keys(initialParams).length > 0) {
       dispatch(updateParams(initialParams));
+      isInitialMount.current = false;
     }
   }, [dispatch, initialParams]);
 
@@ -228,20 +231,16 @@ export const useArticleSearchRedux = () => {
     }
 
     dispatch(setSearchKeyword(query));
-    try {
-      const response = await articlesApi.searchArticles(query, filters);
-      if (response.status === 'success') {
-        // Manually update search results since we're calling API directly
-        dispatch(searchArticles(query));
-      }
-    } catch (error) {
-      // Handle error if needed
-      console.error('Search error:', error);
-    }
+    // Only use Redux action to avoid duplicate API calls
+    dispatch(searchArticles({ keyword: query, filters }));
   }, [dispatch]);
 
   const clearSearch = useCallback(() => {
     dispatch(clearSearchResults());
+  }, [dispatch]);
+
+  const setKeyword = useCallback((keyword: string) => {
+    dispatch(setSearchKeyword(keyword));
   }, [dispatch]);
 
   return {
@@ -250,6 +249,7 @@ export const useArticleSearchRedux = () => {
     keyword,
     search,
     clearSearch,
+    setKeyword,
   };
 };
 

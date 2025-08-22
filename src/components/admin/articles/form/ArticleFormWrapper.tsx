@@ -186,13 +186,7 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
 
   // Handle back navigation with unsaved changes warning
   const handleBack = () => {
-    if (isDirty) {
-      if (confirm('Bạn có thay đổi chưa lưu. Bạn có chắc muốn rời khỏi trang này?')) {
-        router.back();
-      }
-    } else {
-      router.back();
-    }
+    router.push("/admin/articles/");
   };
 
   return (

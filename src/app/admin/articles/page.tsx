@@ -5,8 +5,10 @@
 
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo, Suspense } from 'react';
+
 import Link from 'next/link';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Plus, AlertTriangle, CheckCircle, XCircle, Trash2, Edit } from 'lucide-react';
 
 // Redux Hooks
@@ -30,13 +32,27 @@ import Pagination from '@/components/ui/Pagination';
 // Types
 import { Article } from '@/types/articles';
 import { ArticleFormData } from '@/types/articles';
+import useMediaQuery from '@/hooks/useMediaQuery';
 
 // Import animations
 import '@/components/admin/articles/redesigned/animations.css';
 
-const ArticlesPage: React.FC = () => {
+const ArticlesPageContent: React.FC = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   // State
-  const [viewMode, setViewMode] = useState<'grid' | 'table'>('table');
+      const [viewMode, setViewMode] = useState<'grid' | 'table'>('table');
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
+  useEffect(() => {
+    if (isMobile) {
+      setViewMode('grid');
+    } else {
+      setViewMode('table');
+    }
+  }, [isMobile]);
+
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<Article | null>(null);
   const [selectedArticles, setSelectedArticles] = useState<string[]>([]);
   const [showBulkActions, setShowBulkActions] = useState(false);
@@ -47,6 +63,27 @@ const ArticlesPage: React.FC = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   // Hooks
+  const initialParams = useMemo(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    const page = parseInt(params.get('page') || '1', 10);
+    const sortBy = params.get('sortBy') || 'createdAt';
+    const sortOrderParam = params.get('sortOrder');
+    const sortOrder: 'asc' | 'desc' = (sortOrderParam === 'asc' || sortOrderParam === 'desc') ? sortOrderParam : 'desc';
+    const statusParam = params.get('status');
+    const status: 'all' | 'draft' | 'published' | 'archived' = (statusParam === 'draft' || statusParam === 'published' || statusParam === 'archived') ? statusParam : 'all';
+    const categoryId = params.get('categoryId') || 'all';
+    const authorId = params.get('authorId') || 'all';
+
+    return {
+      page,
+      sortBy,
+      sortOrder,
+      status,
+      categoryId,
+      authorId,
+    };
+  }, [searchParams]);
+
   const {
     articles,
     loading: articlesLoading,
@@ -55,7 +92,7 @@ const ArticlesPage: React.FC = () => {
     params,
     updateParams,
     refresh: refreshArticles
-  } = useArticles();
+  } = useArticles(initialParams);
 
   const {
     statistics,
@@ -78,13 +115,25 @@ const ArticlesPage: React.FC = () => {
     loading: searchLoading,
     keyword: searchKeyword,
     search,
-    clearSearch
+    clearSearch,
+    setKeyword
   } = useArticleSearch();
 
   // Computed values
   const displayArticles = searchKeyword ? searchResults : articles;
   const isLoading = articlesLoading || mutationLoading || searchLoading;
   const totalCount = searchKeyword ? searchResults.length : (pagination?.totalArticles || 0);
+
+
+
+  // Initialize search keyword from URL
+  useEffect(() => {
+    const keywordFromUrl = searchParams.get('keyword');
+    if (keywordFromUrl) {
+      setKeyword(keywordFromUrl);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, setKeyword]);
 
   // Page load effect
   useEffect(() => {
@@ -98,30 +147,39 @@ const ArticlesPage: React.FC = () => {
     setTimeout(() => setNotification(null), 5000);
   }, []);
 
-  const handleSearch = useCallback((keyword: string) => {
-    if (keyword.trim()) {
-      search(keyword, {
-        status: params.status !== 'all' ? params.status : undefined,
-        sortBy: params.sortBy,
-        sortOrder: params.sortOrder
-      });
-    } else {
-      clearSearch();
+  const handleSearch = useCallback(async (keyword: string) => {
+    try {
+      if (keyword.trim()) {
+        await search(keyword, {
+          status: params.status !== 'all' ? params.status : undefined,
+          sortBy: params.sortBy,
+          sortOrder: params.sortOrder,
+          page: 1
+        });
+      } else {
+        clearSearch();
+      }
+    } catch (error: any) {
+      showNotification('error', error.message || 'Có lỗi xảy ra khi tìm kiếm.');
     }
-  }, [search, clearSearch, params]);
+  }, [search, clearSearch, params, showNotification]);
 
-  const handleFilterChange = useCallback((filters: any) => {
-    updateParams(filters);
+  const handleFilterChange = useCallback(async (filters: any) => {
+    try {
+      updateParams({ ...filters, page: 1 });
 
-    // If searching, update search with new filters
-    if (searchKeyword) {
-      search(searchKeyword, {
-        status: filters.status !== 'all' ? filters.status : undefined,
-        sortBy: filters.sortBy,
-        sortOrder: filters.sortOrder
-      });
+      // If searching, update search with new filters
+      if (searchKeyword) {
+        await search(searchKeyword, {
+          status: filters.status !== 'all' ? filters.status : undefined,
+          sortBy: filters.sortBy,
+          sortOrder: filters.sortOrder
+        });
+      }
+    } catch (error: any) {
+      showNotification('error', error.message || 'Có lỗi xảy ra khi áp dụng bộ lọc.');
     }
-  }, [updateParams, searchKeyword, search]);
+  }, [updateParams, searchKeyword, search, showNotification]);
 
   const handleRefresh = useCallback(async () => {
     await Promise.all([refreshArticles(), refreshStats()]);
@@ -129,7 +187,7 @@ const ArticlesPage: React.FC = () => {
   }, [refreshArticles, refreshStats, showNotification]);
 
   const handleSortChange = useCallback((sortBy: string, sortOrder: 'asc' | 'desc') => {
-    updateParams({ sortBy, sortOrder });
+    updateParams({ sortBy, sortOrder, page: 1 });
 
     // If searching, update search with new sort
     if (searchKeyword) {
@@ -187,8 +245,8 @@ const ArticlesPage: React.FC = () => {
       setShowBulkActions(false);
       refreshArticles();
       refreshStats();
-    } catch (error) {
-      showNotification('error', 'Có lỗi xảy ra khi xóa bài viết. Vui lòng thử lại.');
+    } catch (error: any) {
+      showNotification('error', error.message || 'Có lỗi xảy ra khi xóa bài viết. Vui lòng thử lại.');
     }
   }, [selectedArticles, bulkOperation, showNotification, refreshArticles, refreshStats]);
 
@@ -207,8 +265,8 @@ const ArticlesPage: React.FC = () => {
       if (searchKeyword) {
         search(searchKeyword);
       }
-    } catch (error) {
-      showNotification('error', 'Không thể xóa bài viết. Vui lòng thử lại.');
+    } catch (error: any) {
+      showNotification('error', error.message || 'Không thể xóa bài viết. Vui lòng thử lại.');
     }
   }, [showDeleteConfirm, deleteArticle, showNotification, refreshArticles, refreshStats, searchKeyword, search]);
 
@@ -226,6 +284,7 @@ const ArticlesPage: React.FC = () => {
           selectedCount={selectedArticles.length}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
+          isMobile={isMobile}
           onRefresh={handleRefresh}
           loading={isLoading}
           className="animate-slide-in-top"
@@ -352,5 +411,11 @@ const ArticlesPage: React.FC = () => {
     </div>
   );
 };
+
+const ArticlesPage: React.FC = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <ArticlesPageContent />
+  </Suspense>
+);
 
 export default ArticlesPage;

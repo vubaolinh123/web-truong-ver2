@@ -63,24 +63,20 @@ export class ArticleApiError extends Error {
  */
 export const handleApiError = (
   error: any,
-  fallbackMessage: string = 'Có lỗi xảy ra. Vui lòng thử lại sau.',
+  fallbackMessage: string = 'Một lỗi không mong muốn đã xảy ra, vui lòng thử lại.',
   showToast: boolean = true
 ): string => {
   let errorMessage = fallbackMessage;
 
-  // Xử lý các loại lỗi khác nhau
-  if (error instanceof ApiError || error instanceof AuthError || error instanceof ArticleApiError) {
-    // Lỗi từ custom error classes - đã có message từ server
+  if (error instanceof ApiError) {
+    // Ưu tiên message từ ApiError, vì nó được tạo ra từ response của server
     errorMessage = error.message;
-  } else if (error?.response?.data?.message) {
-    // Lỗi từ fetch response với cấu trúc API chuẩn
+  } else if (error.response?.data?.message) {
+    // Lỗi Axios với message từ server
     errorMessage = error.response.data.message;
-  } else if (error?.message) {
-    // Lỗi JavaScript thông thường
+  } else if (error.message) {
+    // Các lỗi khác (network, javascript)
     errorMessage = error.message;
-  } else if (typeof error === 'string') {
-    // Lỗi dạng string
-    errorMessage = error;
   }
 
   // Hiển thị toast notification nếu được yêu cầu

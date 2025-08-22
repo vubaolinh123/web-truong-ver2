@@ -7,10 +7,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { 
-  Plus, 
-  RefreshCw, 
-  Download, 
+import {
+  Plus,
+  RefreshCw,
+  Download,
   Upload,
   Filter,
   Grid3X3,
@@ -33,6 +33,7 @@ interface ArticlesPageHeaderProps {
   onImport?: () => void;
   loading?: boolean;
   className?: string;
+  isMobile?: boolean;
 }
 
 const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
@@ -44,7 +45,8 @@ const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
   onExport,
   onImport,
   loading = false,
-  className = ""
+  className = "",
+  isMobile = false
 }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -57,16 +59,16 @@ const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
   return (
     <div className={`${className}`}>
       {/* Main header content */}
-      <div className="bg-gradient-to-r from-white via-blue-50 to-white backdrop-blur-sm border border-blue-200 rounded-xl p-4 shadow-lg">
+      <div className="bg-gradient-to-r from-white via-blue-50 to-white backdrop-blur-sm border border-blue-200 rounded-xl p-2 sm:p-4 shadow-lg">
         {/* Top section */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
           {/* Title and stats */}
-          <div className="space-y-2">
-            <div className="flex items-center space-x-3">
+          <div className="flex-1">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
               <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600">
                 Quản Lý Bài Viết
               </h1>
-              
+
               <div className="flex items-center space-x-2">
                 <div className="px-3 py-1 bg-gradient-to-r from-blue-100 to-blue-200 border border-blue-300 rounded-full">
                   <span className="text-blue-700 text-sm font-medium">
@@ -83,14 +85,14 @@ const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
                 )}
               </div>
             </div>
-            
+
             <p className="text-gray-600 text-sm">
               Tạo, chỉnh sửa và quản lý nội dung bài viết của bạn
             </p>
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center flex-wrap gap-2">
             {/* Create new article button */}
             <Link
               href="/admin/articles/new"
@@ -126,7 +128,7 @@ const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
                 className="group relative p-3 bg-gradient-to-r from-green-700 to-green-600 hover:from-green-600 hover:to-green-500 text-white rounded-xl shadow-lg hover:shadow-green-400/20 transition-all duration-300 hover:scale-105"
               >
                 <Download size={20} className="group-hover:translate-y-1 transition-transform duration-300" />
-                
+
                 <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                   Xuất dữ liệu
                 </div>
@@ -140,7 +142,7 @@ const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
                 className="group relative p-3 bg-gradient-to-r from-purple-700 to-purple-600 hover:from-purple-600 hover:to-purple-500 text-white rounded-xl shadow-lg hover:shadow-purple-400/20 transition-all duration-300 hover:scale-105"
               >
                 <Upload size={20} className="group-hover:-translate-y-1 transition-transform duration-300" />
-                
+
                 <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                   Nhập dữ liệu
                 </div>
@@ -150,7 +152,8 @@ const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
         </div>
 
         {/* Bottom section - View controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3 border-t border-blue-200">
+        {!isMobile && (
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pt-3 border-t border-blue-200">
           {/* View mode toggle */}
           <div className="flex items-center space-x-2">
             <span className="text-gray-600 text-sm font-medium">Chế độ xem:</span>
@@ -185,7 +188,8 @@ const ArticlesPageHeader: React.FC<ArticlesPageHeaderProps> = ({
               </button>
             </div>
           </div>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

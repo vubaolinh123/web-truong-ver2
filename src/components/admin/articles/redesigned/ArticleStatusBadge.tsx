@@ -71,8 +71,8 @@ const ArticleStatusBadge: React.FC<ArticleStatusBadgeProps> = ({
     }
   };
 
-  const config = statusConfig[status];
-  const sizes = sizeClasses[size];
+  const config = statusConfig[status] || statusConfig.draft;
+  const sizes = sizeClasses[size] || sizeClasses.md;
   const StatusIcon = config.icon;
 
   return (

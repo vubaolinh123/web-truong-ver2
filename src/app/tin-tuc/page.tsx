@@ -58,7 +58,7 @@ async function getArticles(params: {
     });
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/articles/public?${searchParams}`,
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public?${searchParams}`,
       {
         next: { revalidate: 1 } // ISR: revalidate every 5 minutes
       }
@@ -81,14 +81,15 @@ async function getArticles(params: {
     return { articles: [], total: 0, totalPages: 1 };
   } catch (error) {
     console.error('Error fetching articles:', error);
-    return { articles: [], total: 0, totalPages: 1 };
+    // Re-throw the error to be caught by the Next.js error boundary
+    throw new Error('Không thể tải danh sách bài viết. Vui lòng thử lại sau.');
   }
 }
 
 async function getFeaturedArticles(): Promise<Article[]> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/articles/public/featured?limit=4`,
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public/featured?limit=4`,
       {
         next: { revalidate: 1 } // Revalidate every 5 minutes
       }
@@ -114,7 +115,7 @@ async function getFeaturedArticles(): Promise<Article[]> {
 async function getCategories() {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/categories/public`,
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/categories/public`,
       {
         next: { revalidate: 1 } // Cache for 1 hour
       }

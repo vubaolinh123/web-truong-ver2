@@ -39,6 +39,11 @@ const MetricItem: React.FC<MetricItemProps> = ({
   animated = true
 }) => {
   const formatValue = (num: number): string => {
+    // Handle undefined, null, or non-numeric values
+    if (num == null || isNaN(num)) {
+      return '0';
+    }
+
     if (num >= 1000000) {
       return `${(num / 1000000).toFixed(1)}M`;
     } else if (num >= 1000) {
@@ -92,22 +97,27 @@ const ArticleMetrics: React.FC<ArticleMetricsProps> = ({
   animated = true,
   className = ""
 }) => {
+  // Ensure all values are valid numbers
+  const safeViews = views ?? 0;
+  const safeLikes = likes ?? 0;
+  const safeComments = comments ?? 0;
+
   const metrics = [
     {
       icon: ViewIcon,
-      value: views,
+      value: safeViews,
       label: 'Lượt xem',
       color: 'text-blue-600'
     },
     {
       icon: LikeIcon,
-      value: likes,
+      value: safeLikes,
       label: 'Thích',
       color: 'text-red-600'
     },
     {
       icon: CommentIcon,
-      value: comments,
+      value: safeComments,
       label: 'Bình luận',
       color: 'text-yellow-600'
     }
@@ -197,16 +207,16 @@ const ArticleMetrics: React.FC<ArticleMetricsProps> = ({
             Tỷ lệ tương tác
           </span>
           <span className="text-purple-200 text-sm font-bold">
-            {views > 0 ? (((likes + comments) / views * 100).toFixed(1)) : '0'}%
+            {safeViews > 0 ? (((safeLikes + safeComments) / safeViews * 100).toFixed(1)) : '0'}%
           </span>
         </div>
-        
+
         {/* Progress bar */}
         <div className="mt-2 w-full bg-slate-800/50 rounded-full h-2">
-          <div 
+          <div
             className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500"
-            style={{ 
-              width: `${Math.min((likes + comments) / Math.max(views, 1) * 100, 100)}%` 
+            style={{
+              width: `${Math.min((safeLikes + safeComments) / Math.max(safeViews, 1) * 100, 100)}%`
             }}
           />
         </div>

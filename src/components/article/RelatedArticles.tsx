@@ -38,7 +38,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articleId, categoryId
         }
 
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/articles/public?${params}`
+          `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public?${params}`
         );
 
         if (!response.ok) {

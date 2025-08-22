@@ -24,7 +24,7 @@ import {
   type ApiResponse
 } from '@/lib/utils/errorHandler';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 // Helper function to get auth token
 const getAuthToken = (): string | null => {
@@ -108,6 +108,26 @@ export const articlesApi = {
     });
 
     return makeRequest(`/articles/public?${queryParams.toString()}`);
+  },
+
+  /**
+   * Get articles with pagination and filters (admin access)
+   */
+  getAdminArticles: async (params: Partial<ArticleSearchParams> = {}): Promise<ArticlesResponse> => {
+    const searchParams = { ...DEFAULT_ARTICLE_PARAMS, ...params };
+
+    const queryParams = new URLSearchParams();
+    Object.entries(searchParams).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (Array.isArray(value)) {
+          value.forEach(v => queryParams.append(key, v.toString()));
+        } else {
+          queryParams.append(key, value.toString());
+        }
+      }
+    });
+
+    return makeRequest(`/articles/admin?${queryParams.toString()}`);
   },
 
   /**
@@ -226,6 +246,29 @@ export const articlesApi = {
     });
 
     return makeRequest(`/articles/public/search?${searchParams.toString()}`);
+  },
+
+  /**
+   * Search articles (admin access)
+   */
+  searchAdminArticles: async (
+    query: string,
+    filters: Partial<ArticleSearchParams> = {}
+  ): Promise<ArticleSearchResponse> => {
+    const searchParams = new URLSearchParams();
+    searchParams.append('keyword', query);
+
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        if (Array.isArray(value)) {
+          value.forEach(v => searchParams.append(key, v.toString()));
+        } else {
+          searchParams.append(key, value.toString());
+        }
+      }
+    });
+
+    return makeRequest(`/articles/admin/search?${searchParams.toString()}`);
   },
 
   /**
