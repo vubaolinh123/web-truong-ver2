@@ -1,13 +1,12 @@
 /**
  * Article Content Component
- * Renders article content with proper styling that matches admin editor
+ * Renders article content with modern Tailwind CSS styling
  */
 
 'use client';
 
 import React, { useEffect, useRef } from 'react';
 import { ArticleContentProps } from '../types/article.types';
-import styles from '../styles/article-content.module.css';
 
 const ArticleContent: React.FC<ArticleContentProps> = ({
   content,
@@ -110,17 +109,12 @@ const ArticleContent: React.FC<ArticleContentProps> = ({
   };
 
   return (
-    <div className={`${styles.articleContent} ${className}`}>
+    <div className={`max-w-none ${className}`}>
       <div
         ref={contentRef}
+        className="article-content break-words"
         dangerouslySetInnerHTML={{
           __html: processContent(content)
-        }}
-        style={{
-          // Ensure content doesn't break layout
-          wordWrap: 'break-word',
-          overflowWrap: 'break-word',
-          hyphens: 'auto'
         }}
       />
     </div>

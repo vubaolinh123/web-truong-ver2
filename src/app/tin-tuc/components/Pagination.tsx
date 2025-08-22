@@ -15,24 +15,52 @@ interface PaginationProps {
   sort?: string;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ 
-  currentPage, 
-  totalPages, 
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
   search = '',
   category = '',
   sort = 'newest'
 }) => {
   const buildPageUrl = (page: number) => {
     const params = new URLSearchParams();
-    
+
     if (page > 1) params.set('page', page.toString());
     if (search) params.set('search', search);
     if (category) params.set('category', category);
     if (sort && sort !== 'newest') params.set('sort', sort);
-    
+
     return `/tin-tuc${params.toString() ? `?${params.toString()}` : ''}`;
   };
 
+  const getPagination = () => {
+    const delta = 2;
+    const left = currentPage - delta;
+    const right = currentPage + delta + 1;
+    const range = [];
+    const rangeWithDots = [];
+    let l;
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === 1 || i === totalPages || (i >= left && i < right)) {
+        range.push(i);
+      }
+    }
+
+    for (const i of range) {
+      if (l) {
+        if (i - l === 2) {
+          rangeWithDots.push(l + 1);
+        } else if (i - l !== 1) {
+          rangeWithDots.push('...');
+        }
+      }
+      rangeWithDots.push(i);
+      l = i;
+    }
+
+    return rangeWithDots;
+  };
   if (totalPages <= 1) {
     return null;
   }
@@ -49,23 +77,25 @@ const Pagination: React.FC<PaginationProps> = ({
             Trước
           </Link>
         )}
-        
-        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-          const page = i + 1;
-          return (
+
+        {getPagination().map((page, index) =>
+          typeof page === 'number' ? (
             <Link
-              key={page}
+              key={`${page}-${index}`}
               href={buildPageUrl(page)}
-              className={`px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
+              className={`hidden md:block px-4 py-2 rounded-lg transition-colors text-sm font-medium ${
                 page === currentPage
                   ? 'bg-gradient-to-r from-sky-500 to-blue-500 text-white shadow-lg'
                   : 'border border-gray-300 hover:bg-gray-50'
-              }`}
-            >
+              }`}>
               {page}
             </Link>
-          );
-        })}
+          ) : (
+            <span key={`${page}-${index}`} className="hidden md:block px-4 py-2 text-sm font-medium text-gray-500">
+              {page}
+            </span>
+          )
+        )}
 
         {currentPage < totalPages && (
           <Link

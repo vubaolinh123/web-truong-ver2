@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Fira_Code } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/components/providers/StoreProvider";
+import { BreadcrumbProvider } from "@/contexts/BreadcrumbContext";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -133,7 +134,9 @@ export default function RootLayout({
         className={`${manrope.variable} ${firaCode.variable} antialiased bg-white`}
       >
         <StoreProvider>
-          {children}
+          <BreadcrumbProvider>
+            {children}
+          </BreadcrumbProvider>
         </StoreProvider>
       </body>
     </html>

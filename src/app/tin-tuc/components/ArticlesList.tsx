@@ -3,6 +3,8 @@
  * Displays paginated list of articles with card layout
  */
 
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -13,16 +15,16 @@ interface ArticlesListProps {
   articles: Article[];
   currentPage: number;
   totalPages: number;
-  isFirstPage?: boolean;
+
   search?: string;
   category?: string;
 }
 
-const ArticlesList: React.FC<ArticlesListProps> = ({ 
-  articles, 
-  currentPage, 
+const ArticlesList: React.FC<ArticlesListProps> = ({
+  articles,
+  currentPage,
   totalPages,
-  isFirstPage = false,
+
   search = '',
   category = ''
 }) => {
@@ -33,6 +35,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
       year: 'numeric'
     });
   };
+  console.log("articles",articles)
 
   const getAuthorName = (author: { firstName?: string; lastName?: string } | null | undefined) => {
     if (!author) return 'Tác giả ẩn danh';
@@ -44,93 +47,81 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
     return typeof featuredImage === 'string' ? featuredImage : featuredImage?.url || '/images/default-article.svg';
   };
 
-  // Filter articles for display (skip first 3 on first page if they're featured)
-  const displayArticles = isFirstPage && articles.length >= 3 ? articles.slice(3) : articles;
+  const displayArticles = articles;
 
   return (
     <div className="mb-12">
-      <div className="flex items-center justify-between mb-8">
+      {/* Section Header */}
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-sky-200">
         <div className="flex items-center gap-4">
-          <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-sky-500 to-blue-500 text-white rounded-xl">
-            <Newspaper size={24} />
+          <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-sky-100 to-sky-200 text-sky-600 rounded-2xl">
+            <Newspaper size={28} />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              {currentPage === 1 ? '📰 Tất cả tin tức' : `📰 Tin tức - Trang ${currentPage}`}
+            <h2 className="text-3xl font-bold text-slate-800">
+              {currentPage === 1 ? 'Tất cả tin tức' : `Tin tức - Trang ${currentPage}`}
             </h2>
-            <p className="text-gray-600">
+            <p className="text-slate-500">
               {currentPage === 1 ? 'Danh sách đầy đủ các bài viết mới nhất' : `Hiển thị trang ${currentPage} của ${totalPages}`}
             </p>
           </div>
         </div>
         {totalPages > 1 && (
-          <div className="hidden md:flex items-center gap-2 text-sm text-gray-500">
+          <div className="hidden md:flex items-center gap-2 text-sm text-slate-500 font-medium bg-white/70 border border-sky-100 px-4 py-2 rounded-full">
             <span>Trang {currentPage} / {totalPages}</span>
           </div>
         )}
       </div>
-      
+
       {displayArticles.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayArticles.map((article) => (
-            <article key={article.id} className="bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-sky-200 hover:-translate-y-1 flex flex-col h-full">
-              <Link href={`/tin-tuc/${article.slug}`}>
-                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+            <article key={article.id} className="bg-white rounded-2xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 border border-sky-100 hover:border-sky-300 hover:-translate-y-1.5 flex flex-col h-full">
+              <div className="relative h-56 w-full overflow-hidden">
+                <Link href={`/tin-tuc/${article.slug}`} className="block w-full h-full">
                   <Image
                     src={getImageSrc(article.featuredImage)}
                     alt={article.title}
                     fill
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-sky-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                  {/* Category Badge */}
-                  {article.category && (
-                    <div className="absolute top-3 left-3">
-                      <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-semibold bg-sky-500/90 text-white backdrop-blur-sm">
-                        {article.category.name}
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Read More Button */}
-                  <div className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                    <div className="bg-white/90 backdrop-blur-sm rounded-lg p-2 shadow-lg">
-                      <ArrowRight size={16} className="text-sky-500" />
-                    </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                </Link>
+                {(article.categories && article.categories.length > 0) && (
+                  <div className="absolute top-4 left-4 flex flex-wrap gap-2 z-10">
+                    {article.categories.slice(0, 2).map((cat) => (
+                      <Link
+                        key={cat.id}
+                        href={`/tin-tuc?category=${cat.slug}`}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-sky-500/90 text-white backdrop-blur-sm border border-white/20 hover:bg-sky-600/90 transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {cat.name}
+                      </Link>
+                    ))}
                   </div>
-                </div>
+                )}
+              </div>
 
-                <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-sky-500 transition-colors line-clamp-2 leading-tight">
-                    {article.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed flex-1">
-                    {article.excerpt}
-                  </p>
+              <Link href={`/tin-tuc/${article.slug}`} className="p-5 flex-1 flex flex-col">
+                <h3 className="text-lg font-bold text-slate-800 mb-3 group-hover:text-sky-600 transition-colors line-clamp-3 leading-tight flex-grow">
+                  {article.title}
+                </h3>
 
-                  {/* Enhanced Meta */}
-                  <div className="flex items-center justify-between pt-3 border-t border-gray-100 mt-auto">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 bg-sky-100 rounded-full flex items-center justify-center">
-                        <User size={10} className="text-sky-500" />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 truncate max-w-[100px]">
-                        {getAuthorName(article.author)}
-                      </span>
+                {/* Meta Information */}
+                <div className="flex items-center justify-between pt-4 border-t border-sky-100 mt-auto">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 bg-sky-100 rounded-full flex items-center justify-center">
+                      <User size={14} className="text-sky-600" />
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <Calendar size={10} />
-                        <span>{formatDate(article.publishedAt || article.createdAt)}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Eye size={10} />
-                        <span>{article.viewCount?.toLocaleString() || '0'}</span>
-                      </div>
-                    </div>
+                    <span className="text-sm font-medium text-slate-600 truncate max-w-[120px]">
+                      {getAuthorName(article.author)}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-500">
+                    <Calendar size={14} />
+                    <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                   </div>
                 </div>
               </Link>
@@ -138,26 +129,26 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
-            <Search size={64} className="mx-auto" />
+        <div className="text-center py-16 bg-white/70 backdrop-blur-sm border border-sky-100 rounded-2xl">
+          <div className="w-24 h-24 bg-gradient-to-br from-sky-100 to-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Search size={48} className="text-slate-400" />
           </div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <h3 className="text-2xl font-bold text-slate-800 mb-2">
             {search || category ? 'Không tìm thấy bài viết nào' : 'Chưa có bài viết nào'}
           </h3>
-          <p className="text-gray-600 mb-4">
-            {search || category 
-              ? 'Thử thay đổi từ khóa tìm kiếm hoặc bộ lọc'
-              : 'Hệ thống đang được cập nhật. Vui lòng quay lại sau.'
+          <p className="text-slate-500 mb-6 max-w-md mx-auto">
+            {search || category
+              ? 'Vui lòng thử lại với từ khóa hoặc bộ lọc khác để tìm ra bài viết bạn cần.'
+              : 'Hiện tại chưa có bài viết nào được đăng tải. Vui lòng quay lại sau.'
             }
           </p>
           {(search || category) && (
             <Link
               href="/tin-tuc"
-              className="inline-flex items-center px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-semibold rounded-lg hover:from-sky-600 hover:to-sky-700 transition-all duration-200 shadow-md hover:shadow-lg"
             >
-              Xem tất cả tin tức
-              <ArrowRight size={16} className="ml-2" />
+              <span>Xóa bộ lọc và xem tất cả</span>
+              <ArrowRight size={16} />
             </Link>
           )}
         </div>

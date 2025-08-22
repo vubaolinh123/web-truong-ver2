@@ -1,20 +1,21 @@
 /**
  * Article Header Component
- * Displays article title, metadata, and breadcrumbs
+ * Displays article title and metadata with modern styling
  */
 
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
-import { Calendar, User, Clock, Eye, Tag } from 'lucide-react';
-import Breadcrumb from '@/components/ui/Breadcrumb';
-import { ArticleHeaderProps } from '../types/article.types';
-import styles from '../styles/page.module.css';
+import { Calendar, User, Tag, FolderOpen } from 'lucide-react';
+import { ArticleContent } from '../types/article.types';
+
+interface ArticleHeaderProps {
+  article: ArticleContent;
+  className?: string;
+}
 
 const ArticleHeader: React.FC<ArticleHeaderProps> = ({
   article,
-  breadcrumbs,
   className = ''
 }) => {
   const formatDate = (dateString: string) => {
@@ -31,112 +32,116 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
 
   return (
     <div className={`${className}`}>
-      {/* Breadcrumbs */}
-      <Breadcrumb
-        items={breadcrumbs}
-        showHomeIcon={false}
-        maxItems={5}
-      />
-
-      {/* Article Header */}
-      <header className={styles.articleHeader}>
-        {/* Category Badge */}
-        {article.category && (
-          <div className={styles.categoryBadge}>
-            {article.category.name}
-          </div>
-        )}
-
-        {/* Article Title */}
-        <h1 className={styles.articleTitle}>
-          {article.title}
-        </h1>
-
-        {/* Article Excerpt */}
-        {article.excerpt && (
-          <p style={{
-            fontSize: '1.125rem',
-            opacity: 0.9,
-            marginBottom: '1.5rem',
-            lineHeight: 1.6
-          }}>
-            {article.excerpt}
-          </p>
-        )}
-
-        {/* Article Metadata */}
-        <div className={styles.articleMeta}>
-          {/* Author */}
-          {article.author && (
-            <div className={styles.metaItem}>
-              <User size={16} />
-              <span>
-                {article.author.firstName} {article.author.lastName}
-              </span>
-            </div>
-          )}
-
-          {/* Published Date */}
-          {article.publishedAt && (
-            <div className={styles.metaItem}>
-              <Calendar size={16} />
-              <span>{formatDate(article.publishedAt)}</span>
-            </div>
-          )}
-
-          {/* Reading Time */}
-          {article.readingTime && (
-            <div className={styles.metaItem}>
-              <Clock size={16} />
-              <span>{article.readingTime} phút đọc</span>
-            </div>
-          )}
-
-          {/* View Count */}
-          <div className={styles.metaItem}>
-            <Eye size={16} />
-            <span>{article.viewCount.toLocaleString()} lượt xem</span>
-          </div>
-
-          {/* Tags */}
-          {article.tags && article.tags.length > 0 && (
-            <div className={styles.metaItem}>
-              <Tag size={16} />
-              <span>
-                {Array.isArray(article.tags)
-                  ? article.tags.slice(0, 2).map((tag: any) =>
-                      typeof tag === 'string' ? tag : tag.name
-                    ).join(', ')
-                  : (article.tags as string[]).slice(0, 2).join(', ')
-                }
-                {article.tags.length > 2 && ` +${article.tags.length - 2}`}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Featured Image */}
+      {/* Modern Article Header */}
+      <header className="relative">
+        {/* Featured Image Background */}
         {article.featuredImage && (
-          <div style={{ 
-            marginTop: '2rem',
-            borderRadius: '12px',
-            overflow: 'hidden',
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-          }}>
+          <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden">
             <img
               src={typeof article.featuredImage === 'string'
                 ? article.featuredImage
                 : article.featuredImage?.url || ''
               }
               alt={article.title}
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxHeight: '400px',
-                objectFit: 'cover'
-              }}
-              loading="eager" // Load immediately for featured image
+              className="w-full h-full object-cover"
+              loading="eager"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/30 to-transparent"></div>
+
+            {/* Title Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+                {article.title}
+              </h1>
+
+              {/* Metadata */}
+              <div className="flex flex-wrap gap-4 text-white/90">
+                {article.publishedAt && (
+                  <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
+                    <Calendar size={16} />
+                    <span className="text-sm">{formatDate(article.publishedAt)}</span>
+                  </div>
+                )}
+                {article.category && (
+                  <div className="flex items-center gap-2 bg-sky-500/80 backdrop-blur-sm rounded-full px-3 py-1">
+                    <FolderOpen size={16} />
+                    <span className="text-sm font-medium">{article.category.name}</span>
+                  </div>
+                )}
+                {article.author && (
+                  <div className="flex items-center gap-2 bg-yellow-500/80 backdrop-blur-sm rounded-full px-3 py-1">
+                    <User size={16} />
+                    <span className="text-sm">
+                      {article.author.firstName} {article.author.lastName}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Header without image */}
+        {!article.featuredImage && (
+          <div className="bg-gradient-to-r from-sky-100 via-white to-yellow-100 p-6 lg:p-8">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-800 mb-6 leading-tight">
+              {article.title}
+            </h1>
+
+            {/* Metadata */}
+            <div className="flex flex-wrap gap-4">
+              {article.publishedAt && (
+                <div className="flex items-center gap-2 bg-white/80 border border-sky-200 rounded-full px-4 py-2">
+                  <Calendar size={16} className="text-sky-600" />
+                  <span className="text-sm text-slate-700">{formatDate(article.publishedAt)}</span>
+                </div>
+              )}
+              {article.category && (
+                <div className="flex items-center gap-2 bg-sky-500 text-white rounded-full px-4 py-2">
+                  <FolderOpen size={16} />
+                  <span className="text-sm font-medium">{article.category.name}</span>
+                </div>
+              )}
+              {article.author && (
+                <div className="flex items-center gap-2 bg-yellow-500 text-white rounded-full px-4 py-2">
+                  <User size={16} />
+                  <span className="text-sm">
+                    {article.author.firstName} {article.author.lastName}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Excerpt */}
+        {article.excerpt && (
+          <div className="p-6 lg:p-8 bg-gradient-to-r from-sky-50/50 to-yellow-50/50 border-b border-sky-100">
+            <p className="text-lg text-slate-700 leading-relaxed italic">
+              {article.excerpt}
+            </p>
+          </div>
+        )}
+
+        {/* Tags */}
+        {article.tags && article.tags.length > 0 && (
+          <div className="p-6 lg:p-8 bg-white border-b border-sky-100">
+            <div className="flex items-center gap-2 mb-3">
+              <Tag size={18} className="text-slate-500" />
+              <span className="text-sm font-medium text-slate-600">Thẻ:</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {Array.isArray(article.tags) &&
+                article.tags.map((tag: any, index: number) => (
+                  <span
+                    key={index}
+                    className="inline-block bg-gradient-to-r from-sky-100 to-yellow-100 text-slate-700 px-3 py-1 rounded-full text-sm border border-sky-200 hover:from-sky-200 hover:to-yellow-200 transition-colors"
+                  >
+                    {typeof tag === 'string' ? tag : tag.name}
+                  </span>
+                ))
+              }
+            </div>
           </div>
         )}
       </header>

@@ -60,7 +60,7 @@ async function getArticles(params: {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/articles/public?${searchParams}`,
       {
-        next: { revalidate: 300 } // ISR: revalidate every 5 minutes
+        next: { revalidate: 1 } // ISR: revalidate every 5 minutes
       }
     );
 
@@ -85,12 +85,38 @@ async function getArticles(params: {
   }
 }
 
+async function getFeaturedArticles(): Promise<Article[]> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/articles/public/featured?limit=4`,
+      {
+        next: { revalidate: 1 } // Revalidate every 5 minutes
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch featured articles');
+    }
+
+    const data = await response.json();
+
+    if (data.status === 'success') {
+      return data.data.articles || [];
+    }
+
+    return [];
+  } catch (error) {
+    console.error('Error fetching featured articles:', error);
+    return [];
+  }
+}
+
 async function getCategories() {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/categories/public`,
       {
-        next: { revalidate: 3600 } // Cache for 1 hour
+        next: { revalidate: 1 } // Cache for 1 hour
       }
     );
 
@@ -158,10 +184,15 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
   const category = params.category || '';
   const sort = params.sort || 'newest';
 
-  // Fetch data
-  const [{ articles, total, totalPages }, categories] = await Promise.all([
+  // Fetch data in parallel
+  const [
+    { articles, total, totalPages },
+    categories,
+    featuredArticles
+  ] = await Promise.all([
     getArticles({ page: currentPage, search, category, sort }),
-    getCategories()
+    getCategories(),
+    getFeaturedArticles()
   ]);
 
   return (
@@ -173,10 +204,10 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
       />
 
       <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-yellow-50">
           {/* Hero Section */}
           <Suspense fallback={
-            <div className="h-96 bg-gradient-to-br from-sky-400 via-blue-500 to-blue-600 animate-pulse" />
+            <div className="h-96 bg-gradient-to-br from-sky-100 via-blue-100 to-yellow-100 animate-pulse" />
           }>
             <HeroSection
               totalArticles={total}
@@ -185,10 +216,10 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
           </Suspense>
 
           {/* Main Content */}
-          <div className="w-4/5 max-w-7xl mx-auto px-4 py-12">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Filters Section */}
             <Suspense fallback={
-              <div className="h-32 bg-white rounded-2xl shadow-lg animate-pulse mb-8" />
+              <div className="h-32 bg-white/70 rounded-2xl shadow-lg animate-pulse mb-8" />
             }>
               <FilterControls
                 categories={categories}
@@ -200,23 +231,23 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             </Suspense>
 
             {/* Featured Articles (only on first page) */}
-            {currentPage === 1 && articles.length >= 3 && (
+            {currentPage === 1 && featuredArticles.length > 0 && (
               <Suspense fallback={
-                <div className="h-96 bg-white rounded-2xl shadow-lg animate-pulse mb-16" />
+                <div className="h-96 bg-white/70 rounded-2xl shadow-lg animate-pulse mb-16" />
               }>
-                <FeaturedArticles articles={articles} />
+                <FeaturedArticles articles={featuredArticles} />
               </Suspense>
             )}
 
             {/* All Articles */}
             <Suspense fallback={
-              <div className="h-96 bg-white rounded-2xl shadow-lg animate-pulse mb-12" />
+              <div className="h-96 bg-white/70 rounded-2xl shadow-lg animate-pulse mb-12" />
             }>
               <ArticlesList
                 articles={articles}
                 currentPage={currentPage}
                 totalPages={totalPages}
-                isFirstPage={currentPage === 1}
+
                 search={search}
                 category={category}
               />
@@ -225,7 +256,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
             {/* Pagination */}
             {totalPages > 1 && (
               <Suspense fallback={
-                <div className="h-16 bg-white rounded-2xl shadow-lg animate-pulse" />
+                <div className="h-16 bg-white/70 rounded-2xl shadow-lg animate-pulse" />
               }>
                 <Pagination
                   currentPage={currentPage}

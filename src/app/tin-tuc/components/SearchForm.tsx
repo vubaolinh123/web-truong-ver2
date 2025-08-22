@@ -15,20 +15,20 @@ interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = ({ defaultValue = '', className = '' }) => {
   return (
-    <div className={`max-w-2xl mx-auto ${className}`}>
+    <div className={`w-full ${className}`}>
       <form method="GET" className="relative">
-        <div className="relative flex items-center bg-white/95 rounded-2xl p-2 backdrop-blur-sm border border-white/20 shadow-lg">
-          <Search size={20} className="absolute left-4 text-gray-400" />
+        <div className="relative flex items-center bg-white rounded-full p-2 border border-sky-200 shadow-md focus-within:ring-2 focus-within:ring-sky-400 transition-all duration-300">
+          <Search size={22} className="absolute left-5 text-slate-400" />
           <input
             type="text"
             name="search"
             defaultValue={defaultValue}
             placeholder="Tìm kiếm tin tức, thông báo, sự kiện..."
-            className="flex-1 pl-12 pr-4 py-3 bg-transparent text-gray-900 placeholder-gray-500 outline-none rounded-xl"
+            className="flex-1 pl-14 pr-4 py-3 bg-transparent text-slate-800 placeholder-slate-500 outline-none rounded-full text-base"
           />
           <button
             type="submit"
-            className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 px-6 py-3 rounded-xl font-semibold hover:from-yellow-500 hover:to-yellow-600 transition-all duration-300 shadow-lg"
+            className="bg-gradient-to-r from-sky-500 to-sky-600 text-white px-8 py-3 rounded-full font-semibold hover:from-sky-600 hover:to-sky-700 transition-all duration-300 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2"
           >
             Tìm kiếm
           </button>

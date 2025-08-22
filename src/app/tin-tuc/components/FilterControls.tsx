@@ -33,26 +33,26 @@ const FilterControls: React.FC<FilterControlsProps> = ({
   const selectedCategory = categories.find(cat => cat.id === currentCategory);
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-gray-100">
+    <div className="bg-white/70 backdrop-blur-sm border border-sky-100 rounded-2xl p-6 mb-8 shadow-sm">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         {/* Results Info */}
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-sky-500 rounded-full"></div>
-            <span className="text-gray-700">
-              <span className="font-bold text-sky-500">{totalResults.toLocaleString()}</span> bài viết được tìm thấy
-            </span>
+        <div className="flex-grow">
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2.5 h-2.5 bg-gradient-to-r from-sky-400 to-yellow-400 rounded-full"></div>
+            <p className="text-slate-700">
+              Tìm thấy <span className="font-bold text-slate-800">{totalResults.toLocaleString()}</span> bài viết
+            </p>
           </div>
-          {(currentSearch || currentCategory) && (
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-gray-500">Lọc theo:</span>
+          {hasActiveFilters && (
+            <div className="flex items-center flex-wrap gap-2 text-sm">
+              <span className="text-slate-500">Lọc theo:</span>
               {currentSearch && (
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                <span className="px-3 py-1 bg-sky-100 text-sky-800 rounded-full text-xs font-medium border border-sky-200">
                   &ldquo;{currentSearch}&rdquo;
                 </span>
               )}
               {selectedCategory && (
-                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium border border-yellow-200">
                   {selectedCategory.name}
                 </span>
               )}
@@ -62,16 +62,16 @@ const FilterControls: React.FC<FilterControlsProps> = ({
 
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center gap-4">
-          <form method="GET" className="flex gap-4">
+          <form method="GET" className="flex flex-wrap gap-4">
             {/* Preserve existing params */}
             {currentSearch && <input type="hidden" name="search" value={currentSearch} />}
-            
+
             {/* Category Filter */}
             <div className="relative">
               <select
                 name="category"
                 defaultValue={currentCategory}
-                className="appearance-none bg-white border border-gray-300 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-200 text-sm font-medium min-w-[160px]"
+                className="appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-200 text-sm font-medium text-slate-700 min-w-[180px] hover:border-sky-400"
                 onChange={(e) => {
                   const form = e.target.closest('form') as HTMLFormElement;
                   form.submit();
@@ -84,7 +84,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                   </option>
                 ))}
               </select>
-              <Filter size={16} className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" />
+              <Filter size={16} className="absolute right-3.5 top-1/2 transform -translate-y-1/2 text-slate-400 pointer-events-none" />
             </div>
 
             {/* Sort Filter */}
@@ -92,7 +92,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
               <select
                 name="sort"
                 defaultValue={currentSort}
-                className="appearance-none bg-white border border-gray-300 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-200 text-sm font-medium min-w-[140px]"
+                className="appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-200 text-sm font-medium text-slate-700 min-w-[160px] hover:border-sky-400"
                 onChange={(e) => {
                   const form = e.target.closest('form') as HTMLFormElement;
                   form.submit();
@@ -103,7 +103,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
                 <option value="popular">🔥 Phổ biến</option>
                 <option value="views">👁️ Nhiều lượt xem</option>
               </select>
-              <ArrowRight size={16} className="absolute right-3 top-1/2 transform -translate-y-1/2 rotate-90 text-gray-400 pointer-events-none" />
+              <ArrowRight size={16} className="absolute right-3.5 top-1/2 transform -translate-y-1/2 rotate-90 text-slate-400 pointer-events-none" />
             </div>
           </form>
 
@@ -111,9 +111,10 @@ const FilterControls: React.FC<FilterControlsProps> = ({
           {hasActiveFilters && (
             <Link
               href="/tin-tuc"
-              className="px-4 py-3 text-sm font-medium text-gray-600 hover:text-red-600 transition-colors border border-gray-300 rounded-xl hover:border-red-300 hover:bg-red-50"
+              className="px-4 py-3 text-sm font-medium text-slate-600 hover:text-red-600 transition-colors border border-slate-300 rounded-xl hover:border-red-300 hover:bg-red-50 flex items-center gap-2"
             >
-              ✕ Xóa bộ lọc
+              <span>✕</span>
+              <span>Xóa bộ lọc</span>
             </Link>
           )}
         </div>
