@@ -35,7 +35,6 @@ async function getArticleBySlug(slug: string): Promise<ArticleContent | null> {
   try {
     const response = await articlesApi.getArticleBySlug(slug);
     if (response.status === 'success') {
-      console.log(response.data)
       return response.data.article;
     }
     return null;

@@ -27,20 +27,7 @@ const NewArticlePage: React.FC = () => {
     }
 
     try {
-      let featuredImageUrl = '';
 
-      // Handle featured image upload if provided
-      if (formData.featuredImage instanceof File) {
-        try {
-          const uploadResponse = await articlesApi.uploadImage(formData.featuredImage);
-          if (uploadResponse.status === 'success') {
-            featuredImageUrl = uploadResponse.data.url;
-          }
-        } catch (uploadError) {
-          console.error('Error uploading image:', uploadError);
-          throw new Error('Có lỗi xảy ra khi tải lên hình ảnh');
-        }
-      }
 
       // Prepare article data for API
       const articleData: ArticleFormData = {
@@ -53,7 +40,7 @@ const NewArticlePage: React.FC = () => {
         featured: formData.featured,
         tags: formData.tags,
         publishedAt: formData.publishedAt,
-        featuredImage: featuredImageUrl || null
+        featuredImage: formData.featuredImage,
       };
 
       // Debug: Log the form data to verify categories are included

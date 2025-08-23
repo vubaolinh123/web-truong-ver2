@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ArticleImage from '@/components/common/ArticleImage';
 import { ArrowRight, Eye, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -118,9 +118,9 @@ const NewsSection = () => {
               >
                 {/* Image Section */}
                 <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={newsItem.image}
-                    alt={`Hình ảnh tin tức: ${newsItem.title} - ${newsItem.category}`}
+                  <ArticleImage
+                    featuredImage={newsItem.image}
+                    title={newsItem.title}
                     width={400}
                     height={256}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
@@ -176,9 +176,9 @@ const NewsSection = () => {
               >
                 {/* Compact Image Section */}
                 <div className="relative h-40 overflow-hidden">
-                  <Image
-                    src={newsItem.image}
-                    alt={`Hình ảnh tin tức: ${newsItem.title} - ${newsItem.category}`}
+                  <ArticleImage
+                    featuredImage={newsItem.image}
+                    title={newsItem.title}
                     width={280}
                     height={160}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

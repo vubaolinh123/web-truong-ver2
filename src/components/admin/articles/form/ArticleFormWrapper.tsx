@@ -57,7 +57,7 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
     publishedAt: ''
   });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isDirty, setIsDirty] = useState(false);
+
 
   // Initialize form data for edit mode
   useEffect(() => {
@@ -90,7 +90,7 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
         content: article.content || '',
         categoryIds: categoryIds,
         tags: article.tags || [],
-        featuredImage: typeof article.featuredImage === 'string' ? article.featuredImage : null,
+        featuredImage: (typeof article.featuredImage === 'object' && article.featuredImage?.url) ? article.featuredImage.url : (typeof article.featuredImage === 'string' ? article.featuredImage : null),
         status: article.status || 'draft',
         featured: article.featured || false,
         publishedAt: article.publishedAt || ''
@@ -148,7 +148,6 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
 
     try {
       await onSubmit(formData);
-      setIsDirty(false);
     } catch (error) {
       console.error('Form submission error:', error);
     }
@@ -176,7 +175,7 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
       }
       return prev;
     });
-    setIsDirty(true);
+
 
     // Clear error for this field
     if (errors[field]) {

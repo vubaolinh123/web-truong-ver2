@@ -5,13 +5,15 @@
 
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { articlesApi } from '@/lib/api/articles';
 import Image from 'next/image';
 import { Upload, Image as ImageIcon, X, Camera } from 'lucide-react';
 
 interface ArticleFeaturedImageProps {
-  featuredImage: string | File | null;
-  onImageChange: (image: File | null) => void;
+  featuredImage: string | null;
+  onImageChange: (image: string | null) => void;
   onImageUrlChange?: (url: string) => void;
   errors?: {
     featuredImage?: string;
@@ -26,12 +28,23 @@ const ArticleFeaturedImage: React.FC<ArticleFeaturedImageProps> = ({
 }) => {
   const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(
-    typeof featuredImage === 'string' ? featuredImage : null
-  );
+  const [previewUrl, setPreviewUrl] = useState<string | null>(featuredImage);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const ROOT_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace('/api', '');
+    if (featuredImage) {
+      const absoluteUrl = featuredImage.startsWith('http')
+        ? featuredImage
+        : `${ROOT_URL}${featuredImage}`;
+      setPreviewUrl(absoluteUrl);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [featuredImage]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = (file: File) => {
+  const handleFileSelect = async (file: File) => {
     if (!file.type.startsWith('image/')) {
       alert('Vui lòng chọn file hình ảnh');
       return;
@@ -42,11 +55,34 @@ const ArticleFeaturedImage: React.FC<ArticleFeaturedImageProps> = ({
       return;
     }
 
-    // Create preview URL
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-    onImageChange(file);
+    const preview = URL.createObjectURL(file);
+    setPreviewUrl(preview);
+    setUploading(true);
+    setError(null);
+
+    try {
+      const response = await articlesApi.uploadImage(file);
+      if (response.status === 'success' && response.data.url) {
+        const ROOT_URL = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace('/api', '');
+        const relativeUrl = response.data.url;
+        const absoluteUrl = `${ROOT_URL}${relativeUrl}`;
+        setPreviewUrl(absoluteUrl);
+        onImageChange(relativeUrl);
+      } else {
+        throw new Error((response as any).message || 'Lỗi không xác định trong quá trình tải lên');
+      }
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || err.message || 'Không thể tải lên hình ảnh.';
+      setError(errorMessage);
+      setPreviewUrl(null);
+      onImageChange(null);
+    } finally {
+      setUploading(false);
+      // Clean up the object URL to avoid memory leaks
+      URL.revokeObjectURL(preview);
+    }
   };
+
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -65,7 +101,23 @@ const ArticleFeaturedImage: React.FC<ArticleFeaturedImageProps> = ({
     }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
+    if (featuredImage) {
+      try {
+        // Since all images are now permanent, we always call deleteImage
+        const response = await articlesApi.deleteImage(featuredImage);
+        if (response && response.status === 'success') {
+          toast.success(response.message || 'Đã xóa ảnh thành công.');
+        }
+      } catch (err: any) {
+        console.error('Failed to delete image:', err);
+        // Correctly parse the error message from the API response
+        const errorMessage = err.response?.data?.message || err.message || 'Đã xảy ra lỗi khi xóa ảnh.';
+        toast.error(errorMessage);
+      }
+    }
+
+    // Always clear the UI state immediately for a responsive user experience
     setPreviewUrl(null);
     onImageChange(null);
     if (fileInputRef.current) {
@@ -126,9 +178,9 @@ const ArticleFeaturedImage: React.FC<ArticleFeaturedImageProps> = ({
           <div
             className={`
               relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-200
-              ${dragOver 
-                ? 'border-blue-400 bg-blue-50' 
-                : errors.featuredImage
+              ${dragOver
+                ? 'border-blue-400 bg-blue-50'
+                : (errors.featuredImage || error)
                 ? 'border-red-300 bg-red-50'
                 : 'border-gray-300 hover:border-gray-400'
               }
@@ -140,36 +192,43 @@ const ArticleFeaturedImage: React.FC<ArticleFeaturedImageProps> = ({
             }}
             onDragLeave={() => setDragOver(false)}
           >
-            <div className="space-y-4">
-              <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
-                <Camera size={24} className="text-gray-400" />
+            {uploading ? (
+              <div className="flex flex-col items-center justify-center space-y-4">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+                <p className="text-lg font-medium text-gray-700">Đang tải lên...</p>
               </div>
-              
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  Tải lên hình ảnh đại diện
-                </h3>
-                <p className="text-gray-500 mb-4">
-                  Kéo thả file vào đây hoặc click để chọn file
-                </p>
-                
-                <button
-                  type="button"
-                  onClick={handleUploadClick}
-                  disabled={uploading}
-                  className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-                >
-                  <Upload size={20} />
-                  <span>{uploading ? 'Đang tải...' : 'Chọn hình ảnh'}</span>
-                </button>
+            ) : (
+              <div className="space-y-4">
+                <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                  <Camera size={24} className="text-gray-400" />
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Tải lên hình ảnh đại diện
+                  </h3>
+                  <p className="text-gray-500 mb-4">
+                    Kéo thả file vào đây hoặc click để chọn file
+                  </p>
+
+                  <button
+                    type="button"
+                    onClick={handleUploadClick}
+                    disabled={uploading}
+                    className="inline-flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                  >
+                    <Upload size={20} />
+                    <span>{'Chọn hình ảnh'}</span>
+                  </button>
+                </div>
+
+                <div className="text-xs text-gray-400">
+                  <p>Định dạng: JPG, PNG, GIF</p>
+                  <p>Kích thước tối đa: 5MB</p>
+                  <p>Kích thước khuyến nghị: 1200x630px</p>
+                </div>
               </div>
-              
-              <div className="text-xs text-gray-400">
-                <p>Định dạng: JPG, PNG, GIF</p>
-                <p>Kích thước tối đa: 5MB</p>
-                <p>Kích thước khuyến nghị: 1200x630px</p>
-              </div>
-            </div>
+            )}
           </div>
         )}
 
@@ -183,6 +242,9 @@ const ArticleFeaturedImage: React.FC<ArticleFeaturedImageProps> = ({
         />
 
         {/* Error Message */}
+        {error && (
+          <p className="text-sm text-red-600 mt-2">Tải lên thất bại: {error}</p>
+        )}
         {errors.featuredImage && (
           <p className="text-sm text-red-600">{errors.featuredImage}</p>
         )}

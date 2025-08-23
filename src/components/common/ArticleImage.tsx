@@ -19,8 +19,10 @@ interface ArticleImageProps {
   className?: string;
   fallbackIcon?: 'eye' | 'image';
   fallbackSize?: number;
+
   priority?: boolean;
   sizes?: string;
+  loading?: 'eager' | 'lazy';
 }
 
 const ArticleImage: React.FC<ArticleImageProps> = ({
@@ -33,13 +35,32 @@ const ArticleImage: React.FC<ArticleImageProps> = ({
   fallbackIcon = 'eye',
   fallbackSize = 48,
   priority = false,
-  sizes
+  sizes,
+  loading
 }) => {
-  // Helper function to get image URL
-  const getImageUrl = (img?: string | FeaturedImage): string | null => {
-    if (!img) return null;
-    if (typeof img === 'string') return img.trim() !== '' ? img : null;
-    return img.url && img.url.trim() !== '' ? img.url : null;
+  // Helper function to resolve the image URL
+  const getImageUrl = (img?: string | FeaturedImage): string => {
+    const placeholder = '/images/placeholder.png';
+
+    let relativeUrl: string | null = null;
+    if (typeof img === 'string') {
+      relativeUrl = img.trim() !== '' ? img : null;
+    } else if (img?.url) {
+      relativeUrl = img.url.trim() !== '' ? img.url : null;
+    }
+
+    if (!relativeUrl) {
+      return placeholder;
+    }
+
+    if (relativeUrl.startsWith('http')) {
+      return relativeUrl;
+    }
+
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    const finalRelativeUrl = relativeUrl.startsWith('/') ? relativeUrl : `/${relativeUrl}`;
+
+    return `${baseUrl}/api${finalRelativeUrl.startsWith('/api') ? finalRelativeUrl.substring(4) : finalRelativeUrl}`;
   };
 
   // Helper function to get image alt text
@@ -48,40 +69,35 @@ const ArticleImage: React.FC<ArticleImageProps> = ({
     return img.alt || title || 'Article image';
   };
 
-  // Check if we have a valid image URL
   const imageUrl = getImageUrl(featuredImage);
-  const hasValidImage = !!imageUrl;
+  const hasValidImage = imageUrl !== '/images/placeholder.png';
 
   // Fallback icon component
   const FallbackIcon = fallbackIcon === 'image' ? ImageIcon : Eye;
 
   if (hasValidImage) {
-    const imageProps: any = {
-      src: imageUrl,
-      alt: getImageAlt(featuredImage),
+    const commonProps = {
       className: `object-cover ${className}`,
-      priority
+      priority: priority || false,
+      loading,
+      onError: (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+        (e.target as HTMLImageElement).src = '/images/placeholder.png';
+      },
     };
 
     if (fill) {
-      imageProps.fill = true;
-      if (sizes) {
-        imageProps.sizes = sizes;
-      }
-    } else {
-      imageProps.width = width || 400;
-      imageProps.height = height || 300;
+      return <Image src={imageUrl} alt={getImageAlt(featuredImage)} fill sizes={sizes} {...commonProps} />;
     }
 
-    return <Image {...imageProps} />;
+    return <Image src={imageUrl} alt={getImageAlt(featuredImage)} width={width || 400} height={height || 300} {...commonProps} />;
   }
 
   // Fallback when no image is available
   return (
     <div className={`bg-gray-200 flex items-center justify-center ${className}`}>
-      <FallbackIcon 
-        size={fallbackSize} 
-        className="text-gray-400" 
+      <FallbackIcon
+        size={fallbackSize}
+        className="text-gray-400"
       />
     </div>
   );

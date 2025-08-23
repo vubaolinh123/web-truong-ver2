@@ -63,22 +63,7 @@ const EditArticlePage: React.FC = () => {
     }
 
     try {
-      let featuredImageUrl = '';
 
-      // Handle featured image upload if it's a new file
-      if (formData.featuredImage instanceof File) {
-        try {
-          const uploadResponse = await articlesApi.uploadImage(formData.featuredImage);
-          if (uploadResponse.status === 'success') {
-            featuredImageUrl = uploadResponse.data.url;
-          }
-        } catch (uploadError) {
-          console.error('Error uploading image:', uploadError);
-          throw new Error('Có lỗi xảy ra khi tải lên hình ảnh');
-        }
-      } else if (typeof formData.featuredImage === 'string') {
-        featuredImageUrl = formData.featuredImage;
-      }
 
       // Prepare article data for API
       const articleData: Partial<ArticleFormData> = {
@@ -91,7 +76,7 @@ const EditArticlePage: React.FC = () => {
         featured: formData.featured,
         tags: formData.tags,
         publishedAt: formData.publishedAt,
-        ...(featuredImageUrl && { featuredImage: featuredImageUrl })
+        featuredImage: formData.featuredImage,
       };
 
       // Submit to API using articles API

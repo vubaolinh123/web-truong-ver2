@@ -47,6 +47,7 @@ interface ArticlePageClientProps {
 }
 
 const ArticlePageClient: React.FC<ArticlePageClientProps> = ({ slug, initialArticle }) => {
+  console.log('--- ArticlePageClient initialArticle:', JSON.stringify(initialArticle, null, 2));
   const dispatch = useAppDispatch();
   const { setBreadcrumbs } = useBreadcrumb();
 
@@ -258,7 +259,6 @@ const ArticlePageClient: React.FC<ArticlePageClientProps> = ({ slug, initialArti
                 }>
                   <NewArticleSidebar
                     relatedArticles={relatedArticles}
-                    currentArticleId={article.id}
                     loading={relatedArticlesLoading}
                     error={relatedArticlesError}
                   />

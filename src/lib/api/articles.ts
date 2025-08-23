@@ -357,8 +357,8 @@ export const articlesApi = {
     formData.append('image', file);
 
     const token = getAuthToken();
-    
-    const response = await fetch(`${API_BASE_URL}/articles/upload-image`, {
+
+    const response = await fetch(`${API_BASE_URL}/images/upload`, {
       method: 'POST',
       headers: {
         ...(token && { Authorization: `Bearer ${token}` }),
@@ -397,7 +397,21 @@ export const articlesApi = {
    */
   getRecentArticles: async (limit: number = 10): Promise<ArticlesResponse> => {
     return makeRequest(`/articles/public?limit=${limit}&sortBy=publishedAt&sortOrder=desc`);
-  }
+  },
+
+
+
+  /**
+   * Delete permanent image
+   */
+  deleteImage: async (imageUrl: string): Promise<ApiResponse> => {
+    return makeRequest('/images/delete', {
+      method: 'DELETE',
+      body: JSON.stringify({ imageUrl }),
+    });
+  },
+
+
 };
 
 // Export the error class for use in other files

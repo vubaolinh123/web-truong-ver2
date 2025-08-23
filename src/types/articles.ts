@@ -57,7 +57,7 @@ export interface ArticleFormData {
   excerpt: string;
   categoryIds: string[];
   status: 'draft' | 'published' | 'archived';
-  featuredImage: File | string | null;
+  featuredImage: string | null;
   tags: string[];
   featured: boolean;
   publishedAt: string;

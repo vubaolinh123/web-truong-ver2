@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import ArticleImage from '@/components/common/ArticleImage';
 import { Calendar, User, Eye, ArrowRight, Newspaper, Search } from 'lucide-react';
 import { Article } from '@/types/articles';
 
@@ -42,10 +42,7 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
     return `${author.firstName || ''} ${author.lastName || ''}`.trim() || 'Tác giả ẩn danh';
   };
 
-  const getImageSrc = (featuredImage: string | { url?: string } | null | undefined) => {
-    if (!featuredImage) return '/images/default-article.svg';
-    return typeof featuredImage === 'string' ? featuredImage : featuredImage?.url || '/images/default-article.svg';
-  };
+
 
   const displayArticles = articles;
 
@@ -79,9 +76,9 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
             <article key={article.id} className="bg-white rounded-2xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 border border-sky-100 hover:border-sky-300 hover:-translate-y-1.5 flex flex-col h-full">
               <div className="relative h-56 w-full overflow-hidden">
                 <Link href={`/tin-tuc/${article.slug}`} className="block w-full h-full">
-                  <Image
-                    src={getImageSrc(article.featuredImage)}
-                    alt={article.title}
+                  <ArticleImage
+                    featuredImage={article.featuredImage}
+                    title={article.title}
                     fill
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

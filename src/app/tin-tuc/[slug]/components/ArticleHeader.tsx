@@ -6,6 +6,7 @@
 'use client';
 
 import React from 'react';
+import ArticleImage from '@/components/common/ArticleImage';
 import { Calendar, User, Tag, FolderOpen } from 'lucide-react';
 import { ArticleContent } from '../types/article.types';
 
@@ -18,6 +19,7 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
   article,
   className = ''
 }) => {
+  console.log('--- ArticleHeader article:', JSON.stringify(article, null, 2));
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('vi-VN', {
       year: 'numeric',
@@ -37,14 +39,13 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
         {/* Featured Image Background */}
         {article.featuredImage && (
           <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden">
-            <img
-              src={typeof article.featuredImage === 'string'
-                ? article.featuredImage
-                : article.featuredImage?.url || ''
-              }
-              alt={article.title}
+            <ArticleImage
+              featuredImage={article.featuredImage}
+              title={article.title}
+              fill
               className="w-full h-full object-cover"
               loading="eager"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/30 to-transparent"></div>
 
