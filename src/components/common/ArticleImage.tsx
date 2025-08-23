@@ -6,8 +6,7 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
-import { Eye, ImageIcon } from 'lucide-react';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import { FeaturedImage } from '@/types/articles';
 
 interface ArticleImageProps {
@@ -17,9 +16,6 @@ interface ArticleImageProps {
   height?: number;
   fill?: boolean;
   className?: string;
-  fallbackIcon?: 'eye' | 'image';
-  fallbackSize?: number;
-
   priority?: boolean;
   sizes?: string;
   loading?: 'eager' | 'lazy';
@@ -28,79 +24,35 @@ interface ArticleImageProps {
 const ArticleImage: React.FC<ArticleImageProps> = ({
   featuredImage,
   title,
-  width,
-  height,
-  fill = false,
-  className = '',
-  fallbackIcon = 'eye',
-  fallbackSize = 48,
-  priority = false,
-  sizes,
-  loading
+  ...props
 }) => {
-  // Helper function to resolve the image URL
-  const getImageUrl = (img?: string | FeaturedImage): string => {
-    const placeholder = '/images/placeholder.png';
+  // Resolve the image URL and alt text from the featuredImage prop
+  const get_image_details = (img?: string | FeaturedImage) => {
+    let relative_url: string | null = null;
+    let alt_text: string = title || 'Article image';
 
-    let relativeUrl: string | null = null;
     if (typeof img === 'string') {
-      relativeUrl = img.trim() !== '' ? img : null;
+      relative_url = img.trim() !== '' ? img : null;
     } else if (img?.url) {
-      relativeUrl = img.url.trim() !== '' ? img.url : null;
+      relative_url = img.url.trim() !== '' ? img.url : null;
+      alt_text = img.alt || alt_text;
     }
 
-    if (!relativeUrl) {
-      return placeholder;
+    // If there's no relative URL, return null to trigger the fallback in OptimizedImage
+    if (!relative_url) {
+      return { src: null, alt: alt_text };
     }
 
-    if (relativeUrl.startsWith('http')) {
-      return relativeUrl;
-    }
+    // Construct the full URL for the image
+    const base_url = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    const full_url = relative_url.startsWith('http') ? relative_url : `${base_url}${relative_url}`;
 
-    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
-    const finalRelativeUrl = relativeUrl.startsWith('/') ? relativeUrl : `/${relativeUrl}`;
-
-    return `${baseUrl}/api${finalRelativeUrl.startsWith('/api') ? finalRelativeUrl.substring(4) : finalRelativeUrl}`;
+    return { src: full_url, alt: alt_text };
   };
 
-  // Helper function to get image alt text
-  const getImageAlt = (img?: string | FeaturedImage): string => {
-    if (!img || typeof img === 'string') return title || 'Article image';
-    return img.alt || title || 'Article image';
-  };
+  const { src, alt } = get_image_details(featuredImage);
 
-  const imageUrl = getImageUrl(featuredImage);
-  const hasValidImage = imageUrl !== '/images/placeholder.png';
-
-  // Fallback icon component
-  const FallbackIcon = fallbackIcon === 'image' ? ImageIcon : Eye;
-
-  if (hasValidImage) {
-    const commonProps = {
-      className: `object-cover ${className}`,
-      priority: priority || false,
-      loading,
-      onError: (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-        (e.target as HTMLImageElement).src = '/images/placeholder.png';
-      },
-    };
-
-    if (fill) {
-      return <Image src={imageUrl} alt={getImageAlt(featuredImage)} fill sizes={sizes} {...commonProps} />;
-    }
-
-    return <Image src={imageUrl} alt={getImageAlt(featuredImage)} width={width || 400} height={height || 300} {...commonProps} />;
-  }
-
-  // Fallback when no image is available
-  return (
-    <div className={`bg-gray-200 flex items-center justify-center ${className}`}>
-      <FallbackIcon
-        size={fallbackSize}
-        className="text-gray-400"
-      />
-    </div>
-  );
+  return <OptimizedImage src={src} alt={alt} {...props} />;
 };
 
 export default ArticleImage;

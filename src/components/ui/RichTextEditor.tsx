@@ -1,6 +1,10 @@
 /**
  * Rich Text Editor Component
  * Integrates TinyMCE for a full-featured editing experience with image uploads.
+ *
+ * This component is configured to reliably display the "Upload" tab in TinyMCE's
+ * image dialog by using the images_upload_handler approach as recommended by
+ * the official TinyMCE documentation.
  */
 
 'use client';
@@ -9,7 +13,7 @@ import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import toast from 'react-hot-toast';
 
-// Define the type for the blobInfo object provided by TinyMCE's upload handler
+// Simple interface for TinyMCE's blobInfo object - contains only necessary properties
 interface TinyMceBlobInfo {
   blob: () => Blob;
   filename: () => string;
@@ -31,6 +35,11 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   minHeight = 500
 }) => {
 
+  /**
+   * Image Upload Handler
+   * This function is the core mechanism that enables the "Upload" tab in TinyMCE's image dialog.
+   * It handles the actual upload process and returns the URL of the uploaded image.
+   */
   const imageUploadHandler = async (blobInfo: TinyMceBlobInfo): Promise<string> => {
     const file = new File([blobInfo.blob()], blobInfo.filename(), { type: blobInfo.blob().type });
 
@@ -46,7 +55,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
 
@@ -80,23 +89,41 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
       init={{
         min_height: minHeight,
         placeholder,
+
+        // Essential plugins - 'image' plugin is required for upload functionality
         plugins: [
           'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
           'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
           'insertdatetime', 'media', 'table', 'help', 'wordcount', 'codesample', 'powerpaste'
         ],
+
+        // Toolbar with explicit image button to access upload functionality
         toolbar:
           'undo redo | blocks | ' +
           'bold italic forecolor | alignleft aligncenter ' +
           'alignright alignjustify | bullist numlist outdent indent | ' +
           'removeformat | image link | codesample | help',
+
         content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
 
-        // Image Upload Configuration
-        image_uploadtab: true, // Ensure the Upload tab is visible
+        // ===== IMAGE UPLOAD CONFIGURATION =====
+        // These settings ensure the "Upload" tab appears reliably in the image dialog
+
+        // Explicitly enable the Upload tab in image dialog (this is the key setting)
+        image_uploadtab: true,
+
+        // Enable automatic uploads when images are inserted
         automatic_uploads: true,
+
+        // Core upload handler - this function enables the Upload tab functionality
         images_upload_handler: imageUploadHandler,
-        paste_data_images: false, // Optional: Disable drag-drop if you only want the button
+
+        // Additional upload settings for reliability
+        images_upload_credentials: false, // Avoid CORS issues
+        images_reuse_filename: false,     // Generate unique filenames
+
+        // Control drag-and-drop behavior (set to false to only allow button uploads)
+        paste_data_images: false,
       }}
     />
   );
