@@ -217,7 +217,7 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
           </Suspense>
 
           {/* Main Content */}
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="w-full max-w-[85%] mx-auto px-4 sm:px-6 lg:px-8 py-12">
             {/* Filters Section */}
             <Suspense fallback={
               <div className="h-32 bg-white/70 rounded-2xl shadow-lg animate-pulse mb-8" />

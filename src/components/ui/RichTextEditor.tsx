@@ -1,24 +1,19 @@
 /**
  * Rich Text Editor Component
- * Component editor văn bản với formatting options
+ * Integrates TinyMCE for a full-featured editing experience with image uploads.
  */
 
 'use client';
 
-import React, { useState } from 'react';
-import { 
-  Bold, 
-  Italic, 
-  Underline, 
-  List, 
-  ListOrdered,
-  Link,
-  Image,
-  Quote,
-  Code,
-  Eye,
-  Edit
-} from 'lucide-react';
+import React from 'react';
+import { Editor } from '@tinymce/tinymce-react';
+import toast from 'react-hot-toast';
+
+// Define the type for the blobInfo object provided by TinyMCE's upload handler
+interface TinyMceBlobInfo {
+  blob: () => Blob;
+  filename: () => string;
+}
 
 interface RichTextEditorProps {
   value: string;
@@ -33,148 +28,77 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
   onChange,
   disabled = false,
   placeholder = 'Nhập nội dung...',
-  minHeight = 300
+  minHeight = 500
 }) => {
-  const [isPreview, setIsPreview] = useState(false);
 
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    onChange(e.target.value);
-  };
+  const imageUploadHandler = async (blobInfo: TinyMceBlobInfo): Promise<string> => {
+    const file = new File([blobInfo.blob()], blobInfo.filename(), { type: blobInfo.blob().type });
 
-  const insertText = (before: string, after: string = '') => {
-    const textarea = document.querySelector('textarea') as HTMLTextAreaElement;
-    if (!textarea) return;
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const token = localStorage.getItem('adminToken');
 
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = value.substring(start, end);
-    
-    const newText = value.substring(0, start) + before + selectedText + after + value.substring(end);
-    onChange(newText);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/images/upload`, {
+        method: 'POST',
+        headers: { ...(token && { Authorization: `Bearer ${token}` }) },
+        body: formData,
+      });
 
-    // Restore cursor position
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + before.length, end + before.length);
-    }, 0);
-  };
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
 
-  const formatButtons = [
-    { icon: Bold, action: () => insertText('**', '**'), title: 'Bold (Ctrl+B)' },
-    { icon: Italic, action: () => insertText('*', '*'), title: 'Italic (Ctrl+I)' },
-    { icon: Underline, action: () => insertText('<u>', '</u>'), title: 'Underline' },
-    { icon: Quote, action: () => insertText('> '), title: 'Quote' },
-    { icon: Code, action: () => insertText('`', '`'), title: 'Inline Code' },
-    { icon: List, action: () => insertText('- '), title: 'Bullet List' },
-    { icon: ListOrdered, action: () => insertText('1. '), title: 'Numbered List' },
-    { icon: Link, action: () => insertText('[', '](url)'), title: 'Link' },
-    { icon: Image, action: () => insertText('![alt](', ')'), title: 'Image' },
-  ];
+      const json = await response.json();
+      if (!json || typeof json.location !== 'string') {
+        throw new Error('Phản hồi JSON không hợp lệ từ máy chủ.');
+      }
 
-  // Simple markdown to HTML converter for preview
-  const markdownToHtml = (markdown: string) => {
-    return markdown
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code>$1</code>')
-      .replace(/^> (.*$)/gm, '<blockquote>$1</blockquote>')
-      .replace(/^- (.*$)/gm, '<li>$1</li>')
-      .replace(/^1\. (.*$)/gm, '<li>$1</li>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
-      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />')
-      .replace(/\n/g, '<br>');
+      const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+      const absoluteUrl = `${baseUrl}${json.location}`;
+
+      toast.success('Tải ảnh lên thành công!');
+      return absoluteUrl;
+
+    } catch (error: unknown) {
+      let errorMessage = 'Không thể tải ảnh lên.';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      toast.error(`Lỗi tải ảnh: ${errorMessage}`);
+      throw new Error(errorMessage);
+    }
   };
 
   return (
-    <div className="border border-gray-300 rounded-md overflow-hidden">
-      {/* Toolbar */}
-      <div className="bg-gray-50 border-b border-gray-300 p-2 flex items-center justify-between">
-        <div className="flex items-center space-x-1">
-          {formatButtons.map((button, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={button.action}
-              disabled={disabled}
-              title={button.title}
-              className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <button.icon className="h-4 w-4" />
-            </button>
-          ))}
-        </div>
+    <Editor
+      apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+      value={value}
+      onEditorChange={(newValue) => onChange(newValue)}
+      disabled={disabled}
+      init={{
+        min_height: minHeight,
+        placeholder,
+        plugins: [
+          'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+          'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+          'insertdatetime', 'media', 'table', 'help', 'wordcount', 'codesample', 'powerpaste'
+        ],
+        toolbar:
+          'undo redo | blocks | ' +
+          'bold italic forecolor | alignleft aligncenter ' +
+          'alignright alignjustify | bullist numlist outdent indent | ' +
+          'removeformat | image link | codesample | help',
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
 
-        <div className="flex items-center space-x-2">
-          <button
-            type="button"
-            onClick={() => setIsPreview(!isPreview)}
-            className={`flex items-center px-3 py-1 text-sm rounded transition-colors ${
-              isPreview 
-                ? 'bg-blue-100 text-blue-700' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
-            }`}
-          >
-            {isPreview ? (
-              <>
-                <Edit className="h-4 w-4 mr-1" />
-                Chỉnh sửa
-              </>
-            ) : (
-              <>
-                <Eye className="h-4 w-4 mr-1" />
-                Xem trước
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Editor/Preview Area */}
-      <div style={{ minHeight }}>
-        {isPreview ? (
-          <div 
-            className="p-4 prose prose-sm max-w-none"
-            dangerouslySetInnerHTML={{ __html: markdownToHtml(value) }}
-          />
-        ) : (
-          <textarea
-            value={value}
-            onChange={handleTextareaChange}
-            disabled={disabled}
-            placeholder={placeholder}
-            className="w-full p-4 border-0 resize-none focus:outline-none disabled:bg-gray-50 disabled:text-gray-500"
-            style={{ minHeight }}
-            onKeyDown={(e) => {
-              // Handle keyboard shortcuts
-              if (e.ctrlKey || e.metaKey) {
-                switch (e.key) {
-                  case 'b':
-                    e.preventDefault();
-                    insertText('**', '**');
-                    break;
-                  case 'i':
-                    e.preventDefault();
-                    insertText('*', '*');
-                    break;
-                  case 'k':
-                    e.preventDefault();
-                    insertText('[', '](url)');
-                    break;
-                }
-              }
-            }}
-          />
-        )}
-      </div>
-
-      {/* Footer */}
-      <div className="bg-gray-50 border-t border-gray-300 px-4 py-2 text-xs text-gray-500">
-        <div className="flex justify-between items-center">
-          <span>{value.length} ký tự</span>
-          <span>Hỗ trợ Markdown formatting</span>
-        </div>
-      </div>
-    </div>
+        // Image Upload Configuration
+        image_uploadtab: true, // Ensure the Upload tab is visible
+        automatic_uploads: true,
+        images_upload_handler: imageUploadHandler,
+        paste_data_images: false, // Optional: Disable drag-drop if you only want the button
+      }}
+    />
   );
 };
 

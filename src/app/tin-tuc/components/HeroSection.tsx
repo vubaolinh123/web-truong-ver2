@@ -23,7 +23,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3 w-96 h-96 bg-sky-200/50 rounded-full filter blur-3xl opacity-50"></div>
       <div className="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3 w-96 h-96 bg-yellow-200/50 rounded-full filter blur-3xl opacity-50"></div>
 
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative w-full max-w-[85%] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           {/* Main Title */}
           <div className="mb-10">

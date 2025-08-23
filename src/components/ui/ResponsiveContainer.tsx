@@ -31,7 +31,7 @@ const ResponsiveContainer: React.FC<ResponsiveContainerProps> = ({
   };
 
   return (
-    <div className={cn(
+    <div className={cn(       
       'mx-auto w-full',
       maxWidthClasses[maxWidth],
       paddingClasses[padding],
