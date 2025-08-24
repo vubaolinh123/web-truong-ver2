@@ -193,8 +193,7 @@ const ArticleTable: React.FC<ArticleTableProps> = ({
                         width={80}
                         height={64}
                         className="w-20 h-16 rounded flex-shrink-0"
-                        fallbackIcon="eye"
-                        fallbackSize={20}
+
                       />
 
                       {/* Column 2: Content */}
@@ -324,8 +323,7 @@ const ArticleTable: React.FC<ArticleTableProps> = ({
                       width={48}
                       height={36}
                       className="w-12 h-9 rounded flex-shrink-0"
-                      fallbackIcon="eye"
-                      fallbackSize={12}
+
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
@@ -499,8 +497,7 @@ const ArticleTable: React.FC<ArticleTableProps> = ({
                               width={80}
                               height={60}
                               className="w-20 h-15 rounded-lg shadow-sm border border-gray-200"
-                              fallbackIcon="eye"
-                              fallbackSize={20}
+
                             />
                             {article.featured && (
                               <div className="absolute -top-2 -right-2">

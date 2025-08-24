@@ -159,8 +159,7 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articleId, categoryId
                   title={article.title}
                   fill
                   className="group-hover:scale-110 transition-transform duration-500 w-full h-full object-cover"
-                  fallbackIcon="image"
-                  fallbackSize={48}
+
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
                 

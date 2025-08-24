@@ -92,8 +92,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           title={article.title}
           fill
           className="w-full h-full"
-          fallbackIcon="eye"
-          fallbackSize={48}
+
         />
         
         {/* Featured Badge */}

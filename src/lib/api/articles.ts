@@ -412,6 +412,16 @@ export const articlesApi = {
   },
 
 
+  /**
+   * Force delete permanent image
+   */
+  forceDeleteImage: async (filename: string): Promise<ApiResponse> => {
+    return makeRequest('/images/force-delete', {
+      method: 'DELETE',
+      body: JSON.stringify({ filename }),
+    });
+  },
+
 };
 
 // Export the error class for use in other files
