@@ -98,7 +98,8 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article }) => {
       .replace(/`(.*?)`/g, '<code>$1</code>')
       .replace(/### (.*?)(<br>|$)/g, '<h3>$1</h3>')
       .replace(/## (.*?)(<br>|$)/g, '<h2>$1</h2>')
-      .replace(/# (.*?)(<br>|$)/g, '<h1>$1</h1>');
+      .replace(/# (.*?)(<br>|$)/g, '<h1>$1</h1>')
+      .replace(/<img /g, '<img loading="lazy" ');
   };
 
   return (

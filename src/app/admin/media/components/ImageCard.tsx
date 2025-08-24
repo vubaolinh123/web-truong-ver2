@@ -59,6 +59,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ image, onCopy, onDelete, isSelect
           alt={image.filename}
           width={400}
           height={300}
+          loading="lazy"
           className="w-full h-48 object-cover"
         />
       </div>
