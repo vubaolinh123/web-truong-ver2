@@ -23,7 +23,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { Article } from '@/types/articles';
-import ArticleImage from '@/components/common/ArticleImage';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface ArticleTableProps {
   articles: Article[];
@@ -101,6 +101,19 @@ const ArticleTable: React.FC<ArticleTableProps> = ({
         {config.label}
       </span>
     );
+  };
+
+  const getImageUrl = (image: Article['featuredImage']) => {
+    if (!image) return '/images/logo.png'; // Fallback image
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return '/images/logo.png';
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: Article['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
   };
 
   const SortableHeader: React.FC<{ field: string; children: React.ReactNode; className?: string }> = ({ 
@@ -187,13 +200,13 @@ const ArticleTable: React.FC<ArticleTableProps> = ({
                     {/* Main Article Layout - 3 Column Grid */}
                     <div className="grid grid-cols-[auto_1fr_auto] gap-4 items-start">
                       {/* Column 1: Image */}
-                      <ArticleImage
-                        featuredImage={article.featuredImage}
-                        title={article.title}
+                      <OptimizedImage
+                        src={getImageUrl(article.featuredImage)}
+                        alt={getImageAlt(article.featuredImage, article.title)}
                         width={80}
                         height={64}
-                        className="w-20 h-16 rounded flex-shrink-0"
-
+                        className="w-20 h-16 rounded flex-shrink-0 object-cover"
+                        loading="lazy"
                       />
 
                       {/* Column 2: Content */}
@@ -317,13 +330,13 @@ const ArticleTable: React.FC<ArticleTableProps> = ({
                 <div key={article.id} className="bg-gray-50 rounded-lg p-3 space-y-3 hover:bg-gray-100 transition-colors">
                   {/* Mobile Article Header */}
                   <div className="flex items-start space-x-2">
-                    <ArticleImage
-                      featuredImage={article.featuredImage}
-                      title={article.title}
+                    <OptimizedImage
+                      src={getImageUrl(article.featuredImage)}
+                      alt={getImageAlt(article.featuredImage, article.title)}
                       width={48}
                       height={36}
-                      className="w-12 h-9 rounded flex-shrink-0"
-
+                      className="w-12 h-9 rounded flex-shrink-0 object-cover"
+                      loading="lazy"
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
@@ -491,13 +504,13 @@ const ArticleTable: React.FC<ArticleTableProps> = ({
                         {/* Enhanced Featured Image */}
                         <div className="flex-shrink-0">
                           <div className="relative group-hover:scale-105 transition-transform duration-200">
-                            <ArticleImage
-                              featuredImage={article.featuredImage}
-                              title={article.title}
+                            <OptimizedImage
+                              src={getImageUrl(article.featuredImage)}
+                              alt={getImageAlt(article.featuredImage, article.title)}
                               width={80}
                               height={60}
-                              className="w-20 h-15 rounded-lg shadow-sm border border-gray-200"
-
+                              className="w-20 h-15 rounded-lg shadow-sm border border-gray-200 object-cover"
+                              loading="lazy"
                             />
                             {article.featured && (
                               <div className="absolute -top-2 -right-2">

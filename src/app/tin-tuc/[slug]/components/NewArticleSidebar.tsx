@@ -9,7 +9,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Calendar, User, ArrowRight } from 'lucide-react';
 import { Article } from '@/types/articles';
-import ArticleImage from '@/components/common/ArticleImage'; // Using the consistent ArticleImage component
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface NewArticleSidebarProps {
   relatedArticles: Article[];
@@ -39,6 +39,19 @@ const NewArticleSidebar: React.FC<NewArticleSidebarProps> = ({
 
   // API now handles filtering, so we just use the provided list.
   const filteredArticles = relatedArticles || [];
+
+  const getImageUrl = (image: Article['featuredImage']) => {
+    if (!image) return null;
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return null;
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: Article['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
+  };
 
   if (loading) {
     return (
@@ -120,12 +133,13 @@ const NewArticleSidebar: React.FC<NewArticleSidebarProps> = ({
               <div className="flex flex-col space-y-2">
                 {/* Featured Image */}
                 <div className="relative aspect-[16/9] overflow-hidden rounded-lg shadow-md group-hover:shadow-lg transition-shadow duration-300">
-                  <ArticleImage
-                    featuredImage={article.featuredImage}
-                    title={article.title}
+                  <OptimizedImage
+                    src={getImageUrl(article.featuredImage)}
+                    alt={getImageAlt(article.featuredImage, article.title)}
                     fill
                     className="group-hover:scale-105 transition-transform duration-300"
                     sizes="(max-width: 1024px) 30vw, 25vw"
+                    loading="lazy"
                   />
                   {/* Category Badge */}
                   {article.category && (

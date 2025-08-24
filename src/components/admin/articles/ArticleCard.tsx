@@ -21,7 +21,7 @@ import {
   Clock
 } from 'lucide-react';
 import { Article } from '@/types/articles';
-import ArticleImage from '@/components/common/ArticleImage';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 
 interface ArticleCardProps {
   article: Article;
@@ -56,6 +56,19 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     );
   };
 
+  const getImageUrl = (image: Article['featuredImage']) => {
+    if (!image) return '/images/logo.png'; // Fallback image
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return '/images/logo.png';
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: Article['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
+  };
+
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden animate-pulse">
@@ -87,12 +100,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
       {/* Featured Image */}
       <div className="relative h-48">
-        <ArticleImage
-          featuredImage={article.featuredImage}
-          title={article.title}
+        <OptimizedImage
+          src={getImageUrl(article.featuredImage)}
+          alt={getImageAlt(article.featuredImage, article.title)}
           fill
-          className="w-full h-full"
-
+          className="w-full h-full object-cover"
+          loading="lazy"
         />
         
         {/* Featured Badge */}

@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Calendar, User, Eye, Clock, ArrowRight } from 'lucide-react';
 import { Article } from '@/types/articles';
-import ArticleImage from '@/components/common/ArticleImage';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import LoadingSkeleton from '@/components/ui/LoadingSkeleton';
 
 interface RelatedArticlesProps {
@@ -79,6 +79,19 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articleId, categoryId
   const getAuthorName = (author: any) => {
     if (!author) return 'Tác giả ẩn danh';
     return `${author.firstName} ${author.lastName}`;
+  };
+
+  const getImageUrl = (image: Article['featuredImage']) => {
+    if (!image) return null;
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return null;
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: Article['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
   };
 
   if (loading) {
@@ -154,12 +167,12 @@ const RelatedArticles: React.FC<RelatedArticlesProps> = ({ articleId, categoryId
             <Link href={`/tin-tuc/${article.slug}`} className="block">
               {/* Article Image */}
               <div className="relative h-52 w-full overflow-hidden bg-gray-100">
-                <ArticleImage
-                  featuredImage={article.featuredImage}
-                  title={article.title}
+                <OptimizedImage
+                  src={getImageUrl(article.featuredImage)}
+                  alt={getImageAlt(article.featuredImage, article.title)}
                   fill
                   className="group-hover:scale-110 transition-transform duration-500 w-full h-full object-cover"
-
+                  loading="lazy"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                 />
                 

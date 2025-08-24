@@ -6,7 +6,7 @@
 'use client';
 
 import React from 'react';
-import ArticleImage from '@/components/common/ArticleImage';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import { Calendar, User, Tag, FolderOpen } from 'lucide-react';
 import { ArticleContent } from '../types/article.types';
 
@@ -32,6 +32,19 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
     return `${author.firstName?.[0] || ''}${author.lastName?.[0] || ''}`.toUpperCase();
   };
 
+  const getImageUrl = (image: ArticleContent['featuredImage']) => {
+    if (!image) return null;
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return null;
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: ArticleContent['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
+  };
+
   return (
     <div className={`${className}`}>
       {/* Modern Article Header */}
@@ -39,12 +52,12 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
         {/* Featured Image Background */}
         {article.featuredImage && (
           <div className="relative h-64 md:h-80 lg:h-96 overflow-hidden">
-            <ArticleImage
-              featuredImage={article.featuredImage}
-              title={article.title}
+            <OptimizedImage
+              src={getImageUrl(article.featuredImage)}
+              alt={getImageAlt(article.featuredImage, article.title)}
               fill
               className="w-full h-full object-cover"
-              loading="eager"
+              priority // Use priority for LCP elements
               sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/30 to-transparent"></div>
