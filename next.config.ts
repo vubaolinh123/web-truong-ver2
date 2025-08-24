@@ -64,7 +64,13 @@ const nextConfig: NextConfig = {
         hostname: '*.cloudinary.com',
         port: '',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'university-api.linkcualinh.com',
+        port: '',
+        pathname: '/media/images/**',
+      },
     ],
     // Fallback for legacy domains configuration (if needed)
     domains: [

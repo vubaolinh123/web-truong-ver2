@@ -7,6 +7,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { ArticleFormData } from '@/types/articles';
 import { articlesApi } from '@/lib/api/articles';
 import { isAuthenticated } from '@/lib/auth-utils';
@@ -21,14 +22,15 @@ const NewArticlePage: React.FC = () => {
 
     // Check authentication
     if (!isAuthenticated()) {
-      alert('Vui lòng đăng nhập để tạo bài viết');
+      toast.error('Vui lòng đăng nhập để tạo bài viết.');
       router.push('/admin/login');
+      setLoading(false);
       return;
     }
 
+    const toastId = toast.loading('Đang xử lý...');
+
     try {
-
-
       // Prepare article data for API
       const articleData: ArticleFormData = {
         title: formData.title,
@@ -43,33 +45,22 @@ const NewArticlePage: React.FC = () => {
         featuredImage: formData.featuredImage,
       };
 
-      // Debug: Log the form data to verify categories are included
-      console.log('📝 Creating article with data:', {
-        title: articleData.title,
-        categoryIds: articleData.categoryIds,
-        categoryCount: articleData.categoryIds.length
-      });
-
       // Submit to API using articles API
       const response = await articlesApi.createArticle(articleData);
 
       if (response.status === 'success') {
-        // Show success message
-        alert('Tạo bài viết thành công!');
-
-        // Redirect to articles list or edit page
-        if (formData.status === 'published') {
+        toast.success('Tạo bài viết mới thành công!', { id: toastId });
+        // Redirect to the articles list after a short delay
+        setTimeout(() => {
           router.push('/admin/articles');
-        } else {
-          router.push(`/admin/articles/${response.data.article.id}/edit`);
-        }
+        }, 1000);
       } else {
         throw new Error(response.message || 'Có lỗi xảy ra khi tạo bài viết');
       }
 
     } catch (error: any) {
       console.error('Error creating article:', error);
-      alert(error.message || 'Có lỗi xảy ra khi tạo bài viết');
+      toast.error(`Đã xảy ra lỗi: ${error.message}`, { id: toastId });
     } finally {
       setLoading(false);
     }

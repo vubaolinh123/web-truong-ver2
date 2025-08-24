@@ -60,7 +60,7 @@ async function getArticles(params: {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public?${searchParams}`,
       {
-        next: { revalidate: 1 } // ISR: revalidate every 5 minutes
+        cache: 'no-store' // Force dynamic fetching on every request
       }
     );
 

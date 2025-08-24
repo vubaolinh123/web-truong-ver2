@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import OptimizedImage from '@/components/ui/OptimizedImage';
+import { Article } from '@/types/articles';
 import { ArrowRight, Eye, Calendar, Play, MapPin, Phone, Mail, Users, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -11,52 +12,32 @@ const formatViewCount = (count: number): string => {
   return new Intl.NumberFormat('en-US').format(count);
 };
 
-// Interface for admission and training items
-interface AdmissionTrainingItem {
-  id: number;
-  title: string;
-  excerpt: string;
-  date: string;
-  category: string;
-  image: string;
-  views: number;
-  featured?: boolean;
+interface AdmissionTrainingSectionProps {
+  articles: Article[];
 }
 
-const AdmissionTrainingSection = () => {
-  // Admission and training content data (3 cards)
-  const admissionTrainingContent: AdmissionTrainingItem[] = [
-    {
-      id: 1,
-      title: 'Thông báo tuyển sinh Cao đẳng chính quy năm 2025 - Ngành Công nghệ Thông tin',
-      excerpt: 'Trường Cao đẳng Thông tin và Truyền thông thông báo tuyển sinh các ngành Công nghệ Thông tin, Lập trình máy tính với nhiều ưu đãi hấp dẫn...',
-      date: '25/07/2025',
-      category: 'Tuyển sinh',
-      image: '/images/faculty-it.svg',
-      views: 2850,
-      featured: true
-    },
-    {
-      id: 2,
-      title: 'Chương trình đào tạo Lập trình viên chuyên nghiệp - Liên kết với doanh nghiệp',
-      excerpt: 'Chương trình đào tạo thực tế kết hợp với các doanh nghiệp công nghệ hàng đầu, đảm bảo việc làm sau tốt nghiệp...',
-      date: '20/07/2025',
-      category: 'Đào tạo',
-      image: '/images/quality-education.svg',
-      views: 1920,
-      featured: true
-    },
-    {
-      id: 3,
-      title: 'Học bổng toàn phần cho sinh viên xuất sắc năm học 2025-2026',
-      excerpt: 'Chương trình học bổng toàn phần dành cho các thí sinh có thành tích học tập xuất sắc và hoàn cảnh khó khăn...',
-      date: '18/07/2025',
-      category: 'Học bổng',
-      image: '/images/banner-education.svg',
-      views: 3200,
-      featured: true
-    }
-  ];
+const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ articles }) => {
+
+  const getImageUrl = (image: Article['featuredImage']) => {
+    if (!image) return null;
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return null;
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: Article['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
 
   return (
     <section className="py-16 bg-white">
@@ -71,9 +52,9 @@ const AdmissionTrainingSection = () => {
         {/* Main Content Grid */}
         <div className="mb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {admissionTrainingContent.map((item, index) => (
+            {articles.map((article, index) => (
               <motion.div
-                key={item.id}
+                key={article.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -82,22 +63,23 @@ const AdmissionTrainingSection = () => {
               >
                 {/* Image Section */}
                 <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={`Hình ảnh tuyển sinh và đào tạo: ${item.title} - ${item.category}`}
+                  <OptimizedImage
+                    src={getImageUrl(article.featuredImage)}
+                    alt={getImageAlt(article.featuredImage, article.title)}
                     width={400}
                     height={256}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute top-4 left-4">
                     <span className="bg-blue-900 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      {item.category}
+                      {article.categories?.[0]?.name || 'Tin tức'}
                     </span>
                   </div>
                   <div className="absolute bottom-4 right-4">
                     <span className="bg-black/70 text-white px-2 py-1 rounded text-xs flex items-center space-x-1">
                       <Eye size={12} />
-                      <span>{formatViewCount(item.views)}</span>
+                      <span>{formatViewCount(article.viewCount || 0)}</span>
                     </span>
                   </div>
                 </div>
@@ -106,12 +88,12 @@ const AdmissionTrainingSection = () => {
                 <div className="p-8">
                   <div className="flex items-center text-sm text-gray-500 mb-4">
                     <Calendar size={14} className="mr-2" />
-                    <span>{item.date}</span>
+                    <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                   </div>
                   
-                  <Link href={`/tuyen-sinh-dao-tao/${item.id}`} className="block group">
+                  <Link href={`/tin-tuc/${article.slug}`} className="block group">
                     <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-900 transition-colors duration-200 mb-6 leading-tight line-clamp-3">
-                      {item.title}
+                      {article.title}
                     </h3>
                     <div className="flex items-center text-blue-900 font-semibold text-sm group-hover:text-blue-700 transition-colors">
                       <span>Đọc thêm</span>
@@ -234,11 +216,12 @@ const AdmissionTrainingSection = () => {
             {/* Video Section */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200/50 hover:shadow-xl transition-all duration-300">
               <div className="relative h-64 bg-gradient-to-br from-blue-900 to-blue-700">
-                <Image
+                <OptimizedImage
                   src="/images/banner-education.svg"
                   alt="Video giới thiệu trường - Trường Cao đẳng Thông tin và Truyền thông"
                   width={600}
                   height={300}
+                  loading="lazy"
                   className="w-full h-full object-cover opacity-30"
                 />
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -258,11 +241,12 @@ const AdmissionTrainingSection = () => {
               <h4 className="text-xl font-bold text-blue-900 mb-4">HÌNH ẢNH TRƯỜNG</h4>
               <div className="grid grid-cols-2 gap-4">
                 <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <Image
+                  <OptimizedImage
                     src="/images/faculty-it.svg"
                     alt="Cơ sở vật chất - Trường Cao đẳng Thông tin và Truyền thông"
                     width={200}
                     height={150}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -270,11 +254,12 @@ const AdmissionTrainingSection = () => {
                   </div>
                 </div>
                 <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <Image
+                  <OptimizedImage
                     src="/images/quality-education.svg"
                     alt="Hoạt động sinh viên - Trường Cao đẳng Thông tin và Truyền thông"
                     width={200}
                     height={150}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -282,11 +267,12 @@ const AdmissionTrainingSection = () => {
                   </div>
                 </div>
                 <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <Image
+                  <OptimizedImage
                     src="/images/banner-library.svg"
                     alt="Thư viện - Trường Cao đẳng Thông tin và Truyền thông"
                     width={200}
                     height={150}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -294,11 +280,12 @@ const AdmissionTrainingSection = () => {
                   </div>
                 </div>
                 <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <Image
+                  <OptimizedImage
                     src="/images/banner-training.svg"
                     alt="Phòng thực hành - Trường Cao đẳng Thông tin và Truyền thông"
                     width={200}
                     height={150}
+                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

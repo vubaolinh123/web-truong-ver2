@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
+import toast from 'react-hot-toast';
 import { Article, ArticleFormData } from '@/types/articles';
 import { articlesApi } from '@/lib/api/articles';
 import { isAuthenticated } from '@/lib/auth-utils';
@@ -57,14 +58,15 @@ const EditArticlePage: React.FC = () => {
 
     // Check authentication
     if (!isAuthenticated()) {
-      alert('Vui lòng đăng nhập để cập nhật bài viết');
+      toast.error('Vui lòng đăng nhập để cập nhật bài viết.');
       router.push('/admin/login');
+      setLoading(false);
       return;
     }
 
+    const toastId = toast.loading('Đang cập nhật...');
+
     try {
-
-
       // Prepare article data for API
       const articleData: Partial<ArticleFormData> = {
         title: formData.title,
@@ -83,23 +85,20 @@ const EditArticlePage: React.FC = () => {
       const response = await articlesApi.updateArticle(articleId, articleData);
 
       if (response.status === 'success') {
-        // Update local article state
         setArticle(response.data.article);
+        toast.success('Cập nhật bài viết thành công!', { id: toastId });
 
-        // Show success message
-        alert('Cập nhật bài viết thành công!');
-
-        // Redirect based on status
-        if (formData.status === 'published') {
+        // Redirect to the articles list after a short delay
+        setTimeout(() => {
           router.push('/admin/articles');
-        }
+        }, 1000);
       } else {
         throw new Error(response.message || 'Có lỗi xảy ra khi cập nhật bài viết');
       }
 
     } catch (error: any) {
       console.error('Error updating article:', error);
-      alert(error.message || 'Có lỗi xảy ra khi cập nhật bài viết');
+      toast.error(`Đã xảy ra lỗi: ${error.message}`, { id: toastId });
     } finally {
       setLoading(false);
     }

@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import ArticleImage from '@/components/common/ArticleImage';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import { Calendar, User, Eye, ArrowRight, Newspaper, Search } from 'lucide-react';
 import { Article } from '@/types/articles';
 
@@ -40,6 +40,19 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
   const getAuthorName = (author: { firstName?: string; lastName?: string } | null | undefined) => {
     if (!author) return 'Tác giả ẩn danh';
     return `${author.firstName || ''} ${author.lastName || ''}`.trim() || 'Tác giả ẩn danh';
+  };
+
+  const getImageUrl = (image: Article['featuredImage']) => {
+    if (!image) return null;
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return null;
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: Article['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
   };
 
 
@@ -76,12 +89,13 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
             <article key={article.id} className="bg-white rounded-2xl shadow-md overflow-hidden group hover:shadow-xl transition-all duration-300 border border-sky-100 hover:border-sky-300 hover:-translate-y-1.5 flex flex-col h-full">
               <div className="relative h-56 w-full overflow-hidden">
                 <Link href={`/tin-tuc/${article.slug}`} className="block w-full h-full">
-                  <ArticleImage
-                    featuredImage={article.featuredImage}
-                    title={article.title}
+                  <OptimizedImage
+                    src={getImageUrl(article.featuredImage)}
+                    alt={getImageAlt(article.featuredImage, article.title)}
                     fill
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
                 </Link>
@@ -116,9 +130,15 @@ const ArticlesList: React.FC<ArticlesListProps> = ({
                       {getAuthorName(article.author)}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-slate-500">
-                    <Calendar size={14} />
-                    <span>{formatDate(article.publishedAt || article.createdAt)}</span>
+                  <div className="flex items-center gap-4 text-sm text-slate-500">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar size={14} />
+                      <span>{formatDate(article.publishedAt || article.createdAt)}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Eye size={14} />
+                      <span>{article.viewCount?.toLocaleString() || 0}</span>
+                    </div>
                   </div>
                 </div>
               </Link>

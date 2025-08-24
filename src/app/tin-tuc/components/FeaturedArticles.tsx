@@ -5,7 +5,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import { Calendar, User, Eye, ArrowRight, Star } from 'lucide-react';
 import { Article } from '@/types/articles';
 
@@ -27,9 +27,17 @@ const FeaturedArticles: React.FC<FeaturedArticlesProps> = ({ articles }) => {
     return `${author.firstName || ''} ${author.lastName || ''}`.trim() || 'Tác giả ẩn danh';
   };
 
-  const getImageSrc = (featuredImage: string | { url?: string } | null | undefined) => {
-    if (!featuredImage) return '/images/default-article.svg';
-    return typeof featuredImage === 'string' ? featuredImage : featuredImage?.url || '/images/default-article.svg';
+    const getImageUrl = (image: Article['featuredImage']) => {
+    if (!image) return null;
+    const relativeUrl = typeof image === 'string' ? image : image.url;
+    if (!relativeUrl) return null;
+    const baseUrl = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/api\/?$/, '');
+    return relativeUrl.startsWith('http') ? relativeUrl : `${baseUrl}${relativeUrl}`;
+  };
+
+  const getImageAlt = (image: Article['featuredImage'], title: string) => {
+    if (typeof image === 'object' && image?.alt) return image.alt;
+    return title;
   };
 
   if (articles.length < 4) {
@@ -64,12 +72,13 @@ const FeaturedArticles: React.FC<FeaturedArticlesProps> = ({ articles }) => {
             <Link href={`/tin-tuc/${article.slug}`} className="flex flex-col h-full">
               {/* Fixed height image container to prevent layout issues */}
               <div className="relative w-full h-64 overflow-hidden flex-shrink-0">
-                <Image
-                  src={getImageSrc(article.featuredImage)}
-                  alt={article.title}
+                <OptimizedImage
+                  src={getImageUrl(article.featuredImage)}
+                  alt={getImageAlt(article.featuredImage, article.title)}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
 

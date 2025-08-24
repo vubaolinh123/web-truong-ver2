@@ -6,12 +6,14 @@
 'use client';
 
 import React from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { Filter, ArrowRight } from 'lucide-react';
 
 interface Category {
   id: string;
   name: string;
+  slug: string;
 }
 
 interface FilterControlsProps {
@@ -29,8 +31,23 @@ const FilterControls: React.FC<FilterControlsProps> = ({
   currentSearch = '',
   totalResults
 }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleFilterChange = (key: 'category' | 'sort', value: string) => {
+    const params = new URLSearchParams(window.location.search);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    // Reset page to 1 when filters change
+    params.set('page', '1');
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   const hasActiveFilters = currentSearch || currentCategory || (currentSort && currentSort !== 'newest');
-  const selectedCategory = categories.find(cat => cat.id === currentCategory);
+  const selectedCategory = categories.find(cat => cat.slug === currentCategory);
 
   return (
     <div className="bg-white/70 backdrop-blur-sm border border-sky-100 rounded-2xl p-6 mb-8 shadow-sm">
@@ -62,24 +79,17 @@ const FilterControls: React.FC<FilterControlsProps> = ({
 
         {/* Filter Controls */}
         <div className="flex flex-wrap items-center gap-4">
-          <form method="GET" className="flex flex-wrap gap-4">
-            {/* Preserve existing params */}
-            {currentSearch && <input type="hidden" name="search" value={currentSearch} />}
-
+                    <div className="flex flex-wrap items-center gap-4">
             {/* Category Filter */}
             <div className="relative">
               <select
-                name="category"
-                defaultValue={currentCategory}
+                value={currentCategory}
+                onChange={(e) => handleFilterChange('category', e.target.value)}
                 className="appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-200 text-sm font-medium text-slate-700 min-w-[180px] hover:border-sky-400"
-                onChange={(e) => {
-                  const form = e.target.closest('form') as HTMLFormElement;
-                  form.submit();
-                }}
               >
                 <option value="">📁 Tất cả danh mục</option>
                 {categories.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
+                  <option key={cat.id} value={cat.slug}>
                     {cat.name}
                   </option>
                 ))}
@@ -90,13 +100,9 @@ const FilterControls: React.FC<FilterControlsProps> = ({
             {/* Sort Filter */}
             <div className="relative">
               <select
-                name="sort"
-                defaultValue={currentSort}
+                value={currentSort}
+                onChange={(e) => handleFilterChange('sort', e.target.value)}
                 className="appearance-none bg-white border border-slate-300 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-200 text-sm font-medium text-slate-700 min-w-[160px] hover:border-sky-400"
-                onChange={(e) => {
-                  const form = e.target.closest('form') as HTMLFormElement;
-                  form.submit();
-                }}
               >
                 <option value="newest">🕒 Mới nhất</option>
                 <option value="oldest">📅 Cũ nhất</option>
@@ -105,7 +111,7 @@ const FilterControls: React.FC<FilterControlsProps> = ({
               </select>
               <ArrowRight size={16} className="absolute right-3.5 top-1/2 transform -translate-y-1/2 rotate-90 text-slate-400 pointer-events-none" />
             </div>
-          </form>
+          </div>
 
           {/* Clear Filters */}
           {hasActiveFilters && (

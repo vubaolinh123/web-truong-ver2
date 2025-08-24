@@ -1,11 +1,25 @@
 import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import Banner from '@/components/layout/Banner';
-import NewsSection from '@/components/sections/NewsSection';
-import AdmissionTrainingSection from '@/components/sections/AdmissionTrainingSection';
-import StatsSection from '@/components/sections/StatsSection';
-import FacultiesSection from '@/components/sections/FacultiesSection';
-import AchievementsSection from '@/components/sections/AchievementsSection';
+import dynamic from 'next/dynamic';
+
+// Dynamic Imports with Skeleton Loaders
+const NewsSection = dynamic(() => import('@/components/sections/NewsSection'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+});
+const AdmissionTrainingSection = dynamic(() => import('@/components/sections/AdmissionTrainingSection'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+});
+const StatsSection = dynamic(() => import('@/components/sections/StatsSection'), {
+  loading: () => <div className="h-48 bg-gray-100 animate-pulse" />,
+});
+const FacultiesSection = dynamic(() => import('@/components/sections/FacultiesSection'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
+});
+const AchievementsSection = dynamic(() => import('@/components/sections/AchievementsSection'), {
+  loading: () => <div className="h-64 bg-gray-100 animate-pulse" />,
+});
+import { Article } from '@/types/articles'; // Import Article type
 
 export const metadata: Metadata = {
   title: 'Trường Cao đẳng Thông tin và Truyền thông',
@@ -94,7 +108,65 @@ const structuredData = {
   }
 };
 
-export default function Home() {
+// Data fetching function for featured articles
+async function getFeaturedArticles(): Promise<Article[]> {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public/featured?limit=6`,
+      {
+        next: { revalidate: 1 } 
+      }
+    );
+
+    if (!response.ok) {
+      console.error('Failed to fetch featured articles:', response.statusText);
+      return [];
+    }
+
+    const data = await response.json();
+    return data.data.articles || [];
+  } catch (error) {
+    console.error('Error fetching featured articles:', error);
+    return [];
+  }
+}
+
+// Data fetching function for admission & training articles
+async function getAdmissionTrainingArticles(): Promise<Article[]> {
+  try {
+    const params = new URLSearchParams({
+      limit: '3',
+      category: 'tuyen-sinh,dao-tao', // API should support multiple slugs
+      sort: 'newest',
+      status: 'published'
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public?${params.toString()}`,
+      {
+        next: { revalidate: 3600 } // Revalidate every hour
+      }
+    );
+
+    if (!response.ok) {
+      console.error('Failed to fetch admission/training articles:', response.statusText);
+      return [];
+    }
+
+    const data = await response.json();
+    return data.data.articles || [];
+  } catch (error) {
+    console.error('Error fetching admission/training articles:', error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const [featuredArticles, admissionTrainingArticles] = await Promise.all([
+    getFeaturedArticles(),
+    getAdmissionTrainingArticles()
+  ]);
+
   return (
     <>
       <script
@@ -105,8 +177,8 @@ export default function Home() {
       />
       <Layout>
         <Banner />
-        <NewsSection />
-        <AdmissionTrainingSection />
+        <NewsSection articles={featuredArticles} />
+        <AdmissionTrainingSection articles={admissionTrainingArticles} />
         <FacultiesSection />
         <StatsSection />
         <AchievementsSection />

@@ -64,22 +64,6 @@ const ArticlePageClient: React.FC<ArticlePageClientProps> = ({ slug, initialArti
     ? article.categories[0]
     : article?.category; // fallback to category if exists
 
-
-
-  // Debug logging
-  console.log('ArticlePageClient Debug:', {
-    hasArticle: !!article,
-    hasAuthor: !!article?.author,
-    hasCategory: !!article?.category,
-    hasCategories: !!article?.categories,
-    categoriesLength: article?.categories?.length || 0,
-    primaryCategory: primaryCategory,
-    articleId: article?.id,
-    slug: article?.slug,
-    relatedArticlesCount: relatedArticles.length,
-    relatedArticlesLoading: relatedArticlesLoading
-  });
-
   // Fetch article and related articles
   useEffect(() => {
     if (!initialArticle) {
