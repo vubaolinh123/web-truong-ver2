@@ -142,31 +142,6 @@ const FacultiesSection = () => {
                     {faculty.description}
                   </p>
 
-                  {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <Users size={20} className="text-primary-blue" />
-                      </div>
-                      <div className="text-lg font-bold text-gray-800">{formatNumber(faculty.students)}</div>
-                      <div className="text-xs text-gray-500">Sinh viên</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <BookOpen size={20} className="text-primary-yellow" />
-                      </div>
-                      <div className="text-lg font-bold text-gray-800">{faculty.programs}</div>
-                      <div className="text-xs text-gray-500">Chương trình</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="flex justify-center mb-1">
-                        <Award size={20} className="text-accent-blue" />
-                      </div>
-                      <div className="text-lg font-bold text-gray-800">{faculty.achievements}</div>
-                      <div className="text-xs text-gray-500">Thành tựu</div>
-                    </div>
-                  </div>
-
                   {/* CTA Button */}
                   <Link
                     href={faculty.href}

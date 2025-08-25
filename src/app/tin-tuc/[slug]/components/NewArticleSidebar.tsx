@@ -130,50 +130,43 @@ const NewArticleSidebar: React.FC<NewArticleSidebarProps> = ({
               href={`/tin-tuc/${article.slug}`}
               className="block group"
             >
-              <div className="flex flex-col space-y-2">
-                {/* Featured Image */}
-                <div className="relative aspect-[16/9] overflow-hidden rounded-lg shadow-md group-hover:shadow-lg transition-shadow duration-300">
+              <div className="flex items-start gap-3">
+                {/* Thumbnail */}
+                <div className="relative w-36 h-24 sm:w-40 sm:h-28 overflow-hidden rounded-md shadow-md group-hover:shadow-lg transition-shadow duration-300">
                   <OptimizedImage
                     src={getImageUrl(article.featuredImage)}
                     alt={getImageAlt(article.featuredImage, article.title)}
                     fill
-                    className="group-hover:scale-105 transition-transform duration-300"
-                    sizes="(max-width: 1024px) 30vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    sizes="(max-width: 1024px) 144px, 160px"
                     loading="lazy"
                   />
-                  {/* Category Badge */}
                   {article.category && (
-                    <div className="absolute top-2 left-2">
-                      <span className="inline-block bg-gradient-to-r from-sky-500 to-sky-600 text-white text-xs font-medium px-3 py-1 rounded-full shadow-md">
-                        {truncateText(article.category.name, 20)}
+                    <div className="absolute top-1 left-1 right-1">
+                      <span className="inline-block max-w-full bg-gradient-to-r from-sky-500 to-sky-600 text-white text-[10px] font-medium px-2 py-0.5 rounded-full shadow-md truncate">
+                        {article.category.name}
                       </span>
                     </div>
                   )}
                 </div>
 
                 {/* Article Content */}
-                <div className="flex flex-col space-y-2">
-                  {/* Title */}
-                  <h3 className="font-bold text-slate-800 text-base leading-snug group-hover:text-sky-700 transition-colors line-clamp-2">
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-semibold text-slate-800 text-sm leading-snug group-hover:text-sky-700 transition-colors line-clamp-2">
                     {article.title}
                   </h3>
-
-                  {/* Metadata */}
-                  <div className="flex items-center justify-between text-sm text-slate-500">
-                    {/* Author */}
+                  <div className="mt-1 flex items-center gap-3 text-xs text-slate-500 min-w-0">
                     {article.author && (
-                      <div className="flex items-center gap-2">
-                        <User size={14} className="text-sky-500" />
-                        <span className="font-medium">
-                          {truncateText(`${article.author.firstName} ${article.author.lastName}`, 15)}
+                      <div className="flex items-center gap-1.5 min-w-0 max-w-[10rem]">
+                        <User size={12} className="text-sky-500" />
+                        <span className="font-medium truncate">
+                          {`${article.author.firstName} ${article.author.lastName}`}
                         </span>
                       </div>
                     )}
-
-                    {/* Date */}
                     {article.publishedAt && (
-                      <div className="flex items-center gap-2">
-                        <Calendar size={14} className="text-sky-500" />
+                      <div className="flex items-center gap-1.5">
+                        <Calendar size={12} className="text-sky-500" />
                         <span>{formatDate(article.publishedAt)}</span>
                       </div>
                     )}
