@@ -190,7 +190,7 @@ const ArticleFormWrapper: React.FC<ArticleFormWrapperProps> = ({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100">
-      <div className="w-[90%] max-w-[85%] mx-auto px-4 md:px-6 py-6 md:py-8">
+      <div className="w-[90%] max-w-[92%] mx-auto px-4 md:px-6 py-6 md:py-8">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 md:mb-8 space-y-4 lg:space-y-0">
           <div className="flex items-center space-x-3 md:space-x-4">

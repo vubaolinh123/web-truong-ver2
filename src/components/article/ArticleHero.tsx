@@ -63,7 +63,7 @@ const ArticleHero: React.FC<ArticleHeroProps> = ({ article }) => {
       <div className="relative h-full flex flex-col justify-between">
         {/* Breadcrumbs */}
         <div className="pt-8">
-          <div className="max-w-[85%] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[92%] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-black/30 backdrop-blur-sm rounded-lg px-4 py-2 inline-block">
               <Breadcrumbs items={breadcrumbItems} className="text-white" />
             </div>
@@ -72,7 +72,7 @@ const ArticleHero: React.FC<ArticleHeroProps> = ({ article }) => {
 
         {/* Main Content */}
         <div className="pb-16">
-          <div className="max-w-[85%] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[92%] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl">
               {/* Category Badge */}
               {article.category && (

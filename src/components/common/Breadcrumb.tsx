@@ -42,7 +42,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
       className={`bg-gradient-to-r from-sky-50 to-yellow-50 border-b border-sky-100 ${className}`}
       aria-label="Breadcrumb"
     >
-      <div className="max-w-[85%] mx-auto px-4 py-3">
+      <div className="max-w-[92%] mx-auto px-4 py-3">
         <ol className="flex items-center space-x-2 text-sm">
           {displayItems.map((item, index) => {
             const isLast = index === displayItems.length - 1;
