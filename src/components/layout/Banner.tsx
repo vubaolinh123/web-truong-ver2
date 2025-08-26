@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -87,13 +88,19 @@ const Banner = () => {
           transition={{ duration: 0.5 }}
           className={`absolute inset-0 bg-gradient-to-r ${slides[currentSlide].bgColor}`}
         >
-          {/* Background Image */}
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-            style={{ backgroundImage: `url(${slides[currentSlide].image})` }}
-            role="img"
-            aria-label={`Hình ảnh minh họa: ${slides[currentSlide].title}`}
-          />
+          {/* Background Image (as actual <Image> for LCP) */}
+          <div className="absolute inset-0 opacity-30">
+            <Image
+              src={slides[currentSlide].image}
+              alt={`Hình ảnh minh họa: ${slides[currentSlide].title}`}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              style={{ objectFit: 'cover', objectPosition: 'center' }}
+              priority={currentSlide === 0}
+              fetchPriority={currentSlide === 0 ? 'high' : 'auto'}
+              loading={currentSlide === 0 ? 'eager' : 'lazy'}
+            />
+          </div>
 
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/40" />
@@ -101,14 +108,14 @@ const Banner = () => {
           {/* Content */}
           <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
             <div className="max-w-4xl text-white">
-              <motion.h2
+              <motion.h1
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="text-xl md:text-3xl lg:text-4xl font-bold mb-4 leading-tight uppercase"
               >
                 {slides[currentSlide].title}
-              </motion.h2>
+              </motion.h1>
 
               <motion.p
                 initial={{ y: 30, opacity: 0 }}
@@ -127,6 +134,7 @@ const Banner = () => {
                 <Link
                   href={slides[currentSlide].cta.href}
                   className="inline-flex items-center space-x-2 bg-yellow-500 text-gray-900 px-6 py-3 rounded font-bold hover:bg-yellow-400 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  aria-label={`${slides[currentSlide].cta.text} - chuyển đến ${slides[currentSlide].cta.href}`}
                 >
                   <span>{slides[currentSlide].cta.text}</span>
                   <ArrowRight size={18} />

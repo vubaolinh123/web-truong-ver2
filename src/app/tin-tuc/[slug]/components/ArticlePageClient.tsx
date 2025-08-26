@@ -171,43 +171,10 @@ const ArticlePageClient: React.FC<ArticlePageClientProps> = ({ slug, initialArti
 
 
   // Generate JSON-LD structured data
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn';
-  const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Trường Cao đẳng Thông tin và Truyền thông';
 
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": article.title,
-    "description": article.excerpt,
-    "image": article.featuredImage,
-    "author": {
-      "@type": "Person",
-      "name": article.author ? `${article.author.firstName} ${article.author.lastName}` : 'Unknown'
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": siteName,
-      "logo": {
-        "@type": "ImageObject",
-        "url": `${baseUrl}/logo.png`
-      }
-    },
-    "datePublished": article.publishedAt,
-    "dateModified": article.updatedAt,
-    "mainEntityOfPage": {
-      "@type": "WebPage",
-      "@id": `${baseUrl}/tin-tuc/${article.slug}`
-    }
-  };
 
   return (
     <>
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-
       {/* Modern Article Layout */}
       <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-yellow-50">
         <div className="max-w-[92%] mx-auto px-4 py-8">

@@ -8,9 +8,9 @@ import { Facebook, Youtube } from 'lucide-react';
 const Header = () => {
 
   return (
-    <header className="shadow-lg relative z-50" style={{ backgroundColor: '#2563eb' }}>
+    <header className="shadow-lg relative z-50" style={{ backgroundColor: '#1e40af' }}>
       {/* Top Bar */}
-      <div className="text-white py-2" style={{ backgroundColor: '#2563eb' }}>
+      <div className="text-white py-2" style={{ backgroundColor: '#1e40af' }}>
         <div className="container mx-auto px-4 flex justify-between items-center text-sm">
           <div className="flex items-center space-x-4">
             <span className="text-white font-semibold">Hotline: 0964 322 215</span>
@@ -22,10 +22,10 @@ const Header = () => {
             <Link href="/hoc-truc-tuyen" className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-500 transition-colors">
               HỌC TRỰC TUYẾN
             </Link>
-            <Link href="https://youtube.com" className="hover:text-white transition-colors">
+            <Link href="https://youtube.com" className="hover:text-white transition-colors" aria-label="YouTube của trường" title="YouTube của trường">
               <Youtube size={16} />
             </Link>
-            <Link href="https://facebook.com" className="hover:text-white transition-colors">
+            <Link href="https://facebook.com" className="hover:text-white transition-colors" aria-label="Facebook của trường" title="Facebook của trường">
               <Facebook size={16} />
             </Link>
           </div>
@@ -53,9 +53,9 @@ const Header = () => {
             <div className="flex-1 flex justify-center">
               <Link href="/" className="text-center">
                 <p className="text-2xl text-blue-900 leading-tight mb-1 uppercase">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
-                <h1 className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">
+                <p className="text-2xl font-bold text-blue-900 leading-tight mb-1 uppercase">
                   TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
-                </h1>
+                </p>
                 <p className="text-sm text-gray-600 uppercase">COLLEGE OF INFORMATION AND COMMUNICATIONS</p>
               </Link>
             </div>
@@ -69,7 +69,7 @@ const Header = () => {
 
 
       {/* Navigation Section */}
-      <div className="shadow-lg relative z-40" style={{ backgroundColor: '#3b82f6' }}>
+      <div className="shadow-lg relative z-40" style={{ backgroundColor: '#1e3a8a' }}>
         {/* Desktop Navigation */}
         <div className="hidden lg:block">
           <div className="container mx-auto px-4">
@@ -266,8 +266,8 @@ const Header = () => {
         <div className="lg:hidden">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-white font-semibold text-lg">Menu</h3>
-              <button className="text-white p-2 hover:bg-blue-600 rounded transition-colors">
+              <h2 className="text-white font-semibold text-lg">Menu</h2>
+              <button className="text-white p-2 hover:bg-blue-600 rounded transition-colors" aria-label="Mở menu điều hướng trên thiết bị di động">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>

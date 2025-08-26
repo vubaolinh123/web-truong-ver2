@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import Banner from '@/components/layout/Banner';
 import dynamic from 'next/dynamic';
+import Seo from '@/components/seo/Seo';
 
 // Dynamic Imports with Skeleton Loaders
 const NewsSection = dynamic(() => import('@/components/sections/NewsSection'), {
@@ -114,7 +115,7 @@ async function getFeaturedArticles(): Promise<Article[]> {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public/featured?limit=6`,
       {
-        next: { revalidate: 1 } 
+        next: { revalidate: 1 }
       }
     );
 
@@ -169,11 +170,9 @@ export default async function Home() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
-        }}
+      <Seo
+        minimal
+        jsonLd={structuredData as any}
       />
       <Layout>
         <Banner />

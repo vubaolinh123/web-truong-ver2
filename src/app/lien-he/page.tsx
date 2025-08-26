@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ContactPageClient from './components/ContactPageClient';
+import Seo from '@/components/seo/Seo';
 
 // Get environment variables
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn';
@@ -112,14 +113,9 @@ const organizationStructuredData = {
 export default function ContactPage() {
   return (
     <>
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(organizationStructuredData),
-        }}
-      />
-      
+      <Seo minimal jsonLd={organizationStructuredData as any} />
+  return (
+    <>
       {/* Main Contact Page Content */}
       <ContactPageClient />
     </>

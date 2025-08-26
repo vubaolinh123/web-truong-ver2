@@ -8,6 +8,7 @@ import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import Layout from '@/components/layout/Layout';
 import { Article } from '@/types/articles';
+import Seo from '@/components/seo/Seo';
 
 // Dynamic imports for performance optimization
 const HeroSection = dynamic(() => import('./components/HeroSection'), {
@@ -198,12 +199,10 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
 
   return (
     <>
-      {/* JSON-LD Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      <Seo
+        minimal
+        jsonLd={structuredData as any}
       />
-
       <Layout>
         <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-yellow-50">
           {/* Hero Section */}

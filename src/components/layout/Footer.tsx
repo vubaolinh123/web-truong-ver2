@@ -46,7 +46,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="text-white relative" style={{ backgroundColor: '#3b82f6' }}>
+    <footer className="text-white relative" style={{ backgroundColor: '#1e40af' }}>
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -64,7 +64,7 @@ const Footer = () => {
                   />
                 </div> */}
                 <div>
-                  <h3 className="text-xl font-bold text-yellow-300 leading-tight uppercase">
+                  <h3 className="text-xl font-bold text-yellow-200 leading-tight uppercase">
                     TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
                   </h3>
                 </div>
@@ -94,29 +94,37 @@ const Footer = () => {
             <div className="flex space-x-4 pt-4">
               <Link
                 href="https://facebook.com/cic.edu.vn"
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-400 transition-colors"
-                style={{ backgroundColor: '#1d4ed8' }}
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors"
+                style={{ backgroundColor: '#1e3a8a' }}
+                aria-label="Facebook"
+                title="Facebook"
               >
                 <Facebook size={18} />
               </Link>
               <Link
                 href="https://youtube.com/cic"
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-400 transition-colors"
-                style={{ backgroundColor: '#1d4ed8' }}
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors"
+                style={{ backgroundColor: '#1e3a8a' }}
+                aria-label="YouTube"
+                title="YouTube"
               >
                 <Youtube size={18} />
               </Link>
               <Link
                 href="https://twitter.com/cic"
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-400 transition-colors"
-                style={{ backgroundColor: '#1d4ed8' }}
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors"
+                style={{ backgroundColor: '#1e3a8a' }}
+                aria-label="Twitter"
+                title="Twitter"
               >
                 <Twitter size={18} />
               </Link>
               <Link
                 href="https://instagram.com/cic"
-                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-400 transition-colors"
-                style={{ backgroundColor: '#1d4ed8' }}
+                className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors"
+                style={{ backgroundColor: '#1e3a8a' }}
+                aria-label="Instagram"
+                title="Instagram"
               >
                 <Instagram size={18} />
               </Link>

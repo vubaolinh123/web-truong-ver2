@@ -118,6 +118,7 @@ export default function RootLayout({
     <html lang="vi">
       <head>
         {/* Google Fonts preconnect for better performance */}
+        <meta charSet="utf-8" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
 

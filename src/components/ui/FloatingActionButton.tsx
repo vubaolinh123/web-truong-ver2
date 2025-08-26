@@ -60,6 +60,7 @@ const FloatingActionButton = () => {
             exit={{ opacity: 0, scale: 0 }}
             onClick={scrollToTop}
             className="mb-4 w-12 h-12 bg-primary-blue hover:bg-primary-yellow rounded-full flex items-center justify-center text-white shadow-lg transition-colors duration-300"
+            aria-label="Cuộn lên đầu trang"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
@@ -95,11 +96,12 @@ const FloatingActionButton = () => {
                 }}
                 onClick={action.action}
                 className={`w-12 h-12 ${action.color} rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-300 group relative`}
+                aria-label={action.label}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
                 {action.icon}
-                
+
                 {/* Tooltip */}
                 <div className="absolute right-full mr-3 px-3 py-1 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
                   {action.label}
@@ -115,6 +117,7 @@ const FloatingActionButton = () => {
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         className="w-14 h-14 bg-primary-yellow hover:bg-secondary-yellow rounded-full flex items-center justify-center text-white shadow-lg transition-colors duration-300"
+        aria-label={isOpen ? 'Đóng menu hành động' : 'Mở menu hành động'}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         animate={{ rotate: isOpen ? 45 : 0 }}

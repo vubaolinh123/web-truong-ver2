@@ -10,6 +10,7 @@ import dynamic from 'next/dynamic';
 import { ArticlePageProps, ArticleContent, BreadcrumbItem } from './types/article.types';
 import { articlesApi } from '@/lib/api/articles';
 import Layout from '@/components/layout/Layout';
+import Seo from '@/components/seo/Seo';
 import styles from './styles/page.module.css';
 
 // Import client component
@@ -185,10 +186,42 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     if (!article) {
       notFound();
     }
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn';
+    const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Trường Cao đẳng Thông tin và Truyền thông';
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": article.title,
+      "description": article.excerpt,
+      "image": typeof article.featuredImage === 'string' ? article.featuredImage : article.featuredImage?.url,
+      "author": article.author ? {
+        "@type": "Person",
+        "name": `${article.author.firstName} ${article.author.lastName}`
+      } : undefined,
+      "publisher": {
+        "@type": "Organization",
+        "name": siteName,
+        "logo": {
+          "@type": "ImageObject",
+          "url": `${baseUrl}/images/logo.png`
+        }
+      },
+      "datePublished": article.publishedAt,
+      "dateModified": article.updatedAt,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": `${baseUrl}/tin-tuc/${article.slug}`
+      }
+    } as any;
+
     return (
-      <Layout>
-        <ArticlePageClient slug={slug} initialArticle={article} />
-      </Layout>
+      <>
+        <Seo minimal jsonLd={structuredData} />
+        <Layout>
+          <ArticlePageClient slug={slug} initialArticle={article} />
+        </Layout>
+      </>
     );
   } catch (error) {
     console.error('Error in ArticlePage:', error);
