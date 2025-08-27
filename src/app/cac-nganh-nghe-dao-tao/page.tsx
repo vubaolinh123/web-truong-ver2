@@ -54,13 +54,11 @@ const programsJsonLd = [
     logo: `${SITE_URL}/images/logo.png`,
     hasCourse: [
       { '@type': 'Course', name: 'Công nghệ thông tin' },
-      { '@type': 'Course', name: 'An toàn thông tin' },
-      { '@type': 'Course', name: 'Thiết kế đồ họa & Truyền thông số' },
-      { '@type': 'Course', name: 'Mạng máy tính và Truyền thông dữ liệu' },
-      { '@type': 'Course', name: 'Quản trị mạng và Bảo mật thông tin' },
-      { '@type': 'Course', name: 'Lập trình ứng dụng di động' },
-      { '@type': 'Course', name: 'Trí tuệ nhân tạo và Học máy' },
-      { '@type': 'Course', name: 'Thương mại điện tử' },
+      { '@type': 'Course', name: 'Lập trình máy tính' },
+      { '@type': 'Course', name: 'Công nghệ kỹ thuật cơ khí' },
+      { '@type': 'Course', name: 'Quản trị kinh doanh' },
+      { '@type': 'Course', name: 'Công nghệ in' },
+      { '@type': 'Course', name: 'Công nghệ và đổi mới sáng tạo' },
     ],
   },
 ];
