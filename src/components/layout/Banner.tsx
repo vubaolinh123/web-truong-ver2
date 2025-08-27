@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import OptimizedImage from '@/components/ui/OptimizedImage';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -90,7 +90,7 @@ const Banner = () => {
         >
           {/* Background Image (as actual <Image> for LCP) */}
           <div className="absolute inset-0 opacity-30">
-            <Image
+            <OptimizedImage
               src={slides[currentSlide].image}
               alt={`Hình ảnh minh họa: ${slides[currentSlide].title}`}
               fill

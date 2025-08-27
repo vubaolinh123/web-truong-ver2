@@ -1,343 +1,254 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Send, User, Mail, Phone, MessageSquare, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
-import styles from '../styles/contact.module.css';
+import React, { useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, Mail, MessageSquare, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 
-interface FormData {
+interface FormState {
   name: string;
   email: string;
-  phone: string;
-  subject: string;
   message: string;
 }
 
 interface FormErrors {
   name?: string;
   email?: string;
-  phone?: string;
-  subject?: string;
   message?: string;
 }
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
 const ContactForm: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
-  });
-
+  const [form, setForm] = useState<FormState>({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [touched, setTouched] = useState<Record<keyof FormState, boolean>>({ name: false, email: false, message: false });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  // Validation functions
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const validate = (values: FormState): FormErrors => {
+    const e: FormErrors = {};
+    if (!values.name.trim()) e.name = 'Vui lòng nhập họ và tên';
+    else if (values.name.trim().length < 2) e.name = 'Họ và tên quá ngắn';
+
+    if (!values.email.trim()) e.email = 'Vui lòng nhập email';
+    else if (!emailRegex.test(values.email)) e.email = 'Email không hợp lệ';
+
+    if (!values.message.trim()) e.message = 'Vui lòng nhập nội dung';
+    else if (values.message.trim().length < 10) e.message = 'Nội dung tối thiểu 10 ký tự';
+
+    return e;
   };
 
-  const validatePhone = (phone: string): boolean => {
-    const phoneRegex = /^[0-9+\-\s()]{10,15}$/;
-    return phoneRegex.test(phone.replace(/\s/g, ''));
-  };
+  const liveErrors = useMemo(() => validate(form), [form]);
 
-  const validateForm = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    // Name validation
-    if (!formData.name.trim()) {
-      newErrors.name = 'Vui lòng nhập họ và tên';
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = 'Họ và tên phải có ít nhất 2 ký tự';
-    } else if (formData.name.trim().length > 50) {
-      newErrors.name = 'Họ và tên không được quá 50 ký tự';
-    }
-
-    // Email validation
-    if (!formData.email.trim()) {
-      newErrors.email = 'Vui lòng nhập địa chỉ email';
-    } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Địa chỉ email không hợp lệ';
-    }
-
-    // Phone validation
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Vui lòng nhập số điện thoại';
-    } else if (!validatePhone(formData.phone)) {
-      newErrors.phone = 'Số điện thoại không hợp lệ (10-11 số)';
-    }
-
-    // Subject validation
-    if (!formData.subject.trim()) {
-      newErrors.subject = 'Vui lòng chọn chủ đề';
-    }
-
-    // Message validation
-    if (!formData.message.trim()) {
-      newErrors.message = 'Vui lòng nhập nội dung tin nhắn';
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = 'Nội dung tin nhắn phải có ít nhất 10 ký tự';
-    } else if (formData.message.trim().length > 1000) {
-      newErrors.message = 'Nội dung tin nhắn không được quá 1000 ký tự';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-    // Clear error when user starts typing
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: undefined
-      }));
-    }
-  };
+  const markTouched = (field: keyof FormState) => setTouched(prev => ({ ...prev, [field]: true }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
+    setTouched({ name: true, email: true, message: true });
+
+    const eNow = validate(form);
+    setErrors(eNow);
+    if (Object.keys(eNow).length > 0) {
+      setStatus('error');
       return;
     }
 
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
+    setStatus('submitting');
     try {
-      // Simulate form submission (no API call)
-      console.log('📧 Contact form data:', {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        subject: formData.subject,
-        message: formData.message,
-        timestamp: new Date().toISOString()
-      });
-
-      // Simulate processing time
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      // Simulate successful submission
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
-
-      // Scroll to success message
-      setTimeout(() => {
-        const successElement = document.querySelector(`.${styles.successMessage}`);
-        if (successElement) {
-          successElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      }, 100);
-
-    } catch (error) {
-      console.error('Form submission error:', error);
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
+      await new Promise((r) => setTimeout(r, 1000)); // simulate
+      setStatus('success');
+      setForm({ name: '', email: '', message: '' });
+      setTouched({ name: false, email: false, message: false });
+    } catch {
+      setStatus('error');
     }
   };
 
+  const fieldState = (field: keyof FormState) => {
+    const hasError = !!liveErrors[field];
+    const showError = hasError && touched[field];
+    return { hasError, showError };
+  };
+
+  const baseInput =
+    'peer w-full border rounded-xl px-10 py-3 bg-white placeholder-transparent transition outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600';
+  const errorInput = 'border-red-500 focus:ring-red-500 focus:border-red-500';
+  const successInput = 'border-green-500 focus:ring-green-500 focus:border-green-500';
+
+  const labelBase =
+    'absolute left-10 top-1/2 -translate-y-1/2 text-slate-500 transition-all pointer-events-none peer-focus:-translate-y-4 peer-focus:text-xs peer-focus:text-blue-700';
+  const labelFloated = ' -translate-y-4 text-xs';
+
+  const groupBase =
+    'relative focus-within:shadow-md focus-within:shadow-blue-100 rounded-xl border transition-colors';
+
+  const nameState = fieldState('name');
+  const emailState = fieldState('email');
+  const messageState = fieldState('message');
+
   return (
-    <div className={styles.contactFormContainer}>
-      <div className={styles.formHeader}>
-        <h2 id="contact-form-heading">Gửi tin nhắn cho chúng tôi</h2>
-        <p>Điền thông tin vào form bên dưới và chúng tôi sẽ liên hệ lại với bạn trong thời gian sớm nhất.</p>
-      </div>
+    <section aria-labelledby="contact-form-title">
+      <h2 id="contact-form-title" className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Gửi liên hệ</h2>
 
-      <form onSubmit={handleSubmit} className={styles.contactForm} noValidate>
-        {/* Name Field */}
-        <div className={styles.formGroup}>
-          <label htmlFor="name" className={styles.formLabel}>
-            <User size={18} aria-hidden="true" />
-            Họ và tên <span className={styles.required}>*</span>
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            className={`${styles.formInput} ${errors.name ? styles.inputError : ''}`}
-            placeholder="Nhập họ và tên của bạn"
-            aria-describedby={errors.name ? 'name-error' : undefined}
-            maxLength={50}
-            autoComplete="name"
-          />
-          {errors.name && (
-            <span id="name-error" className={styles.errorMessage} role="alert">
-              <AlertCircle size={16} aria-hidden="true" />
-              {errors.name}
-            </span>
-          )}
-        </div>
-
-        {/* Email Field */}
-        <div className={styles.formGroup}>
-          <label htmlFor="email" className={styles.formLabel}>
-            <Mail size={18} aria-hidden="true" />
-            Email <span className={styles.required}>*</span>
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            className={`${styles.formInput} ${errors.email ? styles.inputError : ''}`}
-            placeholder="Nhập địa chỉ email của bạn"
-            aria-describedby={errors.email ? 'email-error' : undefined}
-            autoComplete="email"
-          />
-          {errors.email && (
-            <span id="email-error" className={styles.errorMessage} role="alert">
-              <AlertCircle size={16} aria-hidden="true" />
-              {errors.email}
-            </span>
-          )}
-        </div>
-
-        {/* Phone Field */}
-        <div className={styles.formGroup}>
-          <label htmlFor="phone" className={styles.formLabel}>
-            <Phone size={18} aria-hidden="true" />
-            Số điện thoại <span className={styles.required}>*</span>
-          </label>
-          <input
-            type="tel"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleInputChange}
-            className={`${styles.formInput} ${errors.phone ? styles.inputError : ''}`}
-            placeholder="Nhập số điện thoại của bạn"
-            aria-describedby={errors.phone ? 'phone-error' : undefined}
-            autoComplete="tel"
-          />
-          {errors.phone && (
-            <span id="phone-error" className={styles.errorMessage} role="alert">
-              <AlertCircle size={16} aria-hidden="true" />
-              {errors.phone}
-            </span>
-          )}
-        </div>
-
-        {/* Subject Field */}
-        <div className={styles.formGroup}>
-          <label htmlFor="subject" className={styles.formLabel}>
-            <MessageSquare size={18} aria-hidden="true" />
-            Chủ đề <span className={styles.required}>*</span>
-          </label>
-          <select
-            id="subject"
-            name="subject"
-            value={formData.subject}
-            onChange={handleInputChange}
-            className={`${styles.formSelect} ${errors.subject ? styles.inputError : ''}`}
-            aria-describedby={errors.subject ? 'subject-error' : undefined}
+      <motion.form
+        onSubmit={handleSubmit}
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.35 }}
+        className="p-0.5 rounded-2xl bg-gradient-to-br from-blue-50 to-yellow-50"
+        aria-label="Biểu mẫu liên hệ"
+      >
+        <div className="bg-white rounded-2xl p-6 shadow-sm grid grid-cols-1 gap-5">
+          {/* Name */}
+          <div
+            className={`${groupBase} ${nameState.showError ? 'border-red-500' : nameState.hasError && touched.name ? 'border-red-500' : 'border-slate-200'}`}
           >
-            <option value="">Chọn chủ đề</option>
-            <option value="tuyen-sinh">Tư vấn tuyển sinh</option>
-            <option value="chuong-trinh">Chương trình đào tạo</option>
-            <option value="hoc-phi">Học phí và học bổng</option>
-            <option value="co-so-vat-chat">Cơ sở vật chất</option>
-            <option value="sinh-vien">Hỗ trợ sinh viên</option>
-            <option value="thuc-tap">Thực tập và việc làm</option>
-            <option value="khac">Khác</option>
-          </select>
-          {errors.subject && (
-            <span id="subject-error" className={styles.errorMessage} role="alert">
-              <AlertCircle size={16} aria-hidden="true" />
-              {errors.subject}
-            </span>
-          )}
+            <motion.div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-700" whileFocus={{ scale: 1.1 }}>
+              <User />
+            </motion.div>
+            <input
+              id="contact-name"
+              type="text"
+              placeholder="Họ và tên"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onBlur={() => markTouched('name')}
+              className={`${baseInput} ${nameState.showError ? errorInput : status === 'success' && !liveErrors.name ? successInput : ''}`}
+              aria-required
+              aria-invalid={nameState.showError}
+              aria-describedby={nameState.showError ? 'name-error' : undefined}
+            />
+            <label htmlFor="contact-name" className={`${labelBase} ${form.name ? labelFloated : ''}`}>Họ và tên</label>
+            <AnimatePresence>
+              {nameState.showError && (
+                <motion.p
+                  id="name-error"
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  className="mt-1 px-2 text-sm text-red-600"
+                >
+                  {liveErrors.name}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Email */}
+          <div className={`${groupBase} ${emailState.showError ? 'border-red-500' : 'border-slate-200'}`}>
+            <motion.div className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-700" whileFocus={{ scale: 1.1 }}>
+              <Mail />
+            </motion.div>
+            <input
+              id="contact-email"
+              type="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              onBlur={() => markTouched('email')}
+              className={`${baseInput} ${emailState.showError ? errorInput : status === 'success' && !liveErrors.email ? successInput : ''}`}
+              aria-required
+              aria-invalid={emailState.showError}
+              aria-describedby={emailState.showError ? 'email-error' : undefined}
+            />
+            <label htmlFor="contact-email" className={`${labelBase} ${form.email ? labelFloated : ''}`}>Email</label>
+            <AnimatePresence>
+              {emailState.showError && (
+                <motion.p id="email-error" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} className="mt-1 px-2 text-sm text-red-600">
+                  {liveErrors.email}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Message */}
+          <div className={`${groupBase} ${messageState.showError ? 'border-red-500' : 'border-slate-200'}`}>
+            <motion.div className="absolute left-3 top-3 text-blue-700" whileFocus={{ scale: 1.1 }}>
+              <MessageSquare />
+            </motion.div>
+            <textarea
+              id="contact-message"
+              placeholder="Nội dung"
+              rows={5}
+              maxLength={1000}
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              onBlur={() => markTouched('message')}
+              className={`${baseInput} pt-3 ${messageState.showError ? errorInput : status === 'success' && !liveErrors.message ? successInput : ''}`}
+              aria-required
+              aria-invalid={messageState.showError}
+              aria-describedby={messageState.showError ? 'message-error' : 'message-counter'}
+            />
+            <label htmlFor="contact-message" className={`absolute left-10 top-3 text-slate-500 transition-all pointer-events-none ${form.message ? ' -translate-y-4 text-xs' : ''}`}>
+              Nội dung
+            </label>
+            <div className="flex items-center justify-between px-2 pb-1">
+              <AnimatePresence>
+                {messageState.showError && (
+                  <motion.p id="message-error" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} className="text-sm text-red-600">
+                    {liveErrors.message}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+              <span id="message-counter" className="ml-auto text-xs text-slate-500">
+                {form.message.length}/1000
+              </span>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="flex items-center gap-3">
+            <motion.button
+              type="submit"
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-blue-600 text-white hover:bg-blue-500 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm"
+              disabled={status === 'submitting'}
+              aria-busy={status === 'submitting'}
+            >
+              {status === 'submitting' ? (
+                <>
+                  <Loader2 className="animate-spin" /> Đang gửi...
+                </>
+              ) : (
+                'Gửi liên hệ'
+              )}
+            </motion.button>
+
+            <AnimatePresence>
+              {status === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  className="inline-flex items-center gap-1.5 text-green-700"
+                  role="status"
+                  aria-live="polite"
+                >
+                  <CheckCircle2 /> Đã gửi thành công!
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {status === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  className="inline-flex items-center gap-1.5 text-red-600"
+                  role="status"
+                  aria-live="assertive"
+                >
+                  <XCircle /> Gửi thất bại, vui lòng kiểm tra thông tin.
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-
-        {/* Message Field */}
-        <div className={styles.formGroup}>
-          <label htmlFor="message" className={styles.formLabel}>
-            <MessageSquare size={18} aria-hidden="true" />
-            Nội dung tin nhắn <span className={styles.required}>*</span>
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formData.message}
-            onChange={handleInputChange}
-            rows={5}
-            className={`${styles.formTextarea} ${errors.message ? styles.inputError : ''}`}
-            placeholder="Nhập nội dung tin nhắn của bạn..."
-            aria-describedby={errors.message ? 'message-error' : undefined}
-            maxLength={1000}
-          />
-          <div className={styles.characterCount}>
-            {formData.message.length}/1000 ký tự
-          </div>
-          {errors.message && (
-            <span id="message-error" className={styles.errorMessage} role="alert">
-              <AlertCircle size={16} aria-hidden="true" />
-              {errors.message}
-            </span>
-          )}
-        </div>
-
-        {/* Submit Status Messages */}
-        {submitStatus === 'success' && (
-          <div className={styles.successMessage} role="alert">
-            <CheckCircle size={20} aria-hidden="true" />
-            <span>Cảm ơn bạn đã gửi tin nhắn! Thông tin đã được ghi nhận. Chúng tôi sẽ liên hệ lại với bạn sớm nhất có thể qua email hoặc số điện thoại bạn đã cung cấp.</span>
-          </div>
-        )}
-
-        {submitStatus === 'error' && (
-          <div className={styles.errorMessageBox} role="alert">
-            <AlertCircle size={20} aria-hidden="true" />
-            <span>Có lỗi xảy ra khi gửi tin nhắn. Vui lòng thử lại sau hoặc liên hệ trực tiếp qua hotline: 024.3123.4567</span>
-          </div>
-        )}
-
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={`${styles.submitButton} ${isSubmitting ? styles.submitting : ''}`}
-          aria-label={isSubmitting ? 'Đang gửi tin nhắn' : 'Gửi tin nhắn'}
-        >
-          {isSubmitting ? (
-            <>
-              <Loader2 size={20} className={styles.spinner} aria-hidden="true" />
-              Đang gửi...
-            </>
-          ) : (
-            <>
-              <Send size={20} aria-hidden="true" />
-              Gửi tin nhắn
-            </>
-          )}
-        </button>
-
-        <p className={styles.formNote}>
-          <span className={styles.required}>*</span> Các trường bắt buộc
-        </p>
-      </form>
-    </div>
+      </motion.form>
+    </section>
   );
 };
 
 export default ContactForm;
+

@@ -1,220 +1,58 @@
-'use client';
+"use client";
 
 import React from 'react';
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock, 
-  Users, 
-  GraduationCap,
-  Facebook,
-  Youtube,
-  Linkedin,
-  Building,
-  CreditCard,
-  BookOpen
-} from 'lucide-react';
-import styles from '../styles/contact.module.css';
+import { motion } from 'framer-motion';
+import { MapPin, PhoneCall, Mail, Clock } from 'lucide-react';
 
 const ContactInfo: React.FC = () => {
   return (
-    <div className={styles.contactInfoContainer}>
-      <div className={styles.sectionHeader}>
-        <h2 id="contact-info-heading">Thông tin liên hệ chi tiết</h2>
-        <p>Tất cả thông tin cần thiết để liên hệ với trường và các phòng ban</p>
+    <section aria-labelledby="contact-info-title">
+      <h2 id="contact-info-title" className="text-2xl md:text-3xl font-bold text-slate-900 mb-6">Thông tin liên hệ</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35 }}
+          className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+          <div className="flex items-start gap-3">
+            <MapPin className="text-blue-700" />
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">Địa chỉ</h3>
+              <p className="text-slate-600">36 Cầu Diễn, Phường Minh Khai, Bắc Từ Liêm, Hà Nội</p>
+            </div>
+          </div>
+        </motion.div>
+        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35 }}
+          className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+          <div className="flex items-start gap-3">
+            <PhoneCall className="text-blue-700" />
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">Điện thoại</h3>
+              <p className="text-slate-600">+84-24-3123-4567 (Phòng Hành chính)</p>
+            </div>
+          </div>
+        </motion.div>
+        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35 }}
+          className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+          <div className="flex items-start gap-3">
+            <Mail className="text-blue-700" />
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">Email</h3>
+              <p className="text-slate-600">info@vcic.edu.vn</p>
+            </div>
+          </div>
+        </motion.div>
+        <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35 }}
+          className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+          <div className="flex items-start gap-3">
+            <Clock className="text-blue-700" />
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">Giờ làm việc</h3>
+              <p className="text-slate-600">Thứ 2 - Thứ 6: 08:00 - 17:00</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
-
-      <div className={styles.contactInfoGrid}>
-        {/* Main Contact Info */}
-        <div className={styles.contactInfoCard}>
-          <div className={styles.cardHeader}>
-            <MapPin className={styles.cardIcon} size={24} aria-hidden="true" />
-            <h3>Địa chỉ trường</h3>
-          </div>
-          <div className={styles.cardBody}>
-            <p className={styles.mainAddress}>
-              36 Cầu Diễn, Phường Minh Khai
-            </p>
-            <p className={styles.subAddress}>
-              Quận Bắc Từ Liêm, Thành phố Hà Nội
-            </p>
-            <p className={styles.postalCode}>
-              Mã bưu điện: 100000
-            </p>
-            <div className={styles.addressNote}>
-              <p>🚇 Gần ga Metro Cầu Diễn (Tuyến 3)</p>
-              <p>🚌 Nhiều tuyến xe buýt đi qua</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Phone Numbers */}
-        <div className={styles.contactInfoCard}>
-          <div className={styles.cardHeader}>
-            <Phone className={styles.cardIcon} size={24} aria-hidden="true" />
-            <h3>Số điện thoại</h3>
-          </div>
-          <div className={styles.cardBody}>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Tổng đài chính:</span>
-              <a href="tel:+842431234567" className={styles.contactLink}>
-                024.3123.4567
-              </a>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Phòng Tuyển sinh:</span>
-              <a href="tel:+842431234568" className={styles.contactLink}>
-                024.3123.4568
-              </a>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Phòng Đào tạo:</span>
-              <a href="tel:+842431234569" className={styles.contactLink}>
-                024.3123.4569
-              </a>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Phòng CTSV:</span>
-              <a href="tel:+842431234570" className={styles.contactLink}>
-                024.3123.4570
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Email Addresses */}
-        <div className={styles.contactInfoCard}>
-          <div className={styles.cardHeader}>
-            <Mail className={styles.cardIcon} size={24} aria-hidden="true" />
-            <h3>Email liên hệ</h3>
-          </div>
-          <div className={styles.cardBody}>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Email chính:</span>
-              <a href="mailto:info@vcic.edu.vn" className={styles.contactLink}>
-                info@vcic.edu.vn
-              </a>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Tuyển sinh:</span>
-              <a href="mailto:tuyensinh@vcic.edu.vn" className={styles.contactLink}>
-                tuyensinh@vcic.edu.vn
-              </a>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Đào tạo:</span>
-              <a href="mailto:daotao@vcic.edu.vn" className={styles.contactLink}>
-                daotao@vcic.edu.vn
-              </a>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Hỗ trợ kỹ thuật:</span>
-              <a href="mailto:support@vcic.edu.vn" className={styles.contactLink}>
-                support@vcic.edu.vn
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Departments */}
-        <div className={styles.contactInfoCard}>
-          <div className={styles.cardHeader}>
-            <Building className={styles.cardIcon} size={24} aria-hidden="true" />
-            <h3>Các phòng ban</h3>
-          </div>
-          <div className={styles.cardBody}>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Phòng Đào tạo:</span>
-              <span className={styles.contactText}>Tầng 2, Tòa A</span>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Phòng Tuyển sinh:</span>
-              <span className={styles.contactText}>Tầng 1, Tòa A</span>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Phòng CTSV:</span>
-              <span className={styles.contactText}>Tầng 2, Tòa B</span>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Phòng Tài chính:</span>
-              <span className={styles.contactText}>Tầng 1, Tòa B</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Academic Programs */}
-        <div className={styles.contactInfoCard}>
-          <div className={styles.cardHeader}>
-            <GraduationCap className={styles.cardIcon} size={24} aria-hidden="true" />
-            <h3>Chương trình đào tạo</h3>
-          </div>
-          <div className={styles.cardBody}>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Công nghệ thông tin:</span>
-              <span className={styles.contactText}>3 năm</span>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>An toàn thông tin:</span>
-              <span className={styles.contactText}>3 năm</span>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Thiết kế đồ họa:</span>
-              <span className={styles.contactText}>3 năm</span>
-            </div>
-            <div className={styles.contactItem}>
-              <span className={styles.label}>Mạng máy tính:</span>
-              <span className={styles.contactText}>3 năm</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Social Media */}
-        <div className={styles.contactInfoCard}>
-          <div className={styles.cardHeader}>
-            <div className={styles.cardIcon}>
-              <Facebook size={24} aria-hidden="true" />
-            </div>
-            <h3>Mạng xã hội</h3>
-          </div>
-          <div className={styles.cardBody}>
-            <div className={styles.socialLinks}>
-              <a 
-                href="https://facebook.com/vcic.edu.vn" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className={styles.socialLink}
-                aria-label="Trang Facebook của trường"
-              >
-                <Facebook size={20} aria-hidden="true" />
-                <span>Facebook</span>
-              </a>
-              <a 
-                href="https://youtube.com/c/vcicedu" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className={styles.socialLink}
-                aria-label="Kênh YouTube của trường"
-              >
-                <Youtube size={20} aria-hidden="true" />
-                <span>YouTube</span>
-              </a>
-              <a 
-                href="https://linkedin.com/school/vcic-edu-vn" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className={styles.socialLink}
-                aria-label="Trang LinkedIn của trường"
-              >
-                <Linkedin size={20} aria-hidden="true" />
-                <span>LinkedIn</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
   );
 };
 
 export default ContactInfo;
+

@@ -76,6 +76,27 @@ export const BreadcrumbProvider: React.FC<BreadcrumbProviderProps> = ({ children
         }
       } else if (pathSegments[0] === 'lien-he') {
         generatedBreadcrumbs.push({ label: 'Liên hệ', href: '/lien-he', current: true });
+      } else if (pathSegments[0] === 'lich-su-nha-truong') {
+        generatedBreadcrumbs.push({ label: 'Lịch sử nhà trường', href: '/lich-su-nha-truong', current: true });
+      } else if (pathSegments[0] === 'co-so-vat-chat') {
+        generatedBreadcrumbs.push({ label: 'Cơ sở vật chất', href: '/co-so-vat-chat', current: true });
+      } else if (pathSegments[0] === 'thong-tin-tuyen-sinh') {
+        generatedBreadcrumbs.push({ label: 'Thông tin tuyển sinh', href: '/thong-tin-tuyen-sinh', current: true });
+      } else if (pathSegments[0] === 'dang-ky-truc-tuyen') {
+        generatedBreadcrumbs.push({ label: 'Đăng ký trực tuyến', href: '/dang-ky-truc-tuyen', current: true });
+      } else if (pathSegments[0] === 'cac-nganh-nghe-dao-tao') {
+        generatedBreadcrumbs.push({ label: 'Các ngành nghề đào tạo', href: '/cac-nganh-nghe-dao-tao', current: pathSegments.length === 1 });
+        if (pathSegments.length > 1) {
+          const slug = pathSegments[1];
+          const labelMap: Record<string, string> = {
+            'cong-nghe-thong-tin': 'Công nghệ thông tin',
+          };
+          generatedBreadcrumbs.push({
+            label: labelMap[slug] || slug.replace(/-/g, ' '),
+            href: `/cac-nganh-nghe-dao-tao/${slug}`,
+            current: true,
+          });
+        }
       } else if (pathSegments[0] === 'admin') {
         generatedBreadcrumbs.push({ label: 'Quản trị', href: '/admin' });
         

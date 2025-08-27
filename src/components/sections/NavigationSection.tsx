@@ -15,8 +15,6 @@ const NavigationSection = () => {
       href: '/gioi-thieu',
       dropdown: [
         { title: 'Lịch sử nhà trường', href: '/lich-su-nha-truong' },
-        { title: 'Sứ mạng', href: '/su-mang' },
-        { title: 'Chức năng nhiệm vụ', href: '/chuc-nang-nhiem-vu' },
         { title: 'Cơ sở vật chất', href: '/co-so-vat-chat' },
         { title: 'Liên hệ', href: '/lien-he' },
       ]
@@ -28,7 +26,6 @@ const NavigationSection = () => {
         { title: 'Thông tin tuyển sinh', href: '/thong-tin-tuyen-sinh' },
         { title: 'Các ngành, nghề đào tạo', href: '/cac-nganh-nghe-dao-tao' },
         { title: 'Đăng ký trực tuyến', href: '/dang-ky-truc-tuyen' },
-        { title: 'Kết quả', href: '/ket-qua' },
       ]
     },
     {

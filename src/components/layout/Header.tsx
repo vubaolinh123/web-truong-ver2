@@ -94,12 +94,6 @@ const Header = () => {
                   <Link href="/lich-su-nha-truong" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Lịch sử nhà trường
                   </Link>
-                  <Link href="/su-mang" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Sứ mạng
-                  </Link>
-                  <Link href="/chuc-nang-nhiem-vu" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Chức năng nhiệm vụ
-                  </Link>
                   <Link href="/co-so-vat-chat" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Cơ sở vật chất
                   </Link>
@@ -127,9 +121,6 @@ const Header = () => {
                   </Link>
                   <Link href="/dang-ky-truc-tuyen" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Đăng ký trực tuyến
-                  </Link>
-                  <Link href="/ket-qua" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Kết quả
                   </Link>
                 </div>
               </div>

@@ -1,123 +1,114 @@
 import type { Metadata } from 'next';
-import ContactPageClient from './components/ContactPageClient';
+import dynamic from 'next/dynamic';
+import Layout from '@/components/layout/Layout';
 import Seo from '@/components/seo/Seo';
 
-// Get environment variables
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn';
-const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Trường Cao đẳng Thông tin và Truyền thông';
-const siteDescription = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'Trường Cao đẳng Thông tin và Truyền thông - Đào tạo chuyên sâu các ngành Công nghệ Thông tin';
+// Dynamic imports with skeletons
+const ContactHero = dynamic(() => import('./components/ContactHero'), {
+  loading: () => <div className="h-72 md:h-96 bg-gradient-to-r from-blue-900 to-blue-700 animate-pulse" />,
+});
+const ContactInfo = dynamic(() => import('./components/ContactInfo'), {
+  loading: () => <div className="h-64 bg-white rounded-2xl shadow-lg animate-pulse" />,
+});
+const ContactForm = dynamic(() => import('./components/ContactForm'), {
+  loading: () => <div className="h-80 bg-white rounded-2xl shadow-lg animate-pulse" />,
+});
+const LocationMap = dynamic(() => import('./components/LocationMap'), {
+  loading: () => <div className="h-80 bg-slate-100 rounded-2xl shadow-inner animate-pulse" />,
+});
+const DepartmentContacts = dynamic(() => import('./components/DepartmentContacts'), {
+  loading: () => <div className="h-64 bg-white rounded-2xl shadow-lg animate-pulse" />,
+});
+const FAQ = dynamic(() => import('./components/FAQ'), {
+  loading: () => <div className="h-64 bg-white rounded-2xl shadow-lg animate-pulse" />,
+});
 
-// SEO Metadata
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn';
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || 'Trường Cao đẳng Thông tin và Truyền thông';
+
 export const metadata: Metadata = {
-  title: `Liên hệ - ${siteName}`,
-  description: `Liên hệ với ${siteName}. Địa chỉ: 36 Cầu Diễn, Bắc Từ Liêm, Hà Nội. Hotline tư vấn tuyển sinh, email hỗ trợ, giờ làm việc và form liên hệ trực tuyến.`,
-  keywords: [
-    'liên hệ trường cao đẳng thông tin truyền thông',
-    'địa chỉ 36 Cầu Diễn Hà Nội',
-    'hotline tuyển sinh VCIC',
-    'email liên hệ trường',
-    'giờ làm việc phòng ban',
-    'form liên hệ trực tuyến',
-    'tư vấn tuyển sinh 2025',
-    'hỗ trợ sinh viên',
-    'VCIC Hà Nội',
-    'cao đẳng CNTT Bắc Từ Liêm',
-    'trường công nghệ thông tin',
-    'đào tạo IT chất lượng'
-  ],
-  authors: [{ name: siteName }],
-  creator: siteName,
-  publisher: siteName,
+  title: `Liên hệ - ${SITE_NAME}`,
+  description:
+    'Liên hệ nhà trường: địa chỉ, điện thoại, email, giờ làm việc và biểu mẫu trực tuyến. Hỗ trợ tuyển sinh và giải đáp thông tin nhanh chóng.',
+  alternates: { canonical: `${SITE_URL}/lien-he` },
   openGraph: {
-    title: `Liên hệ - ${siteName}`,
-    description: 'Liên hệ với chúng tôi để được tư vấn về các chương trình đào tạo, tuyển sinh và các dịch vụ hỗ trợ sinh viên. Địa chỉ: 36 Cầu Diễn, Bắc Từ Liêm, Hà Nội.',
+    title: `Liên hệ - ${SITE_NAME}`,
+    description:
+      'Thông tin liên hệ chính thức: địa chỉ, số điện thoại, email, giờ làm việc và biểu mẫu hỗ trợ trực tuyến.',
+    url: `${SITE_URL}/lien-he`,
     type: 'website',
     locale: 'vi_VN',
-    url: `${siteUrl}/lien-he`,
-    siteName: siteName,
-    images: [
-      {
-        url: `${siteUrl}/images/contact-banner.jpg`,
-        width: 1200,
-        height: 630,
-        alt: `Liên hệ ${siteName} - 36 Cầu Diễn, Hà Nội`,
-      },
-    ],
+    images: [{ url: `${SITE_URL}/images/logo.png`, width: 1200, height: 630, alt: SITE_NAME }],
+    siteName: SITE_NAME,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `Liên hệ - ${siteName}`,
-    description: 'Liên hệ tư vấn tuyển sinh và hỗ trợ sinh viên. Địa chỉ: 36 Cầu Diễn, Bắc Từ Liêm, Hà Nội.',
-    images: [`${siteUrl}/images/contact-banner.jpg`],
-  },
-  alternates: {
-    canonical: `${siteUrl}/lien-he`,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+    title: `Liên hệ - ${SITE_NAME}`,
+    description: 'Kênh liên hệ chính thức của nhà trường: địa chỉ, điện thoại, email và giờ làm việc.',
+    images: [`${SITE_URL}/images/logo.png`],
   },
 };
 
-// Structured Data for Organization
-const organizationStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'EducationalOrganization',
-  name: siteName,
-  alternateName: 'VCIC - College of Information and Communication Technology',
-  url: siteUrl,
-  logo: `${siteUrl}/images/logo.png`,
-  description: siteDescription,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: '36 Cầu Diễn, Phường Minh Khai',
-    addressLocality: 'Quận Bắc Từ Liêm',
-    addressRegion: 'Hà Nội',
-    postalCode: '100000',
-    addressCountry: 'VN'
+// JSON-LD (Organization + LocalBusiness-like contact details)
+const contactJsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/logo.png`,
+    contactPoint: [
+      { '@type': 'ContactPoint', telephone: '+84-24-3123-4567', contactType: 'customer service', areaServed: 'VN', availableLanguage: ['Vietnamese', 'English'] },
+      { '@type': 'ContactPoint', telephone: '+84-24-3123-4568', contactType: 'admissions', areaServed: 'VN', availableLanguage: ['Vietnamese'] },
+    ],
+    sameAs: [
+      process.env.NEXT_PUBLIC_FACEBOOK_PAGE || 'https://facebook.com/vcic.edu.vn',
+      'https://youtube.com/c/vcicedu',
+      'https://linkedin.com/school/vcic-edu-vn'
+    ]
   },
-  contactPoint: [
-    {
-      '@type': 'ContactPoint',
-      telephone: '+84-24-3123-4567',
-      contactType: 'customer service',
-      availableLanguage: ['Vietnamese', 'English'],
-      areaServed: 'VN'
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: SITE_NAME,
+    url: `${SITE_URL}/lien-he`,
+    image: `${SITE_URL}/images/logo.png`,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '36 Cầu Diễn, Phường Minh Khai',
+      addressLocality: 'Bắc Từ Liêm',
+      addressRegion: 'Hà Nội',
+      postalCode: '100000',
+      addressCountry: 'VN',
     },
-    {
-      '@type': 'ContactPoint',
-      telephone: '+84-24-3123-4568',
-      contactType: 'admissions',
-      availableLanguage: ['Vietnamese'],
-      areaServed: 'VN'
-    }
-  ],
-  sameAs: [
-    process.env.NEXT_PUBLIC_FACEBOOK_PAGE || 'https://facebook.com/vcic.edu.vn',
-    'https://youtube.com/c/vcicedu',
-    'https://linkedin.com/school/vcic-edu-vn'
-  ],
-  foundingDate: '2010',
-  email: 'info@vcic.edu.vn',
-  telephone: '+84-24-3123-4567',
-  faxNumber: '+84-24-3123-4569'
-};
+    telephone: '+84-24-3123-4567',
+    openingHours: 'Mo-Fr 08:00-17:00',
+  }
+];
 
 export default function ContactPage() {
   return (
-    <>
-      <Seo minimal jsonLd={organizationStructuredData as any} />
-  return (
-    <>
-      {/* Main Contact Page Content */}
-      <ContactPageClient />
-    </>
+    <Layout>
+      <Seo minimal jsonLd={contactJsonLd as any} />
+      <div className="min-h-screen bg-white">
+        <ContactHero />
+        <section className="w-[92%] md:w-[80%] mx-auto py-12 md:py-16">
+          <ContactInfo />
+        </section>
+        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-12">
+          <ContactForm />
+        </section>
+        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-12">
+          <LocationMap />
+        </section>
+        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-12">
+          <DepartmentContacts />
+        </section>
+        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-16">
+          <FAQ />
+        </section>
+      </div>
+    </Layout>
   );
 }
+
