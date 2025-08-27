@@ -156,7 +156,23 @@ const ProgramsGrid: React.FC = () => {
                 <div className="text-sm"><span className="font-semibold">Thời lượng:</span> {p.duration} – <span className="font-semibold">Văn bằng:</span> {p.cert}</div>
               </div>
               <div className="mt-auto pt-4 flex items-center gap-3">
-                <a href={p.title === 'Công nghệ thông tin' ? '/cac-nganh-nghe-dao-tao/cong-nghe-thong-tin' : '#'} className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600" aria-label={`Tìm hiểu thêm về ${p.title}`}>Tìm hiểu thêm</a>
+                <a
+                  href={
+                    p.title === 'Công nghệ thông tin' ? '/cac-nganh-nghe-dao-tao/cong-nghe-thong-tin'
+                    : p.title === 'An toàn thông tin' ? '/cac-nganh-nghe-dao-tao/an-toan-thong-tin'
+                    : p.title === 'Thiết kế đồ họa & Truyền thông số' ? '/cac-nganh-nghe-dao-tao/thiet-ke-do-hoa-truyen-thong-so'
+                    : p.title === 'Mạng máy tính và Truyền thông dữ liệu' ? '/cac-nganh-nghe-dao-tao/mang-may-tinh-truyen-thong-du-lieu'
+                    : p.title === 'Quản trị mạng và Bảo mật thông tin' ? '/cac-nganh-nghe-dao-tao/quan-tri-mang-bao-mat-thong-tin'
+                    : p.title === 'Lập trình ứng dụng di động' ? '/cac-nganh-nghe-dao-tao/lap-trinh-ung-dung-di-dong'
+                    : p.title === 'Trí tuệ nhân tạo và Học máy' ? '/cac-nganh-nghe-dao-tao/tri-tue-nhan-tao-hoc-may'
+                    : p.title === 'Thương mại điện tử' ? '/cac-nganh-nghe-dao-tao/thuong-mai-dien-tu'
+                    : '#'
+                  }
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 focus-visible:ring-2 focus-visible:ring-blue-600"
+                  aria-label={`Tìm hiểu thêm về ${p.title}`}
+                >
+                  Tìm hiểu thêm
+                </a>
                 <a href="/dang-ky-truc-tuyen" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-400 text-blue-900 hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400" aria-label={`Đăng ký tư vấn ${p.title}`}>Đăng ký tư vấn</a>
               </div>
             </div>

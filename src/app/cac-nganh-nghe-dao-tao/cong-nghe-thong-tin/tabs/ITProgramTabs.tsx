@@ -141,13 +141,13 @@ const ITProgramTabs: React.FC = () => {
                       <td className="py-2 pr-4">HK3</td>
                       <td className="py-2 pr-4">Web, Hệ điều hành, Mạng máy tính</td>
                       <td className="py-2 pr-4">12</td>
-                      <td className="py-2 pr-4">3.600.000 – 5.400.000</td>
+                      <td className="py-2 pr-4">3.600.000 - 5.400.000</td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-2 pr-4">HK4</td>
                       <td className="py-2 pr-4">Cloud, DevOps, Bảo mật ứng dụng</td>
                       <td className="py-2 pr-4">12</td>
-                      <td className="py-2 pr-4">3.600.000 – 5.400.000</td>
+                      <td className="py-2 pr-4">3.600.000 - 5.400.000</td>
                     </tr>
                     <tr>
                       <td className="py-2 pr-4">HK5</td>

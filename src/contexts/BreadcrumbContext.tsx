@@ -90,6 +90,13 @@ export const BreadcrumbProvider: React.FC<BreadcrumbProviderProps> = ({ children
           const slug = pathSegments[1];
           const labelMap: Record<string, string> = {
             'cong-nghe-thong-tin': 'Công nghệ thông tin',
+            'an-toan-thong-tin': 'An toàn thông tin',
+            'thiet-ke-do-hoa-truyen-thong-so': 'Thiết kế đồ họa & Truyền thông số',
+            'mang-may-tinh-truyen-thong-du-lieu': 'Mạng máy tính và Truyền thông dữ liệu',
+            'quan-tri-mang-bao-mat-thong-tin': 'Quản trị mạng và Bảo mật thông tin',
+            'lap-trinh-ung-dung-di-dong': 'Lập trình ứng dụng di động',
+            'tri-tue-nhan-tao-hoc-may': 'Trí tuệ nhân tạo & Học máy',
+            'thuong-mai-dien-tu': 'Thương mại điện tử',
           };
           generatedBreadcrumbs.push({
             label: labelMap[slug] || slug.replace(/-/g, ' '),
