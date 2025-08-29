@@ -112,22 +112,28 @@ const structuredData = {
 // Data fetching function for featured articles
 async function getFeaturedArticles(): Promise<Article[]> {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public/featured?limit=6`,
-      {
-        next: { revalidate: 1 }
-      }
-    );
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
+
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/+$/, '');
+    const url = `${base}/articles/public/featured?limit=6`;
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      cache: 'no-store',
+    });
+
+    clearTimeout(timeout);
 
     if (!response.ok) {
-      console.error('Failed to fetch featured articles:', response.statusText);
+      console.warn('Failed to fetch featured articles:', response.statusText);
       return [];
     }
 
     const data = await response.json();
-    return data.data.articles || [];
+    return data?.data?.articles || [];
   } catch (error) {
-    console.error('Error fetching featured articles:', error);
+    console.warn('Error fetching featured articles:', error);
     return [];
   }
 }
@@ -135,29 +141,35 @@ async function getFeaturedArticles(): Promise<Article[]> {
 // Data fetching function for admission & training articles
 async function getAdmissionTrainingArticles(): Promise<Article[]> {
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
+
     const params = new URLSearchParams({
       limit: '3',
-      category: 'tuyen-sinh,dao-tao', // API should support multiple slugs
+      category: 'tuyen-sinh,dao-tao',
       sort: 'newest',
       status: 'published'
     });
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/articles/public?${params.toString()}`,
-      {
-        next: { revalidate: 3600 } // Revalidate every hour
-      }
-    );
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/+$/, '');
+    const url = `${base}/articles/public?${params.toString()}`;
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      cache: 'no-store',
+    });
+
+    clearTimeout(timeout);
 
     if (!response.ok) {
-      console.error('Failed to fetch admission/training articles:', response.statusText);
+      console.warn('Failed to fetch admission/training articles:', response.statusText);
       return [];
     }
 
     const data = await response.json();
-    return data.data.articles || [];
+    return data?.data?.articles || [];
   } catch (error) {
-    console.error('Error fetching admission/training articles:', error);
+    console.warn('Error fetching admission/training articles:', error);
     return [];
   }
 }
