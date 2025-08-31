@@ -125,7 +125,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="bg-white rounded-xl shadow-lg p-8 border border-gray-200/50 hover:shadow-xl transition-all duration-300"
+            className="bg-white rounded-xl shadow-lg p-8 border border-gray-200/50 hover:shadow-xl transition-all duration-300 flex flex-col h-full"
           >
             <div className="flex items-center mb-6">
               <div className="bg-blue-100 p-3 rounded-lg mr-4">
@@ -134,7 +134,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
               <h3 className="text-2xl font-bold text-blue-900">THÔNG TIN TUYỂN SINH</h3>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 flex-1">
               {/* Quick Stats */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-blue-50 p-4 rounded-lg text-center border border-blue-100 shadow-sm hover:shadow-md transition-all duration-300">
@@ -188,7 +188,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 mt-6 lg:mt-auto">
                 <Link
                   href="/dang-ky-truc-tuyen"
                   className="flex-1 bg-blue-900 text-white py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-800 transition-colors duration-300"
@@ -215,24 +215,15 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
           >
             {/* Video Section */}
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200/50 hover:shadow-xl transition-all duration-300">
-              <div className="relative h-64 bg-gradient-to-br from-blue-900 to-blue-700">
-                <OptimizedImage
-                  src="/images/banner-education.svg"
-                  alt="Video giới thiệu trường - Trường Cao đẳng Thông tin và Truyền thông"
-                  width={600}
-                  height={300}
-                  loading="lazy"
-                  className="w-full h-full object-cover opacity-30"
+              <div className="relative w-full" style={{ aspectRatio: '16 / 9' }}>
+                <iframe
+                  src="https://www.youtube.com/embed/vpcZ9A7tDPE"
+                  title="Video giới thiệu trường - Trường Cao đẳng Thông tin và Truyền thông"
+                  aria-label="YouTube video giới thiệu trường"
+                  className="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
                 />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <button className="bg-white/20 backdrop-blur-sm border-2 border-white/50 text-white p-4 rounded-full hover:bg-white/30 transition-all duration-300 transform hover:scale-110">
-                    <Play size={32} />
-                  </button>
-                </div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h4 className="text-white font-semibold text-lg">Video giới thiệu trường</h4>
-                  <p className="text-white/80 text-sm">Khám phá cơ sở vật chất và môi trường học tập</p>
-                </div>
               </div>
             </div>
 

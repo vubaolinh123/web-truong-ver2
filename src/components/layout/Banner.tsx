@@ -14,7 +14,7 @@ const Banner = () => {
       id: 1,
       title: 'TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG CHÍNH THỨC TUYỂN SINH VÀ ĐÀO TẠO NGHỀ CÔNG NGHỆ THÔNG TIN VÀ LẬP TRÌNH MÁY TÍNH TỪ NĂM 2025',
       subtitle: 'Đào tạo chuyên sâu về công nghệ thông tin, lập trình máy tính và các ngành nghề hiện đại',
-      image: '/images/banner_1.jpg',
+      image: '/images/banner_1.jpeg',
       cta: {
         text: 'ĐĂNG KÝ NGAY',
         href: '/dang-ky-truc-tuyen'
@@ -25,7 +25,7 @@ const Banner = () => {
       id: 2,
       title: 'SAMSUNG VIỆT NAM TÀI TRỢ CHO TRƯỜNG 38 MÁY TÍNH VÀ HỆ THỐNG THỰC HÀNH MẠNG LAN',
       subtitle: 'Nâng cao chất lượng đào tạo các ngành nghề Công nghệ Thông tin với trang thiết bị hiện đại',
-      image: '/images/banner_2.jpg',
+      image: '/images/banner_2.jpeg',
       cta: {
         text: 'TÌM HIỂU THÊM',
         href: '/hop-tac-doanh-nghiep'
@@ -36,7 +36,7 @@ const Banner = () => {
       id: 3,
       title: 'CHƯƠNG TRÌNH ĐÀO TẠO CHẤT LƯỢNG CAO - LIÊN KẾT QUỐC TẾ',
       subtitle: 'Đào tạo theo tiêu chuẩn quốc tế với cơ hội du học và làm việc tại các doanh nghiệp hàng đầu',
-      image: '/images/banner_3.jpg',
+      image: '/images/banner_3.jpeg',
       cta: {
         text: 'KHÁM PHÁ NGAY',
         href: '/dao-tao'
@@ -47,46 +47,14 @@ const Banner = () => {
       id: 4,
       title: 'TUYỂN THỰC TẬP SINH IN VÀ ĐÓNG SÁCH TẠI NHẬT BẢN',
       subtitle: 'Cơ hội học tập và làm việc tại Nhật Bản với mức lương hấp dẫn và môi trường chuyên nghiệp',
-      image: '/images/banner_4.jpg',
+      image: '/images/banner_4.jpeg',
       cta: {
         text: 'ĐĂNG KÝ DU HỌC',
         href: '/du-hoc'
       },
       bgColor: 'from-red-700 to-red-600'
     },
-    {
-      id: 5,
-      title: 'TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG - MÔI TRƯỜNG HỌC TẬP HIỆN ĐẠI',
-      subtitle: 'Cơ sở vật chất hiện đại, chương trình học gắn với thực tiễn doanh nghiệp',
-      image: '/images/banner_5.jpg',
-      cta: {
-        text: 'XEM THÊM',
-        href: '/co-so-vat-chat'
-      },
-      bgColor: 'from-indigo-700 to-indigo-600'
-    },
-    {
-      id: 6,
-      title: 'CƠ HỘI VIỆC LÀM RỘNG MỞ SAU KHI TỐT NGHIỆP',
-      subtitle: 'Hợp tác sâu rộng với doanh nghiệp, thực tập hưởng lương và tuyển dụng trực tiếp',
-      image: '/images/banner_6.jpg',
-      cta: {
-        text: 'CƠ HỘI NGHỀ NGHIỆP',
-        href: '/tin-tuc'
-      },
-      bgColor: 'from-sky-700 to-sky-600'
-    },
-    {
-      id: 7,
-      title: 'ĐÀO TẠO GẮN VỚI DOANH NGHIỆP - HỌC ĐI ĐÔI VỚI HÀNH',
-      subtitle: 'Nâng cao kỹ năng thực tế qua các dự án và phòng lab chuẩn công nghiệp',
-      image: '/images/banner_7.jpg',
-      cta: {
-        text: 'TÌM HIỂU NGAY',
-        href: '/chuong-trinh-dao-tao'
-      },
-      bgColor: 'from-teal-700 to-teal-600'
-    }
+
   ];
 
   // Auto-slide functionality
@@ -111,7 +79,10 @@ const Banner = () => {
   };
 
   return (
-    <section className="relative h-[480px] md:h-[600px] lg:h-[700px] overflow-hidden">
+    <section
+      className="relative w-full overflow-hidden mx-auto max-h-[260px] sm:max-h-[300px] md:max-h-[360px] lg:max-h-[420px] xl:max-h-[480px]"
+      style={{ aspectRatio: '2 / 1' }}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
