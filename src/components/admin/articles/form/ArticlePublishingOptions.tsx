@@ -57,13 +57,24 @@ const ArticlePublishingOptions: React.FC<ArticlePublishingOptionsProps> = ({
   const formatDateForInput = (dateString: string) => {
     if (!dateString) return '';
     const date = new Date(dateString);
-    return date.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:mm
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    return `${year}-${month}-${day}T${hours}:${minutes}`; // Local time for datetime-local
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const dateValue = e.target.value;
+    const dateValue = e.target.value; // format 'YYYY-MM-DDTHH:mm' in local time
     if (dateValue) {
-      const isoDate = new Date(dateValue).toISOString();
+      // Parse as local time to avoid timezone shifts
+      const [datePart, timePart] = dateValue.split('T');
+      const [y, m, d] = datePart.split('-').map(Number);
+      const [hh, mm] = timePart.split(':').map(Number);
+      const localDate = new Date(y, (m || 1) - 1, d || 1, hh || 0, mm || 0, 0);
+      const isoDate = localDate.toISOString();
       onPublishedAtChange(isoDate);
     } else {
       onPublishedAtChange('');

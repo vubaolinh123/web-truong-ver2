@@ -14,7 +14,7 @@ const Banner = () => {
       id: 1,
       title: 'TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG CHÍNH THỨC TUYỂN SINH VÀ ĐÀO TẠO NGHỀ CÔNG NGHỆ THÔNG TIN VÀ LẬP TRÌNH MÁY TÍNH TỪ NĂM 2025',
       subtitle: 'Đào tạo chuyên sâu về công nghệ thông tin, lập trình máy tính và các ngành nghề hiện đại',
-      image: '/images/banner_1.jpeg',
+      image: '/images/banner_1.jpg',
       cta: {
         text: 'ĐĂNG KÝ NGAY',
         href: '/dang-ky-truc-tuyen'
@@ -25,7 +25,7 @@ const Banner = () => {
       id: 2,
       title: 'SAMSUNG VIỆT NAM TÀI TRỢ CHO TRƯỜNG 38 MÁY TÍNH VÀ HỆ THỐNG THỰC HÀNH MẠNG LAN',
       subtitle: 'Nâng cao chất lượng đào tạo các ngành nghề Công nghệ Thông tin với trang thiết bị hiện đại',
-      image: '/images/banner_2.jpeg',
+      image: '/images/banner_2.jpg',
       cta: {
         text: 'TÌM HIỂU THÊM',
         href: '/hop-tac-doanh-nghiep'
@@ -36,7 +36,7 @@ const Banner = () => {
       id: 3,
       title: 'CHƯƠNG TRÌNH ĐÀO TẠO CHẤT LƯỢNG CAO - LIÊN KẾT QUỐC TẾ',
       subtitle: 'Đào tạo theo tiêu chuẩn quốc tế với cơ hội du học và làm việc tại các doanh nghiệp hàng đầu',
-      image: '/images/banner_3.jpeg',
+      image: '/images/banner_3.jpg',
       cta: {
         text: 'KHÁM PHÁ NGAY',
         href: '/dao-tao'
@@ -47,14 +47,46 @@ const Banner = () => {
       id: 4,
       title: 'TUYỂN THỰC TẬP SINH IN VÀ ĐÓNG SÁCH TẠI NHẬT BẢN',
       subtitle: 'Cơ hội học tập và làm việc tại Nhật Bản với mức lương hấp dẫn và môi trường chuyên nghiệp',
-      image: '/images/banner_4.jpeg',
+      image: '/images/banner_4.jpg',
       cta: {
         text: 'ĐĂNG KÝ DU HỌC',
         href: '/du-hoc'
       },
       bgColor: 'from-red-700 to-red-600'
     },
-
+    {
+      id: 5,
+      title: 'TUYỂN THỰC TẬP SINH IN VÀ ĐÓNG SÁCH TẠI NHẬT BẢN',
+      subtitle: 'Cơ hội học tập và làm việc tại Nhật Bản với mức lương hấp dẫn và môi trường chuyên nghiệp',
+      image: '/images/banner_5.jpg',
+      cta: {
+        text: 'ĐĂNG KÝ DU HỌC',
+        href: '/du-hoc'
+      },
+      bgColor: 'from-red-700 to-red-600'
+    },
+    {
+      id: 6,
+      title: 'TUYỂN THỰC TẬP SINH IN VÀ ĐÓNG SÁCH TẠI NHẬT BẢN',
+      subtitle: 'Cơ hội học tập và làm việc tại Nhật Bản với mức lương hấp dẫn và môi trường chuyên nghiệp',
+      image: '/images/banner_6.jpg',
+      cta: {
+        text: 'ĐĂNG KÝ DU HỌC',
+        href: '/du-hoc'
+      },
+      bgColor: 'from-red-700 to-red-600'
+    },
+    {
+      id: 7,
+      title: 'TUYỂN THỰC TẬP SINH IN VÀ ĐÓNG SÁCH TẠI NHẬT BẢN',
+      subtitle: 'Cơ hội học tập và làm việc tại Nhật Bản với mức lương hấp dẫn và môi trường chuyên nghiệp',
+      image: '/images/banner_7.jpg',
+      cta: {
+        text: 'ĐĂNG KÝ DU HỌC',
+        href: '/du-hoc'
+      },
+      bgColor: 'from-red-700 to-red-600'
+    }
   ];
 
   // Auto-slide functionality

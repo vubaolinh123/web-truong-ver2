@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 import { Users, PhoneCall, Mail } from 'lucide-react';
 
 const departments = [
-  { name: 'Phòng Đào tạo', phone: '+84-24-3123-1111', email: 'daotao@vcic.edu.vn' },
-  { name: 'Phòng Tuyển sinh', phone: '+84-24-3123-2222', email: 'tuyensinh@vcic.edu.vn' },
-  { name: 'Phòng Công tác SV', phone: '+84-24-3123-3333', email: 'sinhvien@vcic.edu.vn' },
+  { name: 'Phòng đào tạo', phone: '', email: '' },
+  { name: 'Phòng công nghệ số', phone: '0914852086', email: 'cns1.cic@gmail.com' },
+  { name: 'Phòng tổ chức hành chính', phone: '', email: '' },
 ];
 
 const DepartmentContacts: React.FC = () => {
@@ -26,8 +26,12 @@ const DepartmentContacts: React.FC = () => {
           >
             <h3 className="text-lg font-semibold text-slate-900">{d.name}</h3>
             <div className="mt-2 text-slate-700">
-              <div className="flex items-center gap-2"><PhoneCall className="text-blue-700" /> {d.phone}</div>
-              <div className="flex items-center gap-2"><Mail className="text-blue-700" /> {d.email}</div>
+              {d.phone && (
+                <div className="flex items-center gap-2"><PhoneCall className="text-blue-700" /> {d.phone}</div>
+              )}
+              {d.email && (
+                <div className="flex items-center gap-2"><Mail className="text-blue-700" /> {d.email}</div>
+              )}
             </div>
           </motion.div>
         ))}
