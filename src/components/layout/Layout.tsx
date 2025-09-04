@@ -7,6 +7,8 @@ import FloatingActionButton from '../ui/FloatingActionButton';
 import MobileBottomNav from '../ui/MobileBottomNav';
 import Breadcrumb from '../common/Breadcrumb';
 import { useBreadcrumb } from '@/contexts/BreadcrumbContext';
+import { Toaster } from 'react-hot-toast';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -14,6 +16,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { breadcrumbs } = useBreadcrumb();
+  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || '';
 
   // Only show breadcrumbs if we're not on the home page
   const showBreadcrumbs = breadcrumbs.length > 1;
@@ -29,11 +32,31 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
       )}
       <main className="flex-grow pb-16 md:pb-0">
-        {children}
+        {recaptchaSiteKey ? (
+          <GoogleReCaptchaProvider
+            reCaptchaKey={recaptchaSiteKey}
+            scriptProps={{ async: true, defer: true, appendTo: 'head' }}
+          >
+            {children}
+          </GoogleReCaptchaProvider>
+        ) : (
+          children
+        )}
       </main>
       <Footer />
       <FloatingActionButton />
       <MobileBottomNav />
+      {/* Toast container for public pages */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          // Default accessible styling
+          duration: 4000,
+          ariaProps: { role: 'status', 'aria-live': 'polite' },
+          success: { duration: 4000 },
+          error: { duration: Infinity },
+        }}
+      />
     </div>
   );
 };
