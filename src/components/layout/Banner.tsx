@@ -21,17 +21,17 @@ const Banner = () => {
       },
       bgColor: 'from-blue-900 to-blue-700'
     },
-    {
-      id: 2,
-      title: 'SAMSUNG VIỆT NAM TÀI TRỢ CHO TRƯỜNG 38 MÁY TÍNH VÀ HỆ THỐNG THỰC HÀNH MẠNG LAN',
-      subtitle: 'Nâng cao chất lượng đào tạo các ngành nghề Công nghệ Thông tin với trang thiết bị hiện đại',
-      image: '/images/banner_2.jpg',
-      cta: {
-        text: 'TÌM HIỂU THÊM',
-        href: '/hop-tac-doanh-nghiep'
-      },
-      bgColor: 'from-yellow-600 to-yellow-500'
-    },
+    // {
+    //   id: 2,
+    //   title: 'SAMSUNG VIỆT NAM TÀI TRỢ CHO TRƯỜNG 38 MÁY TÍNH VÀ HỆ THỐNG THỰC HÀNH MẠNG LAN',
+    //   subtitle: 'Nâng cao chất lượng đào tạo các ngành nghề Công nghệ Thông tin với trang thiết bị hiện đại',
+    //   image: '/images/banner_2.jpg',
+    //   cta: {
+    //     text: 'TÌM HIỂU THÊM',
+    //     href: '/hop-tac-doanh-nghiep'
+    //   },
+    //   bgColor: 'from-yellow-600 to-yellow-500'
+    // },
     {
       id: 3,
       title: 'CHƯƠNG TRÌNH ĐÀO TẠO CHẤT LƯỢNG CAO - LIÊN KẾT QUỐC TẾ',

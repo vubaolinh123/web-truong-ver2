@@ -23,7 +23,7 @@ export interface BannerImageProps extends Omit<ImageProps, 'src' | 'objectFit' |
 const BannerImage: React.FC<BannerImageProps> = ({
   src,
   alt,
-  objectFit = 'cover',
+  objectFit = 'contain',
   objectPosition = 'center center',
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw',
   priority,
