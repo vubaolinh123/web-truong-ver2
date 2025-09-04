@@ -6,7 +6,7 @@ import Image, { ImageProps } from 'next/image';
 // Fallback placeholder to avoid broken UI
 const FALLBACK_IMAGE_SRC = '/images/placeholder.png';
 
-export interface BannerImageProps extends Omit<ImageProps, 'src'> {
+export interface BannerImageProps extends Omit<ImageProps, 'src' | 'objectFit' | 'objectPosition'> {
   src: string | null | undefined;
   // Optional: allow overriding objectFit/objectPosition/aspect ratio if needed later
   objectFit?: React.CSSProperties['objectFit'];
