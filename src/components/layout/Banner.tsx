@@ -86,6 +86,17 @@ const Banner = () => {
         href: '/du-hoc'
       },
       bgColor: 'from-red-700 to-red-600'
+    },
+    {
+      id: 8,
+      title: 'TUYỂN THỰC TẬP SINH IN VÀ ĐÓNG SÁCH TẠI NHẬT BẢN',
+      subtitle: 'Cơ hội học tập và làm việc tại Nhật Bản với mức lương hấp dẫn và môi trường chuyên nghiệp',
+      image: '/images/banner_8.jpg',
+      cta: {
+        text: 'ĐĂNG KÝ DU HỌC',
+        href: '/du-hoc'
+      },
+      bgColor: 'from-red-700 to-red-600'
     }
   ];
 
