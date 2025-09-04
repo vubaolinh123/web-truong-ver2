@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 
-import OptimizedImage from '@/components/ui/OptimizedImage';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import BannerImage from './BannerImage';
 
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -123,8 +123,8 @@ const Banner = () => {
 
   return (
     <section
-      className="relative w-full overflow-hidden mx-auto max-h-[260px] sm:max-h-[300px] md:max-h-[360px] lg:max-h-[420px] xl:max-h-[480px]"
-      style={{ aspectRatio: '2 / 1' }}
+      className="relative w-full overflow-hidden mx-auto max-h-[500px]"
+      style={{ height: 'min(calc(100vw * 9 / 16), 500px)', maxHeight: '500px' }}
     >
       <AnimatePresence mode="wait">
         <motion.div
@@ -137,12 +137,10 @@ const Banner = () => {
         >
           {/* Background Image (as actual <Image> for LCP) */}
           <div className="absolute inset-0">
-            <OptimizedImage
+            <BannerImage
               src={slides[currentSlide].image}
               alt={`Hình ảnh minh họa: ${slides[currentSlide].title}`}
-              fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-              style={{ objectFit: 'contain', objectPosition: 'center', backgroundColor: 'transparent' }}
               priority={currentSlide === 0}
               fetchPriority={currentSlide === 0 ? 'high' : 'auto'}
               loading={currentSlide === 0 ? 'eager' : 'lazy'}
