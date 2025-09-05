@@ -34,6 +34,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       description: 'Tổng quan hệ thống'
     },
     {
+      title: 'Đăng ký sinh viên',
+      href: '/admin/register',
+      icon: GraduationCap,
+      description: 'Quản lý đăng ký tuyển sinh'
+    },
+    {
       title: 'Bài viết',
       href: '/admin/articles',
       icon: FileText,
