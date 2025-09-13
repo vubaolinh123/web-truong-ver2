@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/seo/Seo';
+import ProgramArticlesSection from '../components/ProgramArticlesSection';
+
 
 const ProgramsHero = dynamic(() => import('../components/ProgramsHero'), { loading: () => <div className="h-48 bg-gradient-to-r from-blue-900 to-blue-700 animate-pulse" /> });
 const MechProgramTabs = dynamic(() => import('./tabs/MechProgramTabs'), { loading: () => <div className="h-96 bg-white rounded-2xl shadow-lg animate-pulse" /> });
@@ -26,6 +28,7 @@ export default function MechPage() {
         <section className="w-[92%] md:w-[80%] mx-auto py-12 md:py-16">
           <MechProgramTabs />
         </section>
+        <ProgramArticlesSection categorySlug="cong-nghe-ky-thuat-co-khi" title="Công nghệ kỹ thuật cơ khí" />
       </div>
     </Layout>
   );

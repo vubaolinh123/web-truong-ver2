@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 import { Users, PhoneCall, Mail } from 'lucide-react';
 
 const departments = [
-  { name: 'Phòng đào tạo', phone: '', email: '' },
-  { name: 'Phòng công nghệ số', phone: '0914852086', email: 'cns1.cic@gmail.com' },
-  { name: 'Phòng tổ chức hành chính', phone: '', email: '' },
+  { name: 'Phòng Đào Tạo', phone: '0964 322 215', email: 'phongdaotao.cci@moet.edu.vn' },
+  { name: 'Phòng Công Nghệ Số', phone: '0914852086', email: 'cns1.cic@gmail.com' },
+  { name: 'Phòng Tổ Chức Hành Chính', phone: '0243 764 4489', email: 'vanthu@caodangcongnghiepin@gmail.com' },
 ];
 
 const DepartmentContacts: React.FC = () => {

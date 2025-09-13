@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/seo/Seo';
+import ProgramArticlesSection from '../components/ProgramArticlesSection';
 
 const ProgramsHero = dynamic(() => import('../components/ProgramsHero'), {
   loading: () => <div className="h-48 bg-gradient-to-r from-blue-900 to-blue-700 animate-pulse" />,
@@ -39,6 +40,8 @@ export default function ITProgramPage() {
         <section className="w-[92%] md:w-[80%] mx-auto py-12 md:py-16">
           <ITProgramTabs />
         </section>
+        {/* New Articles section directly below tabs */}
+        <ProgramArticlesSection categorySlug="cong-nghe-thong-tin" title="Công nghệ thông tin" />
       </div>
     </Layout>
   );
