@@ -15,7 +15,7 @@ const ContactInfo: React.FC = () => {
             <MapPin className="text-blue-700" />
             <div>
               <h3 className="text-lg font-semibold text-slate-900">Địa chỉ</h3>
-              <p className="text-slate-600">36 Cầu Diễn, Phường Minh Khai, Bắc Từ Liêm, Hà Nội</p>
+              <p className="text-slate-600">36 Cầu Diễn, Phường Phú Diễn, Hà Nội</p>
             </div>
           </div>
         </motion.div>

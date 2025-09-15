@@ -75,7 +75,7 @@ const contactJsonLd = [
     image: `${SITE_URL}/images/logo.png`,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '36 Cầu Diễn, Phường Minh Khai',
+      streetAddress: '36 Cầu Diễn, Phường Phú Diễn, Hà Nội',
       addressLocality: 'Bắc Từ Liêm',
       addressRegion: 'Hà Nội',
       postalCode: '100000',

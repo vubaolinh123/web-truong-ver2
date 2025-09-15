@@ -153,21 +153,25 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
                   <Calendar className="text-blue-900 mt-1" size={20} />
                   <div>
                     <h4 className="font-semibold text-gray-800">Thời gian đăng ký</h4>
-                    <p className="text-gray-600 text-sm">Từ 01/03/2025 đến 30/08/2025</p>
+                    <p className="text-gray-600 text-sm">1/3 - 30/10</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <Users className="text-blue-900 mt-1" size={20} />
                   <div>
                     <h4 className="font-semibold text-gray-800">Đối tượng tuyển sinh</h4>
-                    <p className="text-gray-600 text-sm">Tốt nghiệp THPT, THCS, tương đương</p>
+                    <ul className="text-gray-600 text-sm list-disc pl-5 space-y-1" aria-label="Đối tượng tuyển sinh">
+                      <li>Trình độ sơ cấp: Xét tuyển từ 15 tuổi trở lên</li>
+                      <li>Trình độ trung cấp: Tốt nghiệp THCS và tương đương trở lên</li>
+                      <li>Trình độ cao đẳng: Tốt nghiệp THPT và tương đương</li>
+                    </ul>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <MapPin className="text-blue-900 mt-1" size={20} />
                   <div>
                     <h4 className="font-semibold text-gray-800">Địa điểm học tập</h4>
-                    <p className="text-gray-600 text-sm">Cơ sở chính: Hà Nội & TP.HCM</p>
+                    <p className="text-gray-600 text-sm">Hà Nội</p>
                   </div>
                 </div>
               </div>
@@ -178,11 +182,11 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
                 <div className="space-y-2">
                   <div className="flex items-center space-x-2">
                     <Phone size={16} className="text-blue-900" />
-                    <span className="text-sm text-gray-700">Hotline: 0964 322 215</span>
+                    <span className="text-sm text-gray-700">Số điện thoại: 0964 322 215</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Mail size={16} className="text-blue-900" />
-                    <span className="text-sm text-gray-700">Email: tuyensinh@vcic.edu.vn</span>
+                    <span className="text-sm text-gray-700">Email: phongdaotao.cci@moet.edu.vn</span>
                   </div>
                 </div>
               </div>
