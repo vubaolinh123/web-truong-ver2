@@ -70,7 +70,6 @@ const ProgramsGrid: React.FC = () => {
                 >
                   Tìm hiểu thêm
                 </a>
-                <a href="/dang-ky-truc-tuyen" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-400 text-blue-900 hover:bg-yellow-300 focus-visible:ring-2 focus-visible:ring-yellow-400" aria-label={`Đăng ký tư vấn ${p.title}`}>Đăng ký tư vấn</a>
               </div>
             </div>
           </motion.article>

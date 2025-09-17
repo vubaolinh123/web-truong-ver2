@@ -153,7 +153,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
                   <Calendar className="text-blue-900 mt-1" size={20} />
                   <div>
                     <h4 className="font-semibold text-gray-800">Thời gian đăng ký</h4>
-                    <p className="text-gray-600 text-sm">1/3 - 30/10</p>
+                    <p className="text-gray-600 text-sm">01/03/2025 đến 30/10/2025</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -194,13 +194,13 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-3 mt-6 lg:mt-auto">
                 <Link
-                  href="/dang-ky-truc-tuyen"
+                  href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true"
                   className="flex-1 bg-blue-900 text-white py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-800 transition-colors duration-300"
                 >
                   ĐĂNG KÝ NGAY
                 </Link>
                 <Link
-                  href="/tuyen-sinh"
+                  href="/thong-tin-tuyen-sinh"
                   className="flex-1 border-2 border-blue-900 text-blue-900 py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-900 hover:text-white transition-all duration-300"
                 >
                   TÌM HIỂU THÊM
