@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { FolderOpen, Tag, Plus, X, ChevronDown } from 'lucide-react';
 import { categoriesApi, Category } from '@/lib/api/categories';
 
@@ -38,6 +38,13 @@ const ArticleCategoryTags: React.FC<ArticleCategoryTagsProps> = ({
     'Công nghệ', 'Giáo dục', 'Khoa học', 'Tin tức', 'Sự kiện',
     'Nghiên cứu', 'Đào tạo', 'Sinh viên', 'Giảng viên', 'Học bổng'
   ]);
+  const [categoryQuery, setCategoryQuery] = useState('');
+  const filteredCategories = useMemo(() => {
+    if (!categoryQuery.trim()) return categories;
+    const q = categoryQuery.toLowerCase();
+    return categories.filter(c => c.name.toLowerCase().includes(q));
+  }, [categories, categoryQuery]);
+
 
   // Load categories for dropdown and selected category display
   const loadCategories = async () => {
@@ -187,45 +194,57 @@ const ArticleCategoryTags: React.FC<ArticleCategoryTagsProps> = ({
             </button>
 
             {categoryDropdownOpen && (
-              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-72 overflow-y-auto">
                 {loadingCategories ? (
                   <div className="p-4 text-center text-gray-500">
                     <div className="animate-spin rounded-full h-6 w-6 border-2 border-blue-600 border-t-transparent mx-auto"></div>
                     <span className="mt-2 block">Đang tải danh mục...</span>
                   </div>
-                ) : categories.length > 0 ? (
-                  categories.map((category) => (
-                    <button
-                      key={category.id}
-                      type="button"
-                      onClick={() => handleCategorySelect(category.id)}
-                      className={`
-                        w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors duration-200 flex items-center justify-between
-                        ${categoryIds.includes(category.id) ? 'bg-blue-100 text-blue-700' : 'text-gray-700'}
-                      `}
-                    >
-                      <div>
-                        <div className="font-medium">{category.name}</div>
-                        {category.description && (
-                          <div className="text-xs text-gray-500 mt-1">{category.description}</div>
-                        )}
-                      </div>
-                      {categoryIds.includes(category.id) && (
-                        <div className="text-blue-600">
-                          ✓
-                        </div>
-                      )}
-                    </button>
-                  ))
                 ) : (
-                  <div className="p-4 text-center text-gray-500">
-                    Không có danh mục nào
-                  </div>
+                  <>
+                    {/* Search box */}
+                    <div className="sticky top-0 bg-white border-b border-gray-200 p-2">
+                      <input
+                        type="text"
+                        value={categoryQuery}
+                        onChange={(e) => setCategoryQuery(e.target.value)}
+                        placeholder="Tìm kiếm danh mục..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    {/* Categories list */}
+                    {filteredCategories.length > 0 ? (
+                      filteredCategories.map((category) => (
+                        <button
+                          key={category.id}
+                          type="button"
+                          onClick={() => handleCategorySelect(category.id)}
+                          className={`
+                            w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors duration-200 flex items-center justify-between
+                            ${categoryIds.includes(category.id) ? 'bg-blue-100 text-blue-700' : 'text-gray-700'}
+                          `}
+                        >
+                          <div>
+                            <div className="font-medium">{category.name}</div>
+                            {category.description && (
+                              <div className="text-xs text-gray-500 mt-1">{category.description}</div>
+                            )}
+                          </div>
+                          {categoryIds.includes(category.id) && (
+                            <div className="text-blue-600">✓</div>
+                          )}
+                        </button>
+                      ))
+                    ) : (
+                      <div className="p-4 text-center text-gray-500">Không tìm thấy danh mục phù hợp</div>
+                    )}
+                  </>
                 )}
               </div>
             )}
           </div>
-          
+
           {errors.categoryIds && (
             <p className="mt-1 text-sm text-red-600">{errors.categoryIds}</p>
           )}
