@@ -22,15 +22,15 @@ const ContactHero: React.FC = () => {
         <motion.div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/20 flex items-center gap-3">
             <PhoneCall className="text-yellow-300" />
-            <span>+84-24-3123-4567</span>
+            <span>0914852046</span>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/20 flex items-center gap-3">
             <Mail className="text-yellow-300" />
-            <span>info@vcic.edu.vn</span>
+            <span>cns1.cic@gmail.com</span>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/20 flex items-center gap-3">
             <MapPin className="text-yellow-300" />
-            <span>36 Cầu Diễn, Bắc Từ Liêm, Hà Nội</span>
+            <span>36 Cầu Diễn, Phường Phú Diễn, Hà Nội</span>
           </div>
         </motion.div>
       </div>

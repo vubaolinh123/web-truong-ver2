@@ -15,7 +15,7 @@ const CampusOverview: React.FC = () => {
             <MapPin className="text-blue-700" />
             <div>
               <h3 className="text-lg font-semibold text-slate-900">Vị trí & diện tích</h3>
-              <p className="text-slate-600">36 Cầu Diễn, Bắc Từ Liêm, Hà Nội. Tổng diện tích 3 ha, không gian xanh và thân thiện.</p>
+              <p className="text-slate-600">36 Cầu Diễn, Phường Phú Diễn, Hà Nội Tổng diện tích 3 ha, không gian xanh và thân thiện.</p>
             </div>
           </div>
         </motion.div>
