@@ -74,7 +74,7 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin size={16} className="text-yellow-300 mt-1 flex-shrink-0" />
                 <span className="text-white">
-                  36 Cầu Diễn, Phường Phúc Diễn, Hà Nội
+                  36 Cầu Diễn, Phường Phú Diễn, Hà Nội
                 </span>
               </div>
 
