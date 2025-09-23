@@ -200,7 +200,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
                   ĐĂNG KÝ NGAY
                 </Link>
                 <Link
-                  href="/thong-tin-tuyen-sinh"
+                  href="/tin-tuc/truong-cao-dang-thong-tin-va-truyen-thong-tuyen-sinh-nam-2025"
                   className="flex-1 border-2 border-blue-900 text-blue-900 py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-900 hover:text-white transition-all duration-300"
                 >
                   TÌM HIỂU THÊM
