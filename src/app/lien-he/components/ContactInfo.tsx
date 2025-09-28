@@ -35,7 +35,8 @@ const ContactInfo: React.FC = () => {
             <Mail className="text-blue-700" />
             <div>
               <h3 className="text-lg font-semibold text-slate-900">Email</h3>
-              <p className="text-slate-600">info@vcic.edu.vn</p>
+              <p className="text-slate-600">vanthu.caodangcong</p>
+              <p className="text-slate-600">nghiepin@gmail.com</p>
             </div>
           </div>
         </motion.div>
