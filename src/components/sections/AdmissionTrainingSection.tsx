@@ -221,7 +221,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200/50 hover:shadow-xl transition-all duration-300">
               <div className="relative w-full" style={{ aspectRatio: '16 / 9' }}>
                 <iframe
-                  src="https://www.youtube.com/embed/vpcZ9A7tDPE"
+                  src="https://www.youtube.com/embed/d3gIkJotP88"
                   title="Video giới thiệu trường - Trường Cao đẳng Thông tin và Truyền thông"
                   aria-label="YouTube video giới thiệu trường"
                   className="absolute inset-0 w-full h-full"
