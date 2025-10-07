@@ -16,10 +16,10 @@ const Header = () => {
             <span className="text-white font-semibold">Hotline: 0964 322 215</span>
           </div>
           <div className="flex items-center space-x-4">
-            <Link href="/dang-ky-truc-tuyen" className="bg-yellow-500 text-gray-900 px-3 py-1 rounded hover:bg-yellow-400 transition-colors font-semibold">
+            <Link href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true" className="bg-yellow-500 text-gray-900 px-3 py-1 rounded hover:bg-yellow-400 transition-colors font-semibold">
               ĐĂNG KÝ TRỰC TUYẾN
             </Link>
-            <Link href="/hoc-truc-tuyen" className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-500 transition-colors">
+            <Link href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true" className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-500 transition-colors">
               HỌC TRỰC TUYẾN
             </Link>
             <Link href="https://youtube.com" className="hover:text-white transition-colors" aria-label="YouTube của trường" title="YouTube của trường">

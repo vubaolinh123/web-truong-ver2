@@ -7,20 +7,8 @@ import Seo from '@/components/seo/Seo';
 const HistoryHero = dynamic(() => import('./components/HistoryHero'), {
   loading: () => <div className="h-72 md:h-96 bg-gradient-to-r from-blue-900 to-blue-700 animate-pulse" />,
 });
-const Timeline = dynamic(() => import('./components/Timeline'), {
-  loading: () => <div className="h-80 bg-white rounded-2xl shadow-lg animate-pulse" />,
-});
-const Achievements = dynamic(() => import('./components/Achievements'), {
-  loading: () => <div className="h-64 bg-white rounded-2xl shadow-lg animate-pulse" />,
-});
-const Leadership = dynamic(() => import('./components/Leadership'), {
-  loading: () => <div className="h-64 bg-white rounded-2xl shadow-lg animate-pulse" />,
-});
-const Gallery = dynamic(() => import('./components/Gallery'), {
-  loading: () => <div className="h-64 bg-slate-100 rounded-2xl shadow-inner animate-pulse" />,
-});
-const StatsAndVision = dynamic(() => import('./components/StatsAndVision'), {
-  loading: () => <div className="h-64 bg-white rounded-2xl shadow-lg animate-pulse" />,
+const SchoolHistoryArticle = dynamic(() => import('./components/SchoolHistoryArticle'), {
+  loading: () => <div className="w-[92%] md:w-[80%] mx-auto py-10"><div className="h-96 bg-white rounded-2xl shadow-lg animate-pulse" /></div>,
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn';
@@ -96,21 +84,7 @@ export default function HistoryPage() {
       {/* Page container */}
       <div className="min-h-screen bg-white">
         <HistoryHero />
-        <section className="w-[92%] md:w-[80%] mx-auto py-12 md:py-16">
-          <Timeline />
-        </section>
-        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-12">
-          <Achievements />
-        </section>
-        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-12">
-          <Leadership />
-        </section>
-        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-12">
-          <Gallery />
-        </section>
-        <section className="w-[92%] md:w-[80%] mx-auto py-6 md:py-16">
-          <StatsAndVision />
-        </section>
+        <SchoolHistoryArticle />
       </div>
     </Layout>
   );

@@ -27,8 +27,8 @@ const Footer = () => {
   ];
 
   const services = [
-    { title: 'Học trực tuyến VTC', href: '/hoc-truc-tuyen' },
-    { title: 'Đăng ký trực tuyến', href: '/dang-ky-truc-tuyen' },
+    { title: 'Học trực tuyến VTC', href: 'https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true' },
+    { title: 'Đăng ký trực tuyến', href: 'https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true' },
     { title: 'Văn bằng', href: '/van-bang' },
     { title: 'Thông tin tuyển sinh', href: '/thong-tin-tuyen-sinh' },
     { title: 'Hỗ trợ sinh viên', href: '/ho-tro-sinh-vien' },
