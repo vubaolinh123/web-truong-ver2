@@ -14,8 +14,9 @@ const NavigationSection = () => {
       title: 'GIỚI THIỆU',
       href: '/gioi-thieu',
       dropdown: [
-        { title: 'Lịch sử nhà trường', href: '/lich-su-nha-truong' },
+        { title: 'Lịch sử hình thành', href: '/lich-su-nha-truong' },
         { title: 'Cơ sở vật chất', href: '/co-so-vat-chat' },
+        { title: 'Sứ Mệnh Tầm Nhìn', href: '/su-menh-tam-nhin' },
         { title: 'Liên hệ', href: '/lien-he' },
       ]
     },

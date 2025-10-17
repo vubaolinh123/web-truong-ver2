@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Building2, Server, GraduationCap, Users } from 'lucide-react';
+import { Building, Wifi, BookOpen, Monitor } from 'lucide-react';
 
 const FacilitiesHero: React.FC = () => {
   return (
@@ -12,48 +12,49 @@ const FacilitiesHero: React.FC = () => {
       <div className="relative w-[92%] md:w-[80%] mx-auto px-4 py-16 md:py-24 text-white">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <h1 id="facilities-hero-title" className="text-3xl md:text-5xl font-extrabold leading-tight uppercase">
-            Cơ sở vật chất
+            Cơ Sở Vật Chất
           </h1>
           <p className="mt-4 md:mt-6 text-white/90 max-w-3xl">
-            Hạ tầng hiện đại phục vụ giảng dạy, học tập và nghiên cứu: phòng học thông minh, phòng thí nghiệm CNTT, thư viện số, ký túc xá và khu thể thao.
+            Trường Cao đẳng Thông tin và Truyền thông được trang bị cơ sở vật chất hiện đại,
+            trang thiết bị tiên tiến, tạo môi trường học tập và nghiên cứu chuyên nghiệp cho sinh viên.
           </p>
         </motion.div>
 
-        {/* Key stats */}
+        {/* Key values */}
         <motion.div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/20">
             <div className="flex items-center gap-3">
-              <Building2 className="text-yellow-300" />
+              <Building className="text-yellow-300" />
               <div>
-                <div className="text-2xl font-bold">20+</div>
-                <div className="text-sm text-white/80">Tòa nhà chức năng</div>
+                <div className="text-sm font-bold">Cơ sở</div>
+                <div className="text-xs text-white/80">Hiện đại</div>
               </div>
             </div>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/20">
             <div className="flex items-center gap-3">
-              <Server className="text-yellow-300" />
+              <Wifi className="text-yellow-300" />
               <div>
-                <div className="text-2xl font-bold">15</div>
-                <div className="text-sm text-white/80">Phòng lab CNTT</div>
+                <div className="text-sm font-bold">Kết nối</div>
+                <div className="text-xs text-white/80">Tốc độ cao</div>
               </div>
             </div>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/20">
             <div className="flex items-center gap-3">
-              <GraduationCap className="text-yellow-300" />
+              <BookOpen className="text-yellow-300" />
               <div>
-                <div className="text-2xl font-bold">2.000+</div>
-                <div className="text-sm text-white/80">Chỗ ngồi học tập</div>
+                <div className="text-sm font-bold">Thư viện</div>
+                <div className="text-xs text-white/80">Phong phú</div>
               </div>
             </div>
           </div>
           <div className="bg-white/10 rounded-xl p-4 backdrop-blur-md border border-white/20">
             <div className="flex items-center gap-3">
-              <Users className="text-yellow-300" />
+              <Monitor className="text-yellow-300" />
               <div>
-                <div className="text-2xl font-bold">1.000+</div>
-                <div className="text-sm text-white/80">Chỗ ở ký túc xá</div>
+                <div className="text-sm font-bold">Thiết bị</div>
+                <div className="text-xs text-white/80">Tiên tiến</div>
               </div>
             </div>
           </div>
@@ -64,4 +65,5 @@ const FacilitiesHero: React.FC = () => {
 };
 
 export default FacilitiesHero;
+
 

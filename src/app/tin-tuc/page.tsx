@@ -1,45 +1,13 @@
 /**
  * News Listing Page - Complete Redesign
- * Modular implementation with dynamic imports for performance
+ * Modular implementation with client component wrapper
  */
 
 import { Metadata } from 'next';
-import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
 import Layout from '@/components/layout/Layout';
 import { Article } from '@/types/articles';
 import Seo from '@/components/seo/Seo';
-
-// Dynamic imports for performance optimization
-const HeroSection = dynamic(() => import('./components/HeroSection'), {
-  loading: () => (
-    <div className="h-96 bg-gradient-to-br from-sky-400 via-blue-500 to-blue-600 animate-pulse" />
-  )
-});
-
-const FilterControls = dynamic(() => import('./components/FilterControls'), {
-  loading: () => (
-    <div className="h-32 bg-white rounded-2xl shadow-lg animate-pulse mb-8" />
-  )
-});
-
-const FeaturedArticles = dynamic(() => import('./components/FeaturedArticles'), {
-  loading: () => (
-    <div className="h-96 bg-white rounded-2xl shadow-lg animate-pulse mb-16" />
-  )
-});
-
-const ArticlesList = dynamic(() => import('./components/ArticlesList'), {
-  loading: () => (
-    <div className="h-96 bg-white rounded-2xl shadow-lg animate-pulse mb-12" />
-  )
-});
-
-const Pagination = dynamic(() => import('./components/Pagination'), {
-  loading: () => (
-    <div className="h-16 bg-white rounded-2xl shadow-lg animate-pulse" />
-  )
-});
+import NewsPageClient from './components/NewsPageClient';
 
 // Data fetching functions
 async function getArticles(params: {
@@ -204,71 +172,17 @@ export default async function NewsPage({ searchParams }: NewsPageProps) {
         jsonLd={structuredData as any}
       />
       <Layout>
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-yellow-50">
-          {/* Hero Section */}
-          <Suspense fallback={
-            <div className="h-96 bg-gradient-to-br from-sky-100 via-blue-100 to-yellow-100 animate-pulse" />
-          }>
-            <HeroSection
-              totalArticles={total}
-              currentSearch={search}
-            />
-          </Suspense>
-
-          {/* Main Content */}
-          <div className="w-full max-w-[92%] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            {/* Filters Section */}
-            <Suspense fallback={
-              <div className="h-32 bg-white/70 rounded-2xl shadow-lg animate-pulse mb-8" />
-            }>
-              <FilterControls
-                categories={categories}
-                currentCategory={category}
-                currentSort={sort}
-                currentSearch={search}
-                totalResults={total}
-              />
-            </Suspense>
-
-            {/* Featured Articles (only on first page) */}
-            {currentPage === 1 && featuredArticles.length > 0 && (
-              <Suspense fallback={
-                <div className="h-96 bg-white/70 rounded-2xl shadow-lg animate-pulse mb-16" />
-              }>
-                <FeaturedArticles articles={featuredArticles} />
-              </Suspense>
-            )}
-
-            {/* All Articles */}
-            <Suspense fallback={
-              <div className="h-96 bg-white/70 rounded-2xl shadow-lg animate-pulse mb-12" />
-            }>
-              <ArticlesList
-                articles={articles}
-                currentPage={currentPage}
-                totalPages={totalPages}
-
-                search={search}
-                category={category}
-              />
-            </Suspense>
-
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <Suspense fallback={
-                <div className="h-16 bg-white/70 rounded-2xl shadow-lg animate-pulse" />
-              }>
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  search={search}
-                  category={category}
-                  sort={sort}
-                />
-              </Suspense>
-            )}
-          </div>
-        </div>
+        <NewsPageClient
+          articles={articles}
+          total={total}
+          totalPages={totalPages}
+          categories={categories}
+          featuredArticles={featuredArticles}
+          currentPage={currentPage}
+          search={search}
+          category={category}
+          sort={sort}
+        />
       </Layout>
     </>
   );

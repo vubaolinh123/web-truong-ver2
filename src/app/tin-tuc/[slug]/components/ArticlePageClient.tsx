@@ -1,12 +1,11 @@
 /**
  * Article Page Client Component
- * Client-side wrapper for Redux integration and dynamic imports
+ * Client-side wrapper for Redux integration
  */
 
 'use client';
 
-import React, { useEffect, Suspense } from 'react';
-import dynamic from 'next/dynamic';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import {
   fetchArticleBySlug,
@@ -19,27 +18,9 @@ import {
 } from '@/lib/features/articles/articlesSlice';
 import { ArticleContent } from '../types/article.types';
 import { useBreadcrumb } from '@/contexts/BreadcrumbContext';
-
-// Dynamic imports for code splitting
-const ArticleHeader = dynamic(() => import('./ArticleHeader'), {
-  loading: () => (
-    <div className="flex justify-center items-center min-h-[200px]">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-400"></div>
-    </div>
-  )
-});
-
-const ArticleContentComponent = dynamic(() => import('./ArticleContent'), {
-  loading: () => (
-    <div className="h-96 bg-gradient-to-r from-sky-50 to-yellow-50 rounded-xl animate-pulse"></div>
-  )
-});
-
-const NewArticleSidebar = dynamic(() => import('./NewArticleSidebar'), {
-  loading: () => (
-    <div className="h-[600px] bg-gradient-to-br from-sky-50 to-yellow-50 rounded-2xl animate-pulse"></div>
-  )
-});
+import ArticleHeader from './ArticleHeader';
+import ArticleContentComponent from './ArticleContent';
+import NewArticleSidebar from './NewArticleSidebar';
 
 interface ArticlePageClientProps {
   slug: string;
@@ -47,7 +28,6 @@ interface ArticlePageClientProps {
 }
 
 const ArticlePageClient: React.FC<ArticlePageClientProps> = ({ slug, initialArticle }) => {
-  console.log('--- ArticlePageClient initialArticle:', JSON.stringify(initialArticle, null, 2));
   const dispatch = useAppDispatch();
   const { setBreadcrumbs } = useBreadcrumb();
 
@@ -182,38 +162,24 @@ const ArticlePageClient: React.FC<ArticlePageClientProps> = ({ slug, initialArti
             {/* Main Content Area */}
             <main className="lg:col-span-2">
               <div className="bg-white rounded-2xl shadow-lg border border-sky-100 overflow-hidden">
-                {/* Article Header */}
-                <Suspense fallback={
-                  <div className="flex justify-center items-center min-h-[200px]">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-400"></div>
-                  </div>
-                }>
-                  <ArticleHeader article={article} />
-                </Suspense>
+                {/* Article Header - Dynamic import handles its own loading */}
+                <ArticleHeader article={article} />
 
-                {/* Article Content */}
+                {/* Article Content - Dynamic import handles its own loading */}
                 <div className="p-6 lg:p-8">
-                  <Suspense fallback={
-                    <div className="h-96 bg-gradient-to-r from-sky-50 to-yellow-50 rounded-xl animate-pulse"></div>
-                  }>
-                    <ArticleContentComponent content={article.content} />
-                  </Suspense>
+                  <ArticleContentComponent content={article.content} />
                 </div>
               </div>
             </main>
 
-            {/* Sidebar */}
+            {/* Sidebar - Dynamic import handles its own loading */}
             <aside className="lg:col-span-1">
               <div className="sticky top-8">
-                <Suspense fallback={
-                  <div className="h-[600px] bg-gradient-to-br from-sky-50 to-yellow-50 rounded-2xl animate-pulse"></div>
-                }>
-                  <NewArticleSidebar
-                    relatedArticles={relatedArticles}
-                    loading={relatedArticlesLoading}
-                    error={relatedArticlesError}
-                  />
-                </Suspense>
+                <NewArticleSidebar
+                  relatedArticles={relatedArticles}
+                  loading={relatedArticlesLoading}
+                  error={relatedArticlesError}
+                />
               </div>
             </aside>
           </div>

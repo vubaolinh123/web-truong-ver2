@@ -3,33 +3,14 @@
  * Modern, SEO-optimized article page with Redux integration and real API data
  */
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import { ArticlePageProps, ArticleContent, BreadcrumbItem } from './types/article.types';
 import { articlesApi } from '@/lib/api/articles';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/seo/Seo';
-import styles from './styles/page.module.css';
-
-// Import client component
-const ArticlePageClient = dynamic(() => import('./components/ArticlePageClient'), {
-  loading: () => (
-    <div className={styles.pageContainer}>
-      <div className="w-[80%] mx-auto">
-        <div className={styles.contentWrapper}>
-          <main className={styles.mainContent}>
-            <div className={styles.loadingContainer}>
-              <div className={styles.loadingSpinner} />
-              <p style={{ marginTop: '1rem', color: '#6b7280' }}>Đang tải bài viết...</p>
-            </div>
-          </main>
-        </div>
-      </div>
-    </div>
-  )
-});
+import ArticlePageClient from './components/ArticlePageClient';
 
 // Real API function
 async function getArticleBySlug(slug: string): Promise<ArticleContent | null> {

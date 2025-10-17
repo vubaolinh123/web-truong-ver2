@@ -19,7 +19,6 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
   article,
   className = ''
 }) => {
-  console.log('--- ArticleHeader article:', JSON.stringify(article, null, 2));
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('vi-VN', {
       year: 'numeric',
@@ -28,9 +27,6 @@ const ArticleHeader: React.FC<ArticleHeaderProps> = ({
     });
   };
 
-  const getAuthorInitials = (author: any) => {
-    return `${author.firstName?.[0] || ''}${author.lastName?.[0] || ''}`.toUpperCase();
-  };
 
   const getImageUrl = (image: ArticleContent['featuredImage']) => {
     if (!image) return null;

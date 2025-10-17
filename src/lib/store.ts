@@ -1,6 +1,5 @@
 /**
  * Redux Store Configuration for Next.js 15
- * Following Next.js App Router best practices with per-request store creation
  */
 
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
