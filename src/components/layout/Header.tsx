@@ -91,15 +91,64 @@ const Header = () => {
                   </svg>
                 </Link>
                 <div className="absolute top-full left-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <Link href="/lich-su-hinh-thanh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Lịch sử hình thành
-                  </Link>
-                  <Link href="/co-so-vat-chat" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Cơ sở vật chất
-                  </Link>
-                  <Link href="/su-menh-tam-nhin" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                   Sứ Mệnh Tầm Nhìn
-                  </Link>
+                  {/* Giới thiệu chung - Menu cấp 2 với submenu cấp 3 */}
+                  <div className="relative group/sub">
+                    <div className="flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm cursor-pointer">
+                      <span>Giới thiệu chung</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                    {/* Submenu cấp 3 cho Giới thiệu chung */}
+                    <div className="absolute left-full top-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 py-2 ml-1 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-[60]">
+                      <Link href="/lich-su-hinh-thanh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Lịch sử hình thành
+                      </Link>
+                      <Link href="/co-so-vat-chat" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Cơ sở vật chất
+                      </Link>
+                      <Link href="/su-menh-tam-nhin" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Sứ Mệnh Tầm Nhìn
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Cơ cấu tổ chức - Menu cấp 2 với submenu cấp 3 */}
+                  <div className="relative group/sub">
+                    <div className="flex items-center justify-between px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm cursor-pointer">
+                      <span>Cơ cấu tổ chức</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </div>
+                    {/* Submenu cấp 3 cho Cơ cấu tổ chức */}
+                    <div className="absolute left-full top-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 py-2 ml-1 opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-200 z-[60]">
+                      <Link href="/ban-giam-hieu" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Ban Giám hiệu
+                      </Link>
+                      <Link href="/phong-to-chuc-hanh-chinh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Phòng Tổ chức hành chính
+                      </Link>
+                      <Link href="/phong-quan-ly-dao-tao" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Phòng Quản lý Đào tạo
+                      </Link>
+                      <Link href="/phong-ke-hoach-tai-chinh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Phòng Kế hoạch tài chính
+                      </Link>
+                      <Link href="/phong-cong-nghe-so" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Phòng Công nghệ số
+                      </Link>
+                      <Link href="/phong-cong-nghe-thong-tin" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Khoa Công nghệ thông tin
+                      </Link>
+                      <Link href="/phong-cong-nghe-in" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Khoa Công nghệ in
+                      </Link>
+                      <Link href="/khoa-khoa-hoc-dai-cuong" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                        Khoa Khoa học đại cương
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="relative group">
@@ -182,43 +231,6 @@ const Header = () => {
               </div>
               <div className="relative group">
                 <Link
-                  href="/to-chuc"
-                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
-                >
-                  <span>Cơ Cấu Tổ Chức</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </Link>
-                <div className="absolute top-full left-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <Link href="/ban-giam-hieu" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                   Ban Giám hiệu
-                  </Link>
-                  <Link href="/phong-to-chuc-hanh-chinh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Phòng Tổ chức hành chính 
-                  </Link>
-                  <Link href="/phong-quan-ly-dao-tao" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Phòng Quản lý Đào tạo
-                  </Link>
-                  <Link href="/phong-ke-hoach-tai-chinh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Phòng Kế hoạch tài chính 
-                  </Link>
-                  <Link href="/phong-cong-nghe-so" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                   Phòng Công nghệ số  
-                  </Link>
-                  <Link href="/phong-cong-nghe-thong-tin" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Khoa Công nghệ thông tin 
-                  </Link>
-                  <Link href="/phong-cong-nghe-in" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                   Khoa Công nghệ in 
-                  </Link>
-                  <Link href="/khoa-khoa-hoc-dai-cuong" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Khoa Khoa học đại cương  
-                  </Link>
-                </div>
-              </div>
-              <div className="relative group">
-                <Link
                   href=""
                   className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
@@ -269,7 +281,7 @@ const Header = () => {
                   href=""
                   className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
-                  <span>Chuyển Đổi Số</span>
+                  <span>CHUYỂN ĐỔI SỐ</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
