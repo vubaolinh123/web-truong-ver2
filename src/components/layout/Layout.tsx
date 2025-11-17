@@ -4,7 +4,6 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import FloatingActionButton from '../ui/FloatingActionButton';
-import MobileBottomNav from '../ui/MobileBottomNav';
 import Breadcrumb from '../common/Breadcrumb';
 import { useBreadcrumb } from '@/contexts/BreadcrumbContext';
 import { Toaster } from 'react-hot-toast';
@@ -31,7 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           maxItems={5}
         />
       )}
-      <main className="flex-grow pb-16 md:pb-0">
+      <main className="flex-grow">
         {recaptchaSiteKey ? (
           <GoogleReCaptchaProvider
             reCaptchaKey={recaptchaSiteKey}
@@ -45,7 +44,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </main>
       <Footer />
       <FloatingActionButton />
-      <MobileBottomNav />
       {/* Toast container for public pages */}
       <Toaster
         position="top-right"

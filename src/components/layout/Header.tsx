@@ -1,31 +1,57 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Facebook, Youtube } from 'lucide-react';
+import MobileMenu from './MobileMenu';
 
 const Header = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="shadow-lg relative z-50" style={{ backgroundColor: '#1e40af' }}>
       {/* Top Bar */}
-      <div className="text-white py-2" style={{ backgroundColor: '#1e40af' }}>
-        <div className="container mx-auto px-4 flex justify-between items-center text-sm">
-          <div className="flex items-center space-x-4">
-            <span className="text-white font-semibold">Hotline: 0964 322 215</span>
+      <div className="text-white py-2 md:py-2" style={{ backgroundColor: '#1e40af' }}>
+        <div className="container mx-auto px-4 flex justify-between items-center text-sm md:text-sm">
+          {/* Hotline - Hidden on very small screens */}
+          <div className="hidden sm:flex items-center space-x-4">
+            <span className="text-white font-semibold text-xs sm:text-sm">Hotline: 0964 322 215</span>
           </div>
-          <div className="flex items-center space-x-4">
-            <Link href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true" className="bg-yellow-500 text-gray-900 px-3 py-1 rounded hover:bg-yellow-400 transition-colors font-semibold">
-              ĐĂNG KÝ TRỰC TUYẾN
+
+          {/* Buttons and Social - Responsive sizing */}
+          <div className="flex items-center space-x-2 sm:space-x-4 w-full sm:w-auto justify-end">
+            {/* Register Button - Smaller on mobile */}
+            <Link
+              href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true"
+              className="bg-yellow-500 text-gray-900 px-2 sm:px-3 py-1 rounded hover:bg-yellow-400 transition-colors font-semibold text-xs sm:text-sm whitespace-nowrap"
+            >
+              ĐĂNG KÝ
             </Link>
-            <Link href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true" className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-500 transition-colors">
-              HỌC TRỰC TUYẾN
+
+            {/* Online Learning Button - Smaller on mobile */}
+            <Link
+              href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true"
+              className="bg-blue-600 text-white px-2 sm:px-3 py-1 rounded hover:bg-blue-500 transition-colors text-xs sm:text-sm whitespace-nowrap"
+            >
+              HỌC ONLINE
             </Link>
-            <Link href="https://youtube.com" className="hover:text-white transition-colors" aria-label="YouTube của trường" title="YouTube của trường">
+
+            {/* Social Icons */}
+            <Link
+              href="https://youtube.com"
+              className="hover:text-white transition-colors ml-1 sm:ml-0"
+              aria-label="YouTube của trường"
+              title="YouTube của trường"
+            >
               <Youtube size={16} />
             </Link>
-            <Link href="https://facebook.com" className="hover:text-white transition-colors" aria-label="Facebook của trường" title="Facebook của trường">
+            <Link
+              href="https://facebook.com"
+              className="hover:text-white transition-colors"
+              aria-label="Facebook của trường"
+              title="Facebook của trường"
+            >
               <Facebook size={16} />
             </Link>
           </div>
@@ -34,8 +60,9 @@ const Header = () => {
 
       {/* Main Header */}
       <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-4">
+          {/* Desktop Layout */}
+          <div className="hidden md:flex items-center justify-between py-4">
             {/* Logo - Far Left */}
             <div className="flex-shrink-0">
               <Link href="/">
@@ -63,6 +90,29 @@ const Header = () => {
             {/* Spacer for Balance - Right Side */}
             <div className="flex-shrink-0 w-32"></div>
           </div>
+
+          {/* Mobile Layout - Vertical Stack */}
+          <div className="md:hidden flex flex-col items-center justify-center py-3">
+            {/* Logo */}
+            <Link href="/" className="flex-shrink-0 mb-2">
+              <Image
+                src="/images/logo.png"
+                alt="Logo Trường Cao đẳng Thông tin và Truyền thông"
+                width={120}
+                height={120}
+                className="w-24 h-24 object-contain"
+              />
+            </Link>
+
+            {/* School Name - Compact on Mobile */}
+            <Link href="/" className="text-center">
+              <p className="text-xs text-blue-900 leading-tight mb-0.5 uppercase font-medium">BỘ KHOA HỌC VÀ CÔNG NGHỆ</p>
+              <p className="text-sm font-bold text-blue-900 leading-tight mb-0.5 uppercase">
+                TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG
+              </p>
+              <p className="text-xs text-gray-600 uppercase">COLLEGE OF INFORMATION AND COMMUNICATIONS</p>
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -82,7 +132,7 @@ const Header = () => {
               </Link>
               <div className="relative group">
                 <Link
-                  href="/gioi-thieu"
+                  href=""
                   className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>GIỚI THIỆU</span>
@@ -153,7 +203,7 @@ const Header = () => {
               </div>
               <div className="relative group">
                 <Link
-                  href="/tuyen-sinh"
+                  href=""
                   className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>TUYỂN SINH</span>
@@ -178,7 +228,7 @@ const Header = () => {
               </div>
               <div className="relative group">
                 <Link
-                  href="/dao-tao"
+                  href=""
                   className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
                 >
                   <span>ĐÀO TẠO</span>
@@ -307,15 +357,26 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         <div className="lg:hidden">
-          <div className="container mx-auto px-4 py-4">
+          <div className="container mx-auto px-4 py-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-white font-semibold text-lg">Menu</h2>
-              <button className="text-white p-2 hover:bg-blue-600 rounded transition-colors" aria-label="Mở menu điều hướng trên thiết bị di động">
+              <h2 className="text-white font-semibold text-base">Danh Sách Menu</h2>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-white p-2 hover:bg-blue-600 rounded transition-colors"
+                aria-label="Mở menu điều hướng trên thiết bị di động"
+                aria-expanded={mobileMenuOpen}
+              >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
             </div>
+
+            {/* Mobile Menu Component */}
+            <MobileMenu
+              isOpen={mobileMenuOpen}
+              onClose={() => setMobileMenuOpen(false)}
+            />
           </div>
         </div>
       </div>

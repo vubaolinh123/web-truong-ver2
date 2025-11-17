@@ -38,44 +38,46 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     : items;
 
   return (
-    <nav 
+    <nav
       className={`bg-gradient-to-r from-sky-50 to-yellow-50 border-b border-sky-100 ${className}`}
       aria-label="Breadcrumb"
     >
       <div className="max-w-[92%] mx-auto px-4 py-3">
-        <ol className="flex items-center space-x-2 text-sm">
+        <ol className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm">
           {displayItems.map((item, index) => {
             const isLast = index === displayItems.length - 1;
             const isFirst = index === 0;
             const isDisabled = 'disabled' in item && item.disabled;
 
             return (
-              <li key={index} className="flex items-center">
+              <li key={index} className="flex items-center gap-1 sm:gap-2 min-w-0">
                 {/* Home icon for first item */}
                 {isFirst && showHomeIcon && (
-                  <Home 
-                    size={16} 
-                    className="text-sky-600 mr-1" 
+                  <Home
+                    size={14}
+                    className="text-sky-600 mr-0.5 sm:mr-1 flex-shrink-0"
                     aria-hidden="true"
                   />
                 )}
 
                 {/* Breadcrumb item */}
                 {isDisabled ? (
-                  <span className="text-slate-400 font-medium">
+                  <span className="text-slate-400 font-medium truncate">
                     {item.label}
                   </span>
                 ) : isLast || item.current ? (
-                  <span 
-                    className="text-slate-700 font-semibold bg-white/60 px-3 py-1 rounded-full border border-sky-200"
+                  <span
+                    className="text-slate-700 font-semibold bg-white/60 px-2 sm:px-3 py-1 rounded-full border border-sky-200 truncate"
                     aria-current="page"
+                    title={item.label}
                   >
                     {item.label}
                   </span>
                 ) : (
                   <Link
                     href={item.href}
-                    className="text-sky-700 hover:text-sky-800 font-medium hover:bg-white/40 px-3 py-1 rounded-full transition-all duration-200 border border-transparent hover:border-sky-200"
+                    className="text-sky-700 hover:text-sky-800 font-medium hover:bg-white/40 px-2 sm:px-3 py-1 rounded-full transition-all duration-200 border border-transparent hover:border-sky-200 truncate"
+                    title={item.label}
                   >
                     {item.label}
                   </Link>
@@ -83,9 +85,9 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
                 {/* Separator */}
                 {!isLast && (
-                  <ChevronRight 
-                    size={16} 
-                    className="text-slate-400 mx-2" 
+                  <ChevronRight
+                    size={14}
+                    className="text-slate-400 mx-0.5 sm:mx-2 flex-shrink-0"
                     aria-hidden="true"
                   />
                 )}
