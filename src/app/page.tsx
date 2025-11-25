@@ -11,8 +11,8 @@ const NewsSection = dynamic(() => import('@/components/sections/NewsSection'), {
 const AdmissionTrainingSection = dynamic(() => import('@/components/sections/AdmissionTrainingSection'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
 });
-const StatsSection = dynamic(() => import('@/components/sections/StatsSection'), {
-  loading: () => <div className="h-48 bg-gray-100 animate-pulse" />,
+const DigitalTransformationSection = dynamic(() => import('@/components/sections/DigitalTransformationSection'), {
+  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
 });
 const FacultiesSection = dynamic(() => import('@/components/sections/FacultiesSection'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
@@ -174,10 +174,47 @@ async function getAdmissionTrainingArticles(): Promise<Article[]> {
   }
 }
 
+// Data fetching function for digital transformation articles
+async function getDigitalTransformationArticles(): Promise<Article[]> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
+
+    const params = new URLSearchParams({
+      limit: '3',
+      category: 'cong-nghe-so',
+      sort: 'newest',
+      status: 'published'
+    });
+
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/+$/, '');
+    const url = `${base}/articles/public?${params.toString()}`;
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      cache: 'no-store',
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      console.warn('Failed to fetch digital transformation articles:', response.statusText);
+      return [];
+    }
+
+    const data = await response.json();
+    return data?.data?.articles || [];
+  } catch (error) {
+    console.warn('Error fetching digital transformation articles:', error);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const [featuredArticles, admissionTrainingArticles] = await Promise.all([
+  const [featuredArticles, admissionTrainingArticles, digitalTransformationArticles] = await Promise.all([
     getFeaturedArticles(),
-    getAdmissionTrainingArticles()
+    getAdmissionTrainingArticles(),
+    getDigitalTransformationArticles()
   ]);
 
   return (
@@ -190,8 +227,8 @@ export default async function Home() {
         <Banner />
         <NewsSection articles={featuredArticles} />
         <AdmissionTrainingSection articles={admissionTrainingArticles} />
+        <DigitalTransformationSection articles={digitalTransformationArticles} />
         <FacultiesSection />
-        <StatsSection />
         <AchievementsSection />
       </Layout>
     </>
