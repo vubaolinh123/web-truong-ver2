@@ -11,9 +11,6 @@ const NewsSection = dynamic(() => import('@/components/sections/NewsSection'), {
 const AdmissionTrainingSection = dynamic(() => import('@/components/sections/AdmissionTrainingSection'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
 });
-const DigitalTransformationSection = dynamic(() => import('@/components/sections/DigitalTransformationSection'), {
-  loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
-});
 const FacultiesSection = dynamic(() => import('@/components/sections/FacultiesSection'), {
   loading: () => <div className="h-96 bg-gray-100 animate-pulse" />,
 });
@@ -226,8 +223,7 @@ export default async function Home() {
       <Layout>
         <Banner />
         <NewsSection articles={featuredArticles} />
-        <AdmissionTrainingSection articles={admissionTrainingArticles} />
-        <DigitalTransformationSection articles={digitalTransformationArticles} />
+        <AdmissionTrainingSection articles={admissionTrainingArticles} digitalTransformationArticles={digitalTransformationArticles} />
         <FacultiesSection />
         <AchievementsSection />
       </Layout>
