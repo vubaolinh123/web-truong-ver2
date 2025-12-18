@@ -67,7 +67,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'university-api.linkcualinh.com',
+        hostname: 'api.vcic.edu.vn',
         port: '',
         pathname: '/media/images/**',
       },
