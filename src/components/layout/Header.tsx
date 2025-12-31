@@ -199,6 +199,11 @@ const Header = () => {
                       </Link>
                     </div>
                   </div>
+
+                  {/* Ba Công Khai - Direct link */}
+                  <Link href="/ba-cong-khai" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Ba Công Khai
+                  </Link>
                 </div>
               </div>
               <div className="relative group">
@@ -219,10 +224,10 @@ const Header = () => {
                     Các ngành, nghề đào tạo
                   </Link>
                   <Link href="/dang-ky-truc-tuyen" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                   Đăng ký xét tuyển và tư vấn 
+                    Đăng ký xét tuyển và tư vấn
                   </Link>
                   <Link href="/ho-so-nhap-hoc" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Hồ sơ nhập học 
+                    Hồ sơ nhập học
                   </Link>
                 </div>
               </div>
@@ -238,19 +243,19 @@ const Header = () => {
                 </Link>
                 <div className="absolute top-full left-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <Link href="/ke-hoach-dao-tao" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                   Kế hoạch đào tạo
+                    Kế hoạch đào tạo
                   </Link>
                   <Link href="/quy-che-dao-tao" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Quy chế đào tạo
+                    Quy chế đào tạo
                   </Link>
                   <Link href="/cong-tac-hssv" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Công tác HSSV
+                    Công tác HSSV
                   </Link>
                   <Link href="/van-bang" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Văn bằng
+                    Văn bằng
                   </Link>
                   <Link href="/nghien-cuu-khoa-hoc" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Nghiên cứu khoa học 
+                    Nghiên cứu khoa học
                   </Link>
                 </div>
               </div>
@@ -291,19 +296,19 @@ const Header = () => {
                 </Link>
                 <div className="absolute top-full left-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <Link href="/tuyen-dung" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Tuyển dụng 
+                    Tuyển dụng
                   </Link>
                   <Link href="/du-hoc" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Du học 
+                    Du học
                   </Link>
                   <Link href="/hop-tac-dao-tao" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Hợp tác đào tạo 
+                    Hợp tác đào tạo
                   </Link>
                   <Link href="/hop-tac-cac-khoa-hoc-cong-nghe" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Hợp tác các khoa học công nghệ 
+                    Hợp tác các khoa học công nghệ
                   </Link>
                   <Link href="/hop-tac-quoc-te" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Hợp tác quốc tế 
+                    Hợp tác quốc tế
                   </Link>
                 </div>
               </div>
@@ -338,16 +343,16 @@ const Header = () => {
                 </Link>
                 <div className="absolute top-full left-0 w-64 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <Link href="/chuong-trinh-dao-tao" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Chương trình đào tạo 
+                    Chương trình đào tạo
                   </Link>
                   <Link href="/hoc-truc-tuyen" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Học trực tuyến
+                    Học trực tuyến
                   </Link>
                   <Link href="/hoc-lieu" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Học liệu
+                    Học liệu
                   </Link>
                   <Link href="/cong-nghe-so" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                  Công nghệ số
+                    Công nghệ số
                   </Link>
                 </div>
               </div>

@@ -43,7 +43,8 @@ const menuStructure: MenuItem[] = [
           { label: 'Khoa Công nghệ in', href: '/phong-cong-nghe-in' },
           { label: 'Khoa Khoa học đại cương', href: '/khoa-khoa-hoc-dai-cuong' }
         ]
-      }
+      },
+      { label: 'Ba Công Khai', href: '/ba-cong-khai' }
     ]
   },
   {
@@ -148,9 +149,8 @@ const MobileMenuItemComponent: React.FC<{
           {hasChildren && (
             <ChevronDown
               size={16}
-              className={`transition-transform duration-300 ${
-                isExpanded ? 'rotate-180' : ''
-              }`}
+              className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''
+                }`}
             />
           )}
         </button>
