@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import OptimizedImage from '@/components/ui/OptimizedImage';
 import { Article } from '@/types/articles';
-import { ArrowRight, Eye, Calendar, Play, MapPin, Phone, Mail, Users, GraduationCap } from 'lucide-react';
+import { ArrowRight, Eye, Calendar, MapPin, Phone, Mail, Users, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 // Utility function to format numbers consistently across server and client
@@ -302,7 +302,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
             <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200/50 hover:shadow-xl transition-all duration-300">
               <div className="relative w-full" style={{ aspectRatio: '16 / 9' }}>
                 <iframe
-                  src="https://www.youtube.com/watch?v=o0hYNK1ztUw"
+                  src="https://www.youtube.com/embed/o0hYNK1ztUw?si=VAxlL56SeKQ4vaHt"
                   title="Video giới thiệu trường - Trường Cao đẳng Thông tin và Truyền thông"
                   aria-label="YouTube video giới thiệu trường"
                   className="absolute inset-0 w-full h-full"
