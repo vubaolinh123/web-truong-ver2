@@ -91,7 +91,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
                     <Calendar size={14} className="mr-2" />
                     <span>{formatDate(article.publishedAt || article.createdAt)}</span>
                   </div>
-                  
+
                   <Link href={`/tin-tuc/${article.slug}`} className="block group">
                     <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-900 transition-colors duration-200 mb-6 leading-tight line-clamp-3">
                       {article.title}
@@ -110,7 +110,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
         {/* View More Button */}
         <div className="text-center mt-12 mb-16">
           <Link
-            href="/tuyen-sinh-dao-tao"
+            href="/thong-tin-tuyen-sinh"
             className="inline-flex items-center space-x-2 bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             <span>Xem thêm</span>
@@ -188,7 +188,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
             {/* View More Button for Digital Transformation */}
             <div className="text-center mt-12 mb-16">
               <Link
-                href="/cong-nghe-so"
+                href="/tin-tuc-khac"
                 className="inline-flex items-center space-x-2 bg-blue-900 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-800 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 <span>Xem thêm</span>
