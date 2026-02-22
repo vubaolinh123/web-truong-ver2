@@ -14,24 +14,24 @@ const Banner = () => {
       id: 1,
       title: 'TRƯỜNG CAO ĐẲNG THÔNG TIN VÀ TRUYỀN THÔNG CHÍNH THỨC TUYỂN SINH VÀ ĐÀO TẠO NGHỀ CÔNG NGHỆ THÔNG TIN VÀ LẬP TRÌNH MÁY TÍNH TỪ NĂM 2025',
       subtitle: 'Đào tạo chuyên sâu về công nghệ thông tin, lập trình máy tính và các ngành nghề hiện đại',
-      image: '/images/banner_1.jpg',
+      image: '/images/banner_13.jpg',
       cta: {
         text: 'ĐĂNG KÝ NGAY',
         href: '/dang-ky-truc-tuyen'
       },
       bgColor: 'from-blue-900 to-blue-700'
     },
-    // {
-    //   id: 2,
-    //   title: 'SAMSUNG VIỆT NAM TÀI TRỢ CHO TRƯỜNG 38 MÁY TÍNH VÀ HỆ THỐNG THỰC HÀNH MẠNG LAN',
-    //   subtitle: 'Nâng cao chất lượng đào tạo các ngành nghề Công nghệ Thông tin với trang thiết bị hiện đại',
-    //   image: '/images/banner_2.jpg',
-    //   cta: {
-    //     text: 'TÌM HIỂU THÊM',
-    //     href: '/hop-tac-doanh-nghiep'
-    //   },
-    //   bgColor: 'from-yellow-600 to-yellow-500'
-    // },
+    {
+      id: 2,
+      title: 'SAMSUNG VIỆT NAM TÀI TRỢ CHO TRƯỜNG 38 MÁY TÍNH VÀ HỆ THỐNG THỰC HÀNH MẠNG LAN',
+      subtitle: 'Nâng cao chất lượng đào tạo các ngành nghề Công nghệ Thông tin với trang thiết bị hiện đại',
+      image: '/images/banner_1.jpg',
+      cta: {
+        text: 'TÌM HIỂU THÊM',
+        href: '/hop-tac-doanh-nghiep'
+      },
+      bgColor: 'from-yellow-600 to-yellow-500'
+    },
     {
       id: 3,
       title: 'CHƯƠNG TRÌNH ĐÀO TẠO CHẤT LƯỢNG CAO - LIÊN KẾT QUỐC TẾ',
