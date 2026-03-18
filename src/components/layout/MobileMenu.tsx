@@ -84,7 +84,9 @@ const menuStructure: MenuItem[] = [
     label: 'TIN TỨC',
     children: [
       { label: 'Tin nổi bật', href: '/tin-noi-bat' },
-      { label: 'Thông tin khác', href: '/tin-tuc-khac' }
+      { label: 'Thông tin khác', href: '/tin-tuc-khac' },
+      { label: 'Văn bản quy chế & quy định', href: '/van-ban-quy-che-quy-dinh' },
+      { label: 'Lịch tuần', href: 'https://drive.google.com/drive/u/2/folders/1F1DGlcnR5bVM791r3AQIoSNMMC6SZDT-' }
     ]
   },
   {
@@ -94,6 +96,19 @@ const menuStructure: MenuItem[] = [
       { label: 'Học trực tuyến', href: '/hoc-truc-tuyen' },
       { label: 'Học liệu', href: '/hoc-lieu' },
       { label: 'Công nghệ số', href: '/cong-nghe-so' }
+    ]
+  },
+  {
+    label: 'THƯ VIỆN SỐ',
+    children: [
+      { label: 'Danh mục tài liệu', href: '#' },
+      { label: 'Sách giáo trình', href: '#' },
+      { label: 'Đăng ký mượn sách', href: '#' },
+      { label: 'Mua sách', href: '#' },
+      { label: 'Tra cứu tài liệu trực tuyến', href: '#' },
+      { label: 'Truy cập tài liệu điện tử', href: '#' },
+      { label: 'Đăng ký mượn tài liệu trực tuyến', href: '#' },
+      { label: 'Đăng ký mua tài liệu trực tuyến', href: '#' }
     ]
   },
   {

@@ -329,6 +329,12 @@ const Header = () => {
                   <Link href="/tin-tuc-khac" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Thông tin khác
                   </Link>
+                  <Link href="/van-ban-quy-che-quy-dinh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Văn bản quy chế & quy định
+                  </Link>
+                  <Link href="https://drive.google.com/drive/u/2/folders/1F1DGlcnR5bVM791r3AQIoSNMMC6SZDT-" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Lịch tuần
+                  </Link>
                 </div>
               </div>
               <div className="relative group">
@@ -353,6 +359,43 @@ const Header = () => {
                   </Link>
                   <Link href="/cong-nghe-so" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Công nghệ số
+                  </Link>
+                </div>
+              </div>
+              <div className="relative group">
+                <Link
+                  href=""
+                  className="flex items-center space-x-1 px-4 py-3 text-white hover:bg-yellow-500 hover:text-blue-900 font-semibold transition-colors rounded"
+                >
+                  <span>THƯ VIỆN SỐ</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
+                <div className="absolute top-full right-0 w-72 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Danh mục tài liệu
+                  </Link>
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Sách giáo trình
+                  </Link>
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Đăng ký mượn sách
+                  </Link>
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Mua sách
+                  </Link>
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Tra cứu tài liệu trực tuyến
+                  </Link>
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Truy cập tài liệu điện tử
+                  </Link>
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Đăng ký mượn tài liệu trực tuyến
+                  </Link>
+                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                    Đăng ký mua tài liệu trực tuyến
                   </Link>
                 </div>
               </div>

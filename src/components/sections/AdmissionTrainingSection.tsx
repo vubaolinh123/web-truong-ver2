@@ -219,7 +219,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
               {/* Quick Stats */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-blue-50 p-4 rounded-lg text-center border border-blue-100 shadow-sm hover:shadow-md transition-all duration-300">
-                  <div className="text-2xl font-bold text-blue-900">2025</div>
+                  <div className="text-2xl font-bold text-blue-900">2026</div>
                   <div className="text-sm text-gray-600">Năm tuyển sinh</div>
                 </div>
                 <div className="bg-yellow-50 p-4 rounded-lg text-center border border-yellow-100 shadow-sm hover:shadow-md transition-all duration-300">
@@ -230,11 +230,22 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
 
               {/* Admission Info */}
               <div className="space-y-4">
+                {/* Enrollment Highlights */}
+                <div className="flex items-start space-x-3">
+                  <GraduationCap className="text-blue-900 mt-1" size={20} />
+                  <div>
+                    <h4 className="font-semibold text-gray-800">Hình thức tuyển sinh</h4>
+                    <ul className="text-gray-600 text-sm list-disc pl-5 space-y-1" aria-label="Hình thức tuyển sinh">
+                      <li>Tuyển sinh cao đẳng và trung cấp</li>
+                      <li>Tuyển sinh sơ cấp và ngắn hạn</li>
+                    </ul>
+                  </div>
+                </div>
                 <div className="flex items-start space-x-3">
                   <Calendar className="text-blue-900 mt-1" size={20} />
                   <div>
                     <h4 className="font-semibold text-gray-800">Thời gian đăng ký</h4>
-                    <p className="text-gray-600 text-sm">01/03/2025 đến 30/10/2025</p>
+                    <p className="text-gray-600 text-sm">01/03/2026 đến 30/10/2026</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -273,16 +284,24 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
               </div>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-3 mt-6 lg:mt-auto">
-                <Link
-                  href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true"
-                  className="flex-1 bg-blue-900 text-white py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-800 transition-colors duration-300"
-                >
-                  ĐĂNG KÝ NGAY
-                </Link>
+              <div className="flex flex-col gap-3 mt-6 lg:mt-auto">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Link
+                    href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true"
+                    className="flex-1 bg-blue-900 text-white py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-800 transition-colors duration-300 text-sm"
+                  >
+                    ĐĂNG KÝ CAO ĐẲNG TRUNG CẤP
+                  </Link>
+                  <Link
+                    href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true"
+                    className="flex-1 bg-yellow-500 text-gray-900 py-3 px-6 rounded-lg font-semibold text-center hover:bg-yellow-400 transition-colors duration-300 text-sm"
+                  >
+                    ĐĂNG KÝ SƠ CẤP NGẮN HẠN
+                  </Link>
+                </div>
                 <Link
                   href="/tin-tuc/truong-cao-dang-thong-tin-va-truyen-thong-tuyen-sinh-nam-2025"
-                  className="flex-1 border-2 border-blue-900 text-blue-900 py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-900 hover:text-white transition-all duration-300"
+                  className="border-2 border-blue-900 text-blue-900 py-3 px-6 rounded-lg font-semibold text-center hover:bg-blue-900 hover:text-white transition-all duration-300"
                 >
                   TÌM HIỂU THÊM
                 </Link>
