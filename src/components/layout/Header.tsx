@@ -330,7 +330,7 @@ const Header = () => {
                     Thông tin khác
                   </Link>
                   <Link href="/van-ban-quy-che-quy-dinh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Văn bản quy chế & quy định
+                    Văn bản quy chế quy định
                   </Link>
                   <Link href="https://drive.google.com/drive/u/2/folders/1F1DGlcnR5bVM791r3AQIoSNMMC6SZDT-" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Lịch tuần
@@ -374,19 +374,7 @@ const Header = () => {
                 </Link>
                 <div className="absolute top-full right-0 w-72 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                   <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Danh mục tài liệu
-                  </Link>
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Sách giáo trình
-                  </Link>
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Đăng ký mượn sách
-                  </Link>
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Mua sách
-                  </Link>
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Tra cứu tài liệu trực tuyến
+                    Danh mục tài liệu, giáo trình
                   </Link>
                   <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Truy cập tài liệu điện tử
