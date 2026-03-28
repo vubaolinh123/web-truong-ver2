@@ -60,7 +60,7 @@ const ArticlesPageContent: React.FC = () => {
     type: 'success' | 'error' | 'warning';
     message: string;
   } | null>(null);
-  const [isPageLoaded, setIsPageLoaded] = useState(false);
+
 
   // Hooks
   const initialParams = useMemo(() => {
@@ -135,11 +135,7 @@ const ArticlesPageContent: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, setKeyword]);
 
-  // Page load effect
-  useEffect(() => {
-    const timer = setTimeout(() => setIsPageLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+  // Page load effect removed — no longer needed
 
   // Handlers
   const showNotification = useCallback((type: 'success' | 'error' | 'warning', message: string) => {
@@ -271,11 +267,7 @@ const ArticlesPageContent: React.FC = () => {
   }, [showDeleteConfirm, deleteArticle, showNotification, refreshArticles, refreshStats, searchKeyword, search]);
 
   return (
-    <div className={`
-      min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100
-      transition-all duration-1000 ease-in-out
-      ${isPageLoaded ? 'opacity-100' : 'opacity-0'}
-    `}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100">
       {/* Main content */}
       <div className="space-y-4 p-6">
         {/* Page Header */}
@@ -371,7 +363,13 @@ const ArticlesPageContent: React.FC = () => {
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
           <div className="fixed inset-0 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-            <div className="absolute inset-0 bg-black/30" onClick={() => setShowDeleteConfirm(null)} />
+            <button
+              type="button"
+              className="absolute inset-0 bg-black/30 cursor-default"
+              aria-label="Đóng"
+              onClick={() => setShowDeleteConfirm(null)}
+              onKeyDown={(e) => e.key === 'Escape' && setShowDeleteConfirm(null)}
+            />
 
             <div className="relative bg-white border border-red-200 rounded-2xl shadow-2xl max-w-md w-full p-6 animate-fade-in-scale">
               <div className="flex items-center space-x-3 mb-4">
@@ -384,12 +382,13 @@ const ArticlesPageContent: React.FC = () => {
               </div>
 
               <p className="text-gray-600 mb-6">
-                Bạn có chắc chắn muốn xóa bài viết <span className="font-medium text-gray-900">"{showDeleteConfirm.title}"</span>?
+                Bạn có chắc chắn muốn xóa bài viết <span className="font-medium text-gray-900">&quot;{showDeleteConfirm.title}&quot;</span>?
                 Hành động này không thể hoàn tác.
               </p>
 
               <div className="flex items-center justify-end space-x-3">
                 <button
+                  type="button"
                   onClick={() => setShowDeleteConfirm(null)}
                   className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-xl hover:bg-gray-200 transition-all duration-200 hover:scale-105"
                   disabled={mutationLoading}
@@ -397,6 +396,7 @@ const ArticlesPageContent: React.FC = () => {
                   Hủy
                 </button>
                 <button
+                  type="button"
                   onClick={confirmDelete}
                   className="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-red-600 to-red-700 border border-red-500 rounded-xl hover:from-red-500 hover:to-red-600 transition-all duration-200 hover:scale-105 disabled:opacity-50"
                   disabled={mutationLoading}

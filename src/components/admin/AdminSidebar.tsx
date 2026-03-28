@@ -15,6 +15,7 @@ import {
   MessageSquare,
   Image as ImageIcon,
   FolderOpen,
+  Images,
   X
 } from 'lucide-react';
 
@@ -56,6 +57,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       href: '/admin/media',
       icon: ImageIcon,
       description: 'Tải lên & duyệt file'
+    },
+    {
+      title: 'Hình ảnh trường',
+      href: '/admin/gallery',
+      icon: Images,
+      description: 'Ảnh trang chủ (4 ảnh)'
     }
   ];
 
@@ -81,6 +88,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
         {/* Close Button (Mobile) - Positioned in header space */}
         <div className="lg:hidden absolute top-4 right-4 z-10">
           <button
+            type="button"
             onClick={onClose}
             className="p-2.5 rounded-xl text-yellow-100 hover:text-yellow-300 hover:bg-blue-600/50 transition-all duration-200 hover:scale-105 active:scale-95"
           >

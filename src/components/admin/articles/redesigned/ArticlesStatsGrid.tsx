@@ -5,7 +5,7 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { 
   FileText, 
   Eye, 
@@ -50,9 +50,6 @@ const StatCard: React.FC<StatCardProps> = ({
   trend,
   delay = 0
 }) => {
-  const [animatedValue, setAnimatedValue] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-
   const colorClasses = {
     primary: {
       bg: 'from-blue-50 to-cyan-50',
@@ -100,58 +97,28 @@ const StatCard: React.FC<StatCardProps> = ({
 
   const classes = colorClasses[color] || colorClasses.primary;
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-      
-      // Animate number counting
-      if (typeof value === 'number') {
-        let start = 0;
-        const end = value;
-        const duration = 1000;
-        const increment = end / (duration / 16);
-        
-        const counter = setInterval(() => {
-          start += increment;
-          if (start >= end) {
-            setAnimatedValue(end);
-            clearInterval(counter);
-          } else {
-            setAnimatedValue(Math.floor(start));
-          }
-        }, 16);
-        
-        return () => clearInterval(counter);
-      }
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-
   return (
     <div
       className={`
         relative group
         bg-gradient-to-br ${classes.bg}
         border ${classes.border}
-        rounded-lg p-3 backdrop-blur-sm
+        rounded-lg p-3
         shadow-sm ${classes.glow}
-        transition-all duration-300 ease-in-out
-        ${isVisible ? 'animate-slide-in-bottom' : 'opacity-0'}
-        hover:shadow-md
+        transition-shadow duration-200
+        hover:shadow-md animate-slide-in-bottom
       `}
       style={{ animationDelay: `${delay}ms` }}
     >
-      {/* Content */}
       <div className="flex items-center space-x-3">
         <div className={`p-2 rounded-lg bg-gradient-to-br ${classes.bg} border ${classes.border} shadow-sm`}>
-          <Icon size={16} className={`${classes.icon} group-hover:scale-110 transition-transform duration-300`} />
+          <Icon size={16} className={classes.icon} />
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between">
             <div className={`text-lg font-bold ${classes.text}`}>
-              {typeof value === 'number' ? animatedValue.toLocaleString() : value}
+              {typeof value === 'number' ? value.toLocaleString() : value}
             </div>
 
             {trend && (
@@ -179,9 +146,9 @@ const ArticlesStatsGrid: React.FC<ArticlesStatsGridProps> = ({
   if (loading) {
     return (
       <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 ${className}`}>
-        {Array.from({ length: 6 }).map((_, index) => (
+        {(['total','published','draft','views','featured','week'] as const).map((id) => (
           <div
-            key={index}
+            key={id}
             className="h-16 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg border border-gray-300 skeleton"
           />
         ))}
@@ -252,11 +219,11 @@ const ArticlesStatsGrid: React.FC<ArticlesStatsGridProps> = ({
 
   return (
     <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 ${className}`}>
-      {mainStats.map((stat, index) => (
+      {mainStats.map((stat) => (
         <StatCard
-          key={index}
+          key={stat.title}
           {...stat}
-          delay={index * 50}
+          delay={0}
         />
       ))}
     </div>

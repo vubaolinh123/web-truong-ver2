@@ -5,24 +5,20 @@
 
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { 
   Edit, 
   Trash2, 
   Eye, 
-  MoreHorizontal,
   ChevronUp,
   ChevronDown,
-  ExternalLink,
   Calendar,
   User,
   FolderOpen
 } from 'lucide-react';
 import { Article } from '@/types/articles';
-import { ViewIcon, CommentIcon, LikeIcon } from './svg/StatusIcons';
 import ArticleStatusBadge from './ArticleStatusBadge';
 import ArticleMetrics from './ArticleMetrics';
-import { Sparkles } from './svg/AnimeDecorations';
 import './animations.css';
 
 interface ArticlesDataGridProps {
@@ -144,10 +140,9 @@ const TableRow: React.FC<TableRowProps> = ({
   return (
     <tr
       className={`
-        group transition-all duration-300 hover:bg-blue-50 stagger-item
+        group transition-colors duration-150 hover:bg-blue-50
         ${selected ? 'bg-blue-100 border-l-4 border-blue-400' : ''}
       `}
-      style={{ animationDelay: `${index * 50}ms` }}
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
@@ -243,23 +238,26 @@ const TableRow: React.FC<TableRowProps> = ({
           ${showActions ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
         `}>
           <button
+            type="button"
             onClick={() => onView(article)}
-            className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-110"
+            className="p-2 text-blue-600 hover:text-blue-700 hover:bg-blue-100 rounded-lg transition-colors duration-150"
             title="Xem chi tiết"
           >
             <Eye size={16} />
           </button>
           <button
+            type="button"
             onClick={() => window.open(`/admin/articles/${article.id}/edit`, '_blank')}
-            className="p-2 text-yellow-600 hover:text-yellow-700 hover:bg-yellow-100 rounded-lg transition-all duration-200 hover:scale-110"
+            className="p-2 text-yellow-600 hover:text-yellow-700 hover:bg-yellow-100 rounded-lg transition-colors duration-150"
             title="Chỉnh sửa"
           >
             <Edit size={16} />
           </button>
 
           <button
+            type="button"
             onClick={() => onDelete(article)}
-            className="p-2 text-red-600 hover:text-red-700 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-110"
+            className="p-2 text-red-600 hover:text-red-700 hover:bg-red-100 rounded-lg transition-colors duration-150"
             title="Xóa"
           >
             <Trash2 size={16} />
@@ -302,8 +300,8 @@ const ArticlesDataGrid: React.FC<ArticlesDataGridProps> = ({
     return (
       <div className={`bg-white border border-gray-200 rounded-xl overflow-hidden shadow-lg ${className}`}>
         <div className="p-8 space-y-4">
-          {Array.from({ length: 5 }).map((_, index) => (
-            <div key={index} className="h-16 bg-gray-100 rounded-lg skeleton" />
+          {(['r1','r2','r3','r4','r5'] as const).map((id) => (
+            <div key={id} className="h-16 bg-gray-100 rounded-lg skeleton" />
           ))}
         </div>
       </div>

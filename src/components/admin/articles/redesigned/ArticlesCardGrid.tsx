@@ -22,7 +22,7 @@ import {
 import { Article } from '@/types/articles';
 import ArticleStatusBadge from './ArticleStatusBadge';
 import ArticleMetrics from './ArticleMetrics';
-import { Sparkles, EnergyOrb } from './svg/AnimeDecorations';
+import { Sparkles } from './svg/AnimeDecorations';
 import './animations.css';
 
 interface ArticlesCardGridProps {
@@ -53,7 +53,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
   index
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [showActions, setShowActions] = useState(false);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('vi-VN', {
@@ -83,7 +82,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     if (typeof featuredImage?.url === 'string' && featuredImage.url.trim() !== '') {
       return featuredImage.url;
     }
-    return '/images/default-article.jpg'; // Fallback image
+    return '/images/default-article.jpg';
   };
 
   const readingTime = article.readingTime || Math.ceil(article.content?.length / 1000) || 1;
@@ -92,13 +91,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     <div
       className={`
         group relative bg-white border border-gray-200 rounded-xl overflow-hidden
-        shadow-md hover:shadow-lg
-        transition-all duration-300 hover:-translate-y-1
+        shadow-md hover:shadow-lg transition-shadow duration-200
         ${selected ? 'ring-2 ring-blue-500' : ''}
       `}
-      style={{ animationDelay: `${index * 100}ms` }}
-      onMouseEnter={() => setShowActions(true)}
-      onMouseLeave={() => setShowActions(false)}
     >
 
       {/* Selection checkbox */}
@@ -107,11 +102,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           type="checkbox"
           checked={selected}
           onChange={() => onSelect(article.id)}
-          className="
-            h-5 w-5 text-blue-600 bg-white/70 border-gray-300 rounded
-            focus:ring-blue-500 focus:ring-2 transition-all duration-200
-            hover:scale-110 backdrop-blur-sm
-          "
+          className="h-5 w-5 text-blue-600 bg-white/70 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
         />
       </div>
 
@@ -121,10 +112,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           src={getImageUrl(article.featuredImage)}
           alt={article.title}
           fill
-          className={`
-            object-cover transition-all duration-500 group-hover:scale-110
-            ${imageLoaded ? 'opacity-100' : 'opacity-0'}
-          `}
+          className={`object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setImageLoaded(true)}
         />
         
@@ -145,15 +133,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           />
         </div>
 
-        {/* Quick actions */}
-        <div className={`
-          absolute top-4 right-16 flex items-center space-x-2
-          transition-all duration-300 transform
-          ${showActions ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
-        `}>
+        {/* Quick actions — CSS group-hover, no JS state */}
+        <div className="absolute top-4 right-16 flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
           <button
+            type="button"
             onClick={() => onView(article)}
-            className="p-2 bg-white/80 backdrop-blur-sm text-gray-700 hover:text-blue-600 rounded-lg transition-all duration-200 hover:scale-110"
+            className="p-2 bg-white/80 text-gray-700 hover:text-blue-600 rounded-lg transition-colors duration-150"
             title="Xem chi tiết"
           >
             <Eye size={16} />
@@ -161,7 +146,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 
           <Link
             href={`/admin/articles/${article.id}/edit`}
-            className="p-2 bg-white/80 backdrop-blur-sm text-gray-700 hover:text-blue-600 rounded-lg transition-all duration-200 hover:scale-110"
+            className="p-2 bg-white/80 text-gray-700 hover:text-blue-600 rounded-lg transition-colors duration-150"
             title="Chỉnh sửa"
           >
             <Edit size={16} />
@@ -240,8 +225,9 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
           </div>
 
           <button
+            type="button"
             onClick={() => onDelete(article)}
-            className="p-2 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-110"
+            className="p-2 text-red-500 hover:text-red-700 hover:bg-red-100 rounded-lg transition-colors duration-150"
             title="Xóa bài viết"
           >
             <Trash2 size={16} />
@@ -272,11 +258,8 @@ const ArticlesCardGrid: React.FC<ArticlesCardGridProps> = ({
   if (loading) {
     return (
       <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ${className}`}>
-        {Array.from({ length: 8 }).map((_, index) => (
-          <div
-            key={index}
-            className="h-96 bg-gray-100 rounded-xl skeleton"
-          />
+        {(['c1','c2','c3','c4','c5','c6','c7','c8'] as const).map((id) => (
+          <div key={id} className="h-96 bg-gray-100 rounded-xl skeleton" />
         ))}
       </div>
     );
