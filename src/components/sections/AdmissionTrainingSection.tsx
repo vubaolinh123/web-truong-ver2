@@ -15,9 +15,18 @@ const formatViewCount = (count: number): string => {
 interface AdmissionTrainingSectionProps {
   articles: Article[];
   digitalTransformationArticles?: Article[];
+  galleryImages?: Array<{
+    slot: 'co-so-vat-chat' | 'hoat-dong-sinh-vien' | 'thu-vien' | 'phong-thuc-hanh';
+    label: string;
+    imageUrl: string;
+  }>;
 }
 
-const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ articles, digitalTransformationArticles = [] }) => {
+const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({
+  articles,
+  digitalTransformationArticles = [],
+  galleryImages = [],
+}) => {
 
   const getImageUrl = (image: Article['featuredImage']) => {
     if (!image) return null;
@@ -39,6 +48,28 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
       year: 'numeric'
     });
   };
+
+  const galleryDefaults: Array<{
+    slot: 'co-so-vat-chat' | 'hoat-dong-sinh-vien' | 'thu-vien' | 'phong-thuc-hanh';
+    label: string;
+    fallbackSrc: string;
+  }> = [
+    { slot: 'co-so-vat-chat', label: 'Cơ sở vật chất', fallbackSrc: '/images/faculty-it.svg' },
+    { slot: 'hoat-dong-sinh-vien', label: 'Hoạt động sinh viên', fallbackSrc: '/images/quality-education.svg' },
+    { slot: 'thu-vien', label: 'Thư viện', fallbackSrc: '/images/banner-library.svg' },
+    { slot: 'phong-thuc-hanh', label: 'Phòng thực hành', fallbackSrc: '/images/banner-training.svg' },
+  ];
+
+  const galleryImageMap = new Map(galleryImages.map((item) => [item.slot, item]));
+  const galleryItems = galleryDefaults.map((item) => {
+    const found = galleryImageMap.get(item.slot);
+    const src = found?.imageUrl ? getImageUrl(found.imageUrl) : item.fallbackSrc;
+    return {
+      slot: item.slot,
+      label: found?.label || item.label,
+      src,
+    };
+  });
 
   return (
     <section className="py-16 bg-white">
@@ -298,7 +329,7 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
                   ĐĂNG KÝ TRUNG CẤP
                 </Link>
                 <Link
-                  href="https://docs.google.com/forms/d/11D5J4efgXnvAMZONrNaTBNIlWL67_q7XvfMFS8vDxR8/viewform?edit_requested=true"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSejGVlv-XUZxJsb031uQ1foWTEx1o8lpTTJ11ZEmnHTJyPUsw/viewform?usp=publish-editor"
                   className="bg-yellow-500 text-gray-900 py-3 px-6 rounded-lg font-semibold text-center hover:bg-yellow-400 transition-colors duration-300 text-sm"
                 >
                   ĐĂNG KÝ SƠ CẤP NGẮN HẠN
@@ -339,58 +370,21 @@ const AdmissionTrainingSection: React.FC<AdmissionTrainingSectionProps> = ({ art
             <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-200/50 hover:shadow-xl transition-all duration-300">
               <h4 className="text-xl font-bold text-blue-900 mb-4">HÌNH ẢNH TRƯỜNG</h4>
               <div className="grid grid-cols-2 gap-4">
-                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <OptimizedImage
-                    src="/images/faculty-it.svg"
-                    alt="Cơ sở vật chất - Trường Cao đẳng Thông tin và Truyền thông"
-                    width={200}
-                    height={150}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">Cơ sở vật chất</span>
+                {galleryItems.map((item) => (
+                  <div key={item.slot} className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
+                    <OptimizedImage
+                      src={item.src}
+                      alt={`${item.label} - Trường Cao đẳng Thông tin và Truyền thông`}
+                      width={200}
+                      height={150}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="text-white text-sm font-semibold">{item.label}</span>
+                    </div>
                   </div>
-                </div>
-                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <OptimizedImage
-                    src="/images/quality-education.svg"
-                    alt="Hoạt động sinh viên - Trường Cao đẳng Thông tin và Truyền thông"
-                    width={200}
-                    height={150}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">Hoạt động sinh viên</span>
-                  </div>
-                </div>
-                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <OptimizedImage
-                    src="/images/banner-library.svg"
-                    alt="Thư viện - Trường Cao đẳng Thông tin và Truyền thông"
-                    width={200}
-                    height={150}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">Thư viện</span>
-                  </div>
-                </div>
-                <div className="relative h-32 rounded-lg overflow-hidden group cursor-pointer">
-                  <OptimizedImage
-                    src="/images/banner-training.svg"
-                    alt="Phòng thực hành - Trường Cao đẳng Thông tin và Truyền thông"
-                    width={200}
-                    height={150}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <span className="text-white text-sm font-semibold">Phòng thực hành</span>
-                  </div>
-                </div>
+                ))}
               </div>
               <div className="mt-4 text-center">
                 <Link

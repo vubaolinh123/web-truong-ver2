@@ -19,6 +19,14 @@ const AchievementsSection = dynamic(() => import('@/components/sections/Achievem
 });
 import { Article } from '@/types/articles'; // Import Article type
 
+type GallerySlot = 'co-so-vat-chat' | 'hoat-dong-sinh-vien' | 'thu-vien' | 'phong-thuc-hanh';
+
+interface GalleryImage {
+  slot: GallerySlot;
+  label: string;
+  imageUrl: string;
+}
+
 export const metadata: Metadata = {
   title: 'Trường Cao đẳng Thông tin và Truyền thông',
   description: 'Trường Cao đẳng Thông tin và Truyền thông - Đào tạo chuyên sâu Công nghệ Thông tin, Lập trình máy tính, An toàn thông tin. Tuyển sinh 2025 với học bổng hấp dẫn, đảm bảo việc làm sau tốt nghiệp.',
@@ -207,11 +215,40 @@ async function getDigitalTransformationArticles(): Promise<Article[]> {
   }
 }
 
+async function getGalleryImages(): Promise<GalleryImage[]> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 4000);
+
+    const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api').replace(/\/+$/, '');
+    const url = `${base}/gallery`;
+
+    const response = await fetch(url, {
+      signal: controller.signal,
+      cache: 'no-store',
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      console.warn('Failed to fetch gallery images:', response.statusText);
+      return [];
+    }
+
+    const data = await response.json();
+    return data?.data?.galleryImages || [];
+  } catch (error) {
+    console.warn('Error fetching gallery images:', error);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const [featuredArticles, admissionTrainingArticles, digitalTransformationArticles] = await Promise.all([
+  const [featuredArticles, admissionTrainingArticles, digitalTransformationArticles, galleryImages] = await Promise.all([
     getFeaturedArticles(),
     getAdmissionTrainingArticles(),
-    getDigitalTransformationArticles()
+    getDigitalTransformationArticles(),
+    getGalleryImages(),
   ]);
 
   return (
@@ -223,7 +260,11 @@ export default async function Home() {
       <Layout>
         <Banner />
         <NewsSection articles={featuredArticles} />
-        <AdmissionTrainingSection articles={admissionTrainingArticles} digitalTransformationArticles={digitalTransformationArticles} />
+        <AdmissionTrainingSection
+          articles={admissionTrainingArticles}
+          digitalTransformationArticles={digitalTransformationArticles}
+          galleryImages={galleryImages}
+        />
         <FacultiesSection />
         <AchievementsSection />
       </Layout>
