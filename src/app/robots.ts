@@ -1,8 +1,20 @@
 import { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn'
+
   return {
     rules: [
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/admin/', '/api/', '/private/'],
+      },
+      {
+        userAgent: 'Bingbot',
+        allow: '/',
+        disallow: ['/admin/', '/api/', '/private/'],
+      },
       {
         userAgent: '*',
         allow: '/',
@@ -11,20 +23,11 @@ export default function robots(): MetadataRoute.Robots {
           '/api/',
           '/private/',
           '/_next/',
-          '/static/',
-        ],
-      },
-      {
-        userAgent: 'Googlebot',
-        allow: '/',
-        disallow: [
-          '/admin/',
-          '/api/',
-          '/private/',
+          '/_next/static/',
         ],
       },
     ],
-    sitemap: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn'}/sitemap.xml`,
-    host: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.vcic.edu.vn',
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   }
 }
