@@ -76,7 +76,6 @@ const menuStructure: MenuItem[] = [
       { label: 'Tuyển dụng', href: '/tuyen-dung' },
       { label: 'Du học', href: '/du-hoc' },
       { label: 'Hợp tác đào tạo', href: '/hop-tac-dao-tao' },
-      { label: 'Hợp tác các khoa học công nghệ', href: '/hop-tac-khoa-hoc-cong-nghe' },
       { label: 'Hợp tác quốc tế', href: '/hop-tac-quoc-te' }
     ]
   },
@@ -103,8 +102,8 @@ const menuStructure: MenuItem[] = [
     children: [
       { label: 'Danh mục tài liệu, giáo trình', href: '#' },
       { label: 'Truy cập tài liệu điện tử', href: '#' },
-      { label: 'Đăng ký mượn tài liệu trực tuyến', href: '#' },
-      { label: 'Đăng ký mua tài liệu trực tuyến', href: '#' }
+      { label: 'Đăng ký mượn tài liệu trực tuyến', href: 'https://forms.gle/xJeea57ijMA6pydRA' },
+      { label: 'Đăng ký mua tài liệu trực tuyến', href: 'https://forms.gle/GoF9mH1fNj3TbRKr9' }
     ]
   },
   {

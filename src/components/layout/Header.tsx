@@ -304,9 +304,6 @@ const Header = () => {
                   <Link href="/hop-tac-dao-tao" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Hợp tác đào tạo
                   </Link>
-                  <Link href="/hop-tac-cac-khoa-hoc-cong-nghe" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
-                    Hợp tác các khoa học công nghệ
-                  </Link>
                   <Link href="/hop-tac-quoc-te" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Hợp tác quốc tế
                   </Link>
@@ -379,10 +376,10 @@ const Header = () => {
                   <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Truy cập tài liệu điện tử
                   </Link>
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                  <Link href="https://forms.gle/xJeea57ijMA6pydRA" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Đăng ký mượn tài liệu trực tuyến
                   </Link>
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                  <Link href="https://forms.gle/GoF9mH1fNj3TbRKr9" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Đăng ký mua tài liệu trực tuyến
                   </Link>
                 </div>

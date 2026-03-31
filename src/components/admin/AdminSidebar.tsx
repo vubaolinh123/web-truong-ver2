@@ -16,6 +16,7 @@ import {
   Image as ImageIcon,
   FolderOpen,
   Images,
+  Library,
   X
 } from 'lucide-react';
 
@@ -63,6 +64,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, onClose }) => {
       href: '/admin/gallery',
       icon: Images,
       description: 'Ảnh trang chủ (4 ảnh)'
+    },
+    {
+      title: 'Album ảnh',
+      href: '/admin/albums',
+      icon: Library,
+      description: 'Quản lý album & thư viện'
     }
   ];
 
