@@ -100,8 +100,8 @@ const menuStructure: MenuItem[] = [
   {
     label: 'THƯ VIỆN SỐ',
     children: [
-      { label: 'Danh mục tài liệu, giáo trình', href: '#' },
-      { label: 'Truy cập tài liệu điện tử', href: '#' },
+      { label: 'Danh mục tài liệu, giáo trình', href: '/danh-muc-tai-lieu-giao-trinh' },
+      { label: 'Truy cập tài liệu điện tử', href: '/truy-cap-tai-lieu-dien-tu' },
       { label: 'Đăng ký mượn tài liệu trực tuyến', href: 'https://forms.gle/xJeea57ijMA6pydRA' },
       { label: 'Đăng ký mua tài liệu trực tuyến', href: 'https://forms.gle/GoF9mH1fNj3TbRKr9' }
     ]

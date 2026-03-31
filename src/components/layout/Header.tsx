@@ -370,10 +370,10 @@ const Header = () => {
                   </svg>
                 </Link>
                 <div className="absolute top-full right-0 w-72 bg-white shadow-xl rounded-lg border border-gray-200 py-2 z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                  <Link href="/danh-muc-tai-lieu-giao-trinh" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Danh mục tài liệu, giáo trình
                   </Link>
-                  <Link href="#" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
+                  <Link href="/truy-cap-tai-lieu-dien-tu" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
                     Truy cập tài liệu điện tử
                   </Link>
                   <Link href="https://forms.gle/xJeea57ijMA6pydRA" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-900 transition-colors text-sm">
