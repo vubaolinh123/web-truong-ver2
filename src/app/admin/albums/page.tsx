@@ -84,6 +84,16 @@ const AdminAlbumsPage = () => {
   const [uploadingAlbumId, setUploadingAlbumId] = useState<string | null>(null);
   const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
 
+  // Edit album state
+  const [editingAlbum, setEditingAlbum] = useState<Album | null>(null);
+  const [editTitle, setEditTitle] = useState('');
+  const [editSlug, setEditSlug] = useState('');
+  const [editDescription, setEditDescription] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  // Delete album state
+  const [deletingAlbumId, setDeletingAlbumId] = useState<string | null>(null);
+
   const photoInputRef = useRef<HTMLInputElement | null>(null);
 
   // ── Fetch albums ─────────────────────────────────────────────────────────────
@@ -198,6 +208,101 @@ const AdminAlbumsPage = () => {
   };
 
   // ── Upload photo ─────────────────────────────────────────────────────────────
+
+  // ── Edit album ──────────────────────────────────────────────────────────────
+
+  const handleStartEdit = (album: Album) => {
+    setEditingAlbum(album);
+    setEditTitle(album.title);
+    setEditSlug(album.slug);
+    setEditDescription(album.description || '');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingAlbum(null);
+    setEditTitle('');
+    setEditSlug('');
+    setEditDescription('');
+  };
+
+  const handleSaveEdit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingAlbum) return;
+    if (!editTitle.trim()) {
+      toast.error('Vui lòng nhập tên album.');
+      return;
+    }
+    const token = localStorage.getItem('adminToken');
+    if (!token) {
+      toast.error('Không tìm thấy token xác thực admin.');
+      return;
+    }
+    setSaving(true);
+    const toastId = toast.loading('Đang lưu...');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/albums/${editingAlbum._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: editTitle.trim(),
+          slug: editSlug.trim() || toSlug(editTitle.trim()),
+          description: editDescription.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || 'Cập nhật album thất bại.');
+      toast.success('Cập nhật album thành công!', { id: toastId });
+      handleCancelEdit();
+      // If edited album is selected, update reference
+      if (selectedAlbum?._id === editingAlbum._id) {
+        setSelectedAlbum((prev) =>
+          prev ? { ...prev, title: editTitle.trim(), slug: editSlug.trim() || prev.slug, description: editDescription.trim() } : prev
+        );
+      }
+      await fetchAlbums();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Đã có lỗi xảy ra.', { id: toastId });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // ── Delete album ────────────────────────────────────────────────────────────
+
+  const handleDeleteAlbum = async (albumId: string, albumTitle: string) => {
+    const confirmed = window.confirm(`Bạn có chắc chắn muốn xóa album "${albumTitle}"?\nToàn bộ ảnh trong album cũng sẽ bị xóa.`);
+    if (!confirmed) return;
+    const token = localStorage.getItem('adminToken');
+    if (!token) {
+      toast.error('Không tìm thấy token xác thực admin.');
+      return;
+    }
+    setDeletingAlbumId(albumId);
+    const toastId = toast.loading('Đang xóa album...');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/albums/${albumId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.message || 'Xóa album thất bại.');
+      toast.success('Xóa album thành công!', { id: toastId });
+      // If deleted album was selected, close panel
+      if (selectedAlbum?._id === albumId) {
+        handleCloseAlbum();
+      }
+      await fetchAlbums();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Đã có lỗi xảy ra.', { id: toastId });
+    } finally {
+      setDeletingAlbumId(null);
+    }
+  };
+
+  // ── Upload photo (original) ─────────────────────────────────────────────────
 
   const handleUploadPhoto = async (file?: File) => {
     if (!file || !selectedAlbum) return;
@@ -427,20 +532,106 @@ const AdminAlbumsPage = () => {
                   )}
 
                   {/* Actions */}
-                  <button
-                    type="button"
-                    onClick={() => (isSelected ? handleCloseAlbum() : handleSelectAlbum(album))}
-                    className={`w-full mt-2 py-2 text-xs font-medium rounded-lg transition-colors ${
-                      isSelected
-                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        : 'bg-blue-900 text-white hover:bg-blue-800'
-                    }`}
-                  >
-                    {isSelected ? 'Đang xem' : 'Xem ảnh'}
-                  </button>
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      type="button"
+                      onClick={() => (isSelected ? handleCloseAlbum() : handleSelectAlbum(album))}
+                      className={`flex-1 py-2 text-xs font-medium rounded-lg transition-colors ${
+                        isSelected
+                          ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          : 'bg-blue-900 text-white hover:bg-blue-800'
+                      }`}
+                    >
+                      {isSelected ? 'Đang xem' : 'Xem ảnh'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleStartEdit(album)}
+                      className="px-3 py-2 text-xs font-medium rounded-lg bg-yellow-50 text-yellow-700 border border-yellow-200 hover:bg-yellow-100 transition-colors"
+                      title="Sửa album"
+                    >
+                      Sửa
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void handleDeleteAlbum(album._id, album.title)}
+                      disabled={deletingAlbumId === album._id}
+                      className="px-3 py-2 text-xs font-medium rounded-lg bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      title="Xóa album"
+                    >
+                      {deletingAlbumId === album._id ? '...' : 'Xóa'}
+                    </button>
+                  </div>
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* Edit album modal */}
+        {editingAlbum && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+            <div className="bg-white rounded-xl shadow-2xl border border-gray-200 w-full max-w-lg mx-4 p-6">
+              <h2 className="text-lg font-bold text-gray-800 mb-4">Chỉnh sửa album</h2>
+              <form onSubmit={(e) => void handleSaveEdit(e)} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="edit-album-title">
+                    Tên album <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    id="edit-album-title"
+                    type="text"
+                    value={editTitle}
+                    onChange={(e) => {
+                      setEditTitle(e.target.value);
+                      setEditSlug(toSlug(e.target.value));
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="edit-album-slug">
+                    Đường dẫn (slug)
+                  </label>
+                  <input
+                    id="edit-album-slug"
+                    type="text"
+                    value={editSlug}
+                    onChange={(e) => setEditSlug(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="edit-album-desc">
+                    Mô tả
+                  </label>
+                  <textarea
+                    id="edit-album-desc"
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  />
+                </div>
+                <div className="flex justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={handleCancelEdit}
+                    disabled={saving}
+                    className="px-4 py-2 text-sm font-medium text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    Huỷ
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={saving}
+                    className="px-6 py-2 text-sm font-medium text-white bg-blue-900 rounded-lg hover:bg-blue-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {saving ? 'Đang lưu...' : 'Lưu thay đổi'}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
 
